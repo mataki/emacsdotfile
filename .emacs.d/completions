@@ -1,0 +1,11 @@
+;;; Completion Initialization file.
+;; Version = 11
+;; Format is (<string> . <last-use-time>)
+;;  <string> is the completion
+;;  <last-use-time> is the time the completion was last used
+;;    If it is t, the completion will never be pruned from the file.
+;;    Otherwise it is in hours since origin.
+
+(#("abcede" 0 6 (face font-lock-builtin-face fontified t)) . 336471)
+(#("dabbrev-highlight" 0 16 (face font-lock-comment-face fontified t) 16 17 (face font-lock-comment-face fontified t rear-nonsticky t)) . 336471)
+(#("dabbrev-ja" 0 10 (fontified t)) . 336471)

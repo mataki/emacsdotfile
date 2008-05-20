@@ -1,0 +1,3 @@
+;; -*- mode: emacs-lisp -*-
+;; History entries used for anything adaptive display.
+(setq anything-c-adaptive-history (quote ((file ("/home/aki/.emacs" (".emacs" . 1))) (buffer (".emacs" ("" . 2)) ("*scratch*" ("scra" . 1))) ("Manual Pages" ("git-svn" ("git-svn" . 1))))))
