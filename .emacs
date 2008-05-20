@@ -5,6 +5,13 @@
 ;; http://d.hatena.ne.jp/SISY/searchdiary?word=*[emacs]
 (set-language-environment "Japanese")
 (auto-compression-mode t)
+;;http://www.yza.jp/blog/item/422/
+(prefer-coding-system 'utf-8-unix)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-buffer-file-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(setq default-buffer-file-coding-systems 'utf-8)
 
 ;; 基本設定
 (set-scroll-bar-mode 'right)
@@ -60,3 +67,15 @@
 ;; http://d.hatena.ne.jp/khiker/20070817/emacs_dabbrev
 (require 'dabbrev-expand-multiple)
 (global-set-key "\M-/" 'dabbrev-expand-multiple)
+
+;; emacs-rails
+;; http://rubyforge.org/projects/emacs-rails/
+;; http://d.hatena.ne.jp/higepon/20061222/1166774270
+(setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
+(require 'rails)
+
+;; git-emacs
+;; http://d.hatena.ne.jp/xcezx/20080425/1209081657
+;; http://tsgates.cafe24.com/git/git-emacs.html
+(setq load-path (cons (expand-file-name "~/.emacs.d/git-emacs") load-path))
+(require 'git-emacs)
