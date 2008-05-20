@@ -52,7 +52,9 @@
 (setq anything-sources (list anything-c-source-buffers
                              anything-c-source-bookmarks
                              anything-c-source-file-name-history
-                             anything-c-source-locate))
+                             anything-c-source-locate
+                             anything-c-source-complex-command-history
+                             anything-c-source-emacs-commands))
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 (load "dabbrev-ja")
