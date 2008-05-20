@@ -1,3 +1,5 @@
 .saves-*
 *anything-c-adaptive-histor*y
-.~*
+.~*.emacs.d/anything-c-adaptive-history
+.emacs~
+.gitignore~
