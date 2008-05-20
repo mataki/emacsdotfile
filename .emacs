@@ -2,6 +2,7 @@
 (setq load-path (cons (expand-file-name "~/.emacs.d") load-path))
 
 ;; 日本語設定設定
+;; http://d.hatena.ne.jp/SISY/searchdiary?word=*[emacs]
 (set-language-environment "Japanese")
 (auto-compression-mode t)
 
@@ -54,3 +55,8 @@
 ;; pabbrev-mode http://www.bookshelf.jp/soft/meadow_34.html#SEC507
 (require 'pabbrev)
 (global-pabbrev-mode)
+
+;; DabbrevExpandMultiple
+;; http://d.hatena.ne.jp/khiker/20070817/emacs_dabbrev
+(require 'dabbrev-expand-multiple)
+(global-set-key "\M-/" 'dabbrev-expand-multiple)
