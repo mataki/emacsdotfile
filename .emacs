@@ -114,3 +114,16 @@
 (autoload 'sense-region-on "sense-region"
           "System to toggle region and rectangle." t nil)
 (sense-region-on)
+
+;; ibuffer
+;; http://www.bookshelf.jp/soft/meadow_28.html#SEC357
+(require 'ibuffer)
+
+;; mmm-mode
+(setq load-path (cons (expand-file-name "~/.emacs.d/mmm-mode") load-path))
+(require 'mmm-mode)
+(setq mmm-global-mode 'maybe)
+
+;; 色設定．これは，好みで．色をつけたくないなら nil にします．
+(set-face-background 'mmm-default-submode-face "honeydew")
+

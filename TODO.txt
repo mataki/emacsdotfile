@@ -3,3 +3,13 @@
 □ カラー
 ■ 矩形選択の簡易化
 □ mmm-mode
+□ javascript-mode
+□ css-mode
+□
+
+
+
+
+
+
+
