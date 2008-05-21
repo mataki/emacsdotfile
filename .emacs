@@ -98,3 +98,19 @@
 (require 'highlight-completion)
 (highlight-completion-mode 1)
 (global-set-key "\C-\\" 'toggle-input-method)
+
+;; browse-kill-ring
+;; http://www.todesschaf.org/projects/bkr.html
+;; http://www.bookshelf.jp/soft/meadow_32.html#SEC451
+(require 'browse-kill-ring)
+(global-set-key "\M-y" 'browse-kill-ring)
+;; 必要に応じて browse-kill-ring のウィンドウの大きさを変更する
+(setq browse-kill-ring-resize-window t)
+;; 現在選択中の kill-ring のハイライトする
+(setq browse-kill-ring-highlight-current-entry t)
+
+;; 矩形
+;; http://taiyaki.org/elisp/sense-region/
+(autoload 'sense-region-on "sense-region"
+          "System to toggle region and rectangle." t nil)
+(sense-region-on)
