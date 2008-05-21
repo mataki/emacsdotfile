@@ -5,18 +5,20 @@
 ;; http://d.hatena.ne.jp/SISY/searchdiary?word=*[emacs]
 (set-language-environment "Japanese")
 (auto-compression-mode t)
-;;http://www.yza.jp/blog/item/422/
+;; http://www.yza.jp/blog/item/422/
 (prefer-coding-system 'utf-8-unix)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (set-buffer-file-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (setq default-buffer-file-coding-systems 'utf-8)
-
 ;; 基本設定
 (set-scroll-bar-mode 'right)
 (display-time)
 (setq visible-bell t)
+;; http://www.bookshelf.jp/soft/meadow_42.html#SEC632
+(show-paren-mode t)
+(setq show-paren-style 'mixed)
 
 ;; アンチエイリアス設定
 ;;(set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
@@ -123,7 +125,62 @@
 (setq load-path (cons (expand-file-name "~/.emacs.d/mmm-mode") load-path))
 (require 'mmm-mode)
 (setq mmm-global-mode 'maybe)
-
 ;; 色設定．これは，好みで．色をつけたくないなら nil にします．
 (set-face-background 'mmm-default-submode-face "honeydew")
 
+;; (mmm-add-classes
+;;  '((mmm-html-javascript-mode
+;;     :submode javascript-mode
+;;     :face mmm-code-submode-face
+;;     :front "<script[^>]*>/\/i/\/i([^<]*/\/i/\/i)?</script>"
+;;     :back "</script>"
+;;     )
+;;    (mmm-html-css-mode
+;;     :submode css-mode
+;;     :face mmm-code-submode-face
+;;     :front "<style[^>]*>/\/i/\/i([^<]*/\/i/\/i)?/\/in[ /\/it]*</style>"
+;;     )
+;;    (mmm-ml-css-mode
+;;     :submode css-mode
+;;     :face mmm-code-submode-face
+;;     :front "<style[^>]*>"
+;;     :back "/\/in?[ /\/it]*</style>"
+;;     )
+;;    (mmm-ml-javascript-mode
+;;     :submode javascript-mode
+;;     :face mmm-code-submode-face
+;;     :front "<script[^>]*>[^<]"
+;;     :front-offset -1
+;;     :back "/\/in?[ /\/it]*</script>"
+;;     )
+;;    (mmm-mxml-actionscript-mode
+;;     :submode actionscript-mode
+;;     :face mmm-code-submode-face
+;;     :front "<mx:script><!/\/i/\/i[CDATA/\/i/\/i["
+;;     :back "[ /\/it]*/\/i/\/i]/\/i/\/i]></mx:script>"
+;;     )
+;;    ))
+
+;; javascript-mode js2-mode
+(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+;; css-mode
+;; http://www.garshol.priv.no/download/software/css-mode/doco.html
+(autoload 'css-mode "css-mode")
+(setq auto-mode-alist
+     (cons '("\\.css\\'" . css-mode) auto-mode-alist))
+
+;; -----------------------------
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(js2-basic-offset 4))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
