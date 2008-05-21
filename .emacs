@@ -81,3 +81,20 @@
 ;; http://tsgates.cafe24.com/git/git-emacs.html
 (setq load-path (cons (expand-file-name "~/.emacs.d/git-emacs") load-path))
 (require 'git-emacs)
+
+;; moccur
+(require 'color-moccur)
+(eval-after-load "color-moccur"
+  '(require 'moccur-edit))
+
+;; wdiredhttp://www.bookshelf.jp/soft/meadow_25.html#SEC296
+;; diredでファイル名を一括リネーム
+(require 'wdired)
+(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
+
+;; find-fileでの補完
+;; http://www.bookshelf.jp/soft/meadow_23.html#SEC219
+(setq hc-ctrl-x-c-is-completion t)
+(require 'highlight-completion)
+(highlight-completion-mode 1)
+(global-set-key "\C-\\" 'toggle-input-method)
