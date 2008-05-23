@@ -4,3 +4,4 @@
 .gitignore~
 .emacs.d/anything-c-adaptive-history
 *~
+.emacs.d/session.*
