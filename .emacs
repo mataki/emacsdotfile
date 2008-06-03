@@ -20,6 +20,15 @@
 (show-paren-mode t)
 (setq show-paren-style 'mixed)
 
+;; スタートアップ時のメッセージを抑制
+(setq inhibit-startup-message t)
+
+;; バックアップしない
+(setq make-backup-files nil)
+
+;; C-x C-iでリージョンをインデント
+(global-set-key "\C-x\C-i" 'indent-region)
+
 ;; アンチエイリアス設定
 ;;(set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
 
@@ -41,11 +50,17 @@
 ;(keyboard-translate ?\C-h ?\C-?)
 ;(global-set-key "\C-h" nil)
 (global-set-key "\C-h" 'delete-backward-char)
+(global-set-key "\C-x?" 'help)
+
+;; C-x p で前の画面
+(define-key ctl-x-map "p"
+  #'(lambda (arg) (interactive "p") (other-window (- arg))))
 
 ;; anything
 (require 'anything-config)
 ;; keybind
 (global-set-key (kbd "C-;") 'anything)
+(global-set-key (kbd "C-^") 'anything)
 (define-key anything-map (kbd "C-p") 'anything-previous-line)
 (define-key anything-map (kbd "C-n") 'anything-next-line)
 (define-key anything-map (kbd "C-v") 'anything-next-source)
@@ -124,46 +139,20 @@
 ;; mmm-mode
 (setq load-path (cons (expand-file-name "~/.emacs.d/mmm-mode") load-path))
 (require 'mmm-mode)
+(require 'mmm-auto)
 (setq mmm-global-mode 'maybe)
 ;; 色設定．これは，好みで．色をつけたくないなら nil にします．
 (set-face-background 'mmm-default-submode-face "honeydew")
-
-;; (mmm-add-classes
-;;  '((mmm-html-javascript-mode
-;;     :submode javascript-mode
-;;     :face mmm-code-submode-face
-;;     :front "<script[^>]*>/\/i/\/i([^<]*/\/i/\/i)?</script>"
-;;     :back "</script>"
-;;     )
-;;    (mmm-html-css-mode
-;;     :submode css-mode
-;;     :face mmm-code-submode-face
-;;     :front "<style[^>]*>/\/i/\/i([^<]*/\/i/\/i)?/\/in[ /\/it]*</style>"
-;;     )
-;;    (mmm-ml-css-mode
-;;     :submode css-mode
-;;     :face mmm-code-submode-face
-;;     :front "<style[^>]*>"
-;;     :back "/\/in?[ /\/it]*</style>"
-;;     )
-;;    (mmm-ml-javascript-mode
-;;     :submode javascript-mode
-;;     :face mmm-code-submode-face
-;;     :front "<script[^>]*>[^<]"
-;;     :front-offset -1
-;;     :back "/\/in?[ /\/it]*</script>"
-;;     )
-;;    (mmm-mxml-actionscript-mode
-;;     :submode actionscript-mode
-;;     :face mmm-code-submode-face
-;;     :front "<mx:script><!/\/i/\/i[CDATA/\/i/\/i["
-;;     :back "[ /\/it]*/\/i/\/i]/\/i/\/i]></mx:script>"
-;;     )
-;;    ))
+(load "mmm-mode-setting")
 
 ;; javascript-mode js2-mode
-(autoload 'js2-mode "js2" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+;; (autoload 'js2-mode "js2" nil t)
+;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+;; javascript-mode
+(add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|json\\|jsn\\)\\'" 'javascript-mode))
+(autoload 'javascript-mode "javascript" nil t)
+(setq js-indent-level 4)
 
 ;; css-mode
 ;; http://www.garshol.priv.no/download/software/css-mode/doco.html
@@ -183,4 +172,6 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- )
+ '(flymake-errline ((((class color)) (:background "red")))))
+
+(put 'narrow-to-region 'disabled nil)
