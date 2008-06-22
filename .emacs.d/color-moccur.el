@@ -1,7 +1,7 @@
 ;;; color-moccur.el ---  multi-buffer occur mode
 ;; -*- Mode: Emacs-Lisp -*-
 
-;; $Id: color-moccur.el,v 2.44 2008/02/27 11:24:45 akihisa Exp $
+;; $Id: color-moccur.el,v 2.45 2008/05/26 13:06:40 akihisa Exp $
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -3283,12 +3283,10 @@ line where it was found.
                    'moccur-edit-mode-in)
     (local-set-key "\C-c\C-i"
                    'moccur-edit-mode-in))
-  (make-local-variable 'font-lock-keywords-only)
-  (setq font-lock-keywords-only t)
   (make-local-variable 'font-lock-defaults)
   (setq font-lock-defaults
         '(moccur-grep-font-lock-keywords
-          nil nil ((?_ . "w")) nil))
+          t nil ((?_ . "w")) nil))
   (put 'moccur-grep-mode 'font-lock-defaults
        '(text-font-lock-keywords nil t))
   (make-local-variable 'line-move-ignore-invisible)
