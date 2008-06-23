@@ -1,7 +1,7 @@
 ;;; moccur-edit.el
 ;; -*- Mode: Emacs-Lisp -*-
 
-;;  $Id: moccur-edit.el,v 2.11 2008/02/27 11:24:44 akihisa Exp $
+;;  $Id: moccur-edit.el,v 2.13 2008/06/10 13:16:44 akihisa Exp $
 
 ;; Author: Matsushita Akihisa <akihisa@mail.ne.jp>
 ;; Keywords: moccur edit
@@ -40,7 +40,16 @@
 ;; The latest version of this program can be downloaded from
 ;; http://www.bookshelf.jp/elc/moccur-edit.el
 
-;; Usage:
+;;; Hint (.emacs)
+
+;; Modified buffers are saved automatically.
+;; Thanks request!
+
+;; (defadvice moccur-edit-change-file
+;;  (after save-after-moccur-edit-buffer activate)
+;;  (save-buffer))
+
+;;; Usage:
 
 ;; You can start editing the names of the files by typing "C-c C-i" or
 ;; "C-x C-q".
@@ -118,6 +127,17 @@
   :group 'moccur-edit
   :type 'boolean
   )
+
+(defcustom moccur-edit-remove-overlays-after-save-buffer t
+  "*Non-nil means to remove overlays after save-buffer."
+  :group 'moccur-edit
+  :type 'boolean
+  )
+
+(defcustom moccur-query-when-buffer-read-only t
+  "*Non-nil means query if read-only buffers should be made writable."
+  :group 'moccur-edit
+  :type 'boolean)
 
 (defvar moccur-edit-overlays nil)
 (defvar moccur-edit-file-overlays nil)
@@ -207,20 +227,30 @@
 (defun moccur-edit-change-file ()
   "*The changes on the moccur buffer apply to the file"
   (if buffer-read-only
-      nil
+      (if (and moccur-query-when-buffer-read-only
+               (buffer-file-name)
+               ;;(file-writable-p (buffer-file-name))
+               (y-or-n-p (format "Make buffer %s writable?"
+                                 (current-buffer)))
+               (or (toggle-read-only -1) t)
+               (not buffer-read-only))
+          (moccur-edit-change-file)
+        (display-warning             ; (Not defined in old Emacses! *)
+         'moccur-edit
+         (format "Buffer read only: %s" (current-buffer)))
+        nil)
     (goto-line moccur-edit-line)
     (delete-region (line-beginning-position)
                    (line-end-position))
     (insert moccur-edit-text)
-    t)
-  )
+    t))
 
 (defun moccur-edit-put-color-file ()
   "*Highlight the changed line of the file"
   (let ((fileov))
     (setq fileov (make-overlay
-		  (line-beginning-position)
-		  (line-end-position)))
+                  (line-beginning-position)
+                  (line-end-position)))
     (overlay-put fileov 'face 'moccur-edit-file-face)
     (overlay-put fileov 'priority 0)
     (setq moccur-edit-file-overlays (cons fileov moccur-edit-file-overlays))
@@ -256,6 +286,10 @@
   (when moccur-edit-remove-overlays
     (moccur-edit-remove-overlays)))
 
+(defadvice basic-save-buffer (before moccur-remove-overlays-before-save-buffer activate)
+  (when moccur-edit-remove-overlays-after-save-buffer
+    (moccur-edit-remove-overlays)))
+
 (defun moccur-edit-finish-edit ()
   "*The changes on the grep buffer apply to the file"
   (interactive)
@@ -268,21 +302,22 @@
       (when beg
         (goto-char beg)
         (moccur-edit-get-info)
-        
+
         (if (and
              (listp moccur-edit-buf)
              (string= (car moccur-edit-buf) "grep"))
             (set-buffer (find-file-noselect (cdr moccur-edit-buf)))
           (set-buffer moccur-edit-buf))
-        (when (and
-               (moccur-edit-change-file) ;; File is changed. t: success
-               moccur-edit-highlight-edited-text)
+        ;; <WL: fixed a bug here>
+        (if (moccur-edit-change-file)
+            ;; File is changed. t: success
             (progn
-              (moccur-edit-put-color-file) ;; Highlight changed text
+              (when moccur-edit-highlight-edited-text
+                (moccur-edit-put-color-file)) ;; Highlight changed text
               (set-buffer cbuf)
               (moccur-edit-put-face 'moccur-edit-done-face))
-          (set-buffer cbuf)
-          (moccur-edit-put-face 'moccur-edit-reject-face))
+         (set-buffer cbuf)
+         (moccur-edit-put-face 'moccur-edit-reject-face))
         ;; Return previous buffer
         (set-buffer cbuf)
         (delete-overlay ov)
@@ -395,7 +430,6 @@
   (force-mode-line-update)
   )
 
-
 ;; moccur-mode
 (defvar moccur-edit-mode-map ())
 (defun moccur-edit-set-key ()
@@ -476,7 +510,7 @@ commands.  This advice only has effect in moccur-edit mode."
           (progn
             (moccur-edit-add-skip-in-replace 'search-forward)
             (moccur-edit-add-skip-in-replace 're-search-forward)
-            (unwind-protect 
+            (unwind-protect
                 ad-do-it
               (progn
                 (ad-remove-advice 'search-forward
