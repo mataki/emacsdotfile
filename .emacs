@@ -173,12 +173,14 @@
 ;; git-emacs
 ;; http://d.hatena.ne.jp/xcezx/20080425/1209081657
 ;; http://tsgates.cafe24.com/git/git-emacs.html
+(setq load-path (cons (expand-file-name "~/.emacs.d/git-emacs") load-path))
 (require 'imenu)
 (require 'vc-git)
 
 (require 'ido)
 (ido-mode t)
 
-(setq load-path (cons (expand-file-name "~/.emacs.d/git-emacs") load-path))
 (require 'git-emacs)
 
+;; rcodetools
+(require 'rcodetools)
