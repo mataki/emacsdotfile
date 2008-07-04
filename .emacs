@@ -52,6 +52,12 @@
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key "\C-x?" 'help)
 
+;; grep-find
+;;(setq grep-find-command "find . -type f ! -path '*/.svn/*' -print0 | xargs grep -n ")
+;;(setq grep-find-command "find . -type f ! -path '*/.svn/*' ! -path '*/tmp/*' ! -path '*/log/*' ! -name '*~' -print0 | xargs -0 grep -nH -e ")
+(setq grep-find-command "find . -type f ! -path '*/.svn/*' ! -path '*/tmp/*' ! -path '*/log/*' ! -name '#*#' ! -name '*~' -print0 | xargs -0 grep -nH -e ")
+(global-set-key "\C-xgf" 'grep-find)
+
 ;; C-x p で前の画面
 (define-key ctl-x-map "p"
   #'(lambda (arg) (interactive "p") (other-window (- arg))))
@@ -173,9 +179,9 @@
 ;; git-emacs
 ;; http://d.hatena.ne.jp/xcezx/20080425/1209081657
 ;; http://tsgates.cafe24.com/git/git-emacs.html
-(setq load-path (cons (expand-file-name "~/.emacs.d/git-emacs") load-path))
 (require 'imenu)
 (require 'vc-git)
+(setq load-path (cons (expand-file-name "~/.emacs.d/git-emacs") load-path))
 
 (require 'ido)
 (ido-mode t)
