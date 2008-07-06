@@ -184,3 +184,8 @@
 
 ;; rcodetools
 (require 'rcodetools)
+
+;; redo
+(when (require 'redo nil t)
+  (define-key ctl-x-map (if window-system "U" "r") 'redo)
+  (define-key global-map [?\C-.] 'redo))
