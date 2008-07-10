@@ -204,3 +204,6 @@
   (define-key ctl-x-map (if window-system "U" "r") 'redo)
   (define-key global-map [?\C-.] 'redo))
 
+;; linum-mode
+(require 'linum)
+(global-linum-mode 1)
