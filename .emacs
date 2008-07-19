@@ -56,8 +56,18 @@
 (define-key ctl-x-map "p"
   #'(lambda (arg) (interactive "p") (other-window (- arg))))
 
+;; color-theme
+(setq load-path (cons (expand-file-name "~/.emacs.d/color-theme") load-path))
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-robin-hood)
+
 ;; anything
 (require 'anything-config)
+(require 'anything-dabbrev-expand)
+(global-set-key "\M-/" 'anything-dabbrev-expand)
+(define-key anything-dabbrev-map "\M-/" 'anything-dabbrev-find-all-buffers)
+
 ;; keybind
 (global-set-key (kbd "C-;") 'anything)
 (global-set-key (kbd "C-^") 'anything)
@@ -67,11 +77,13 @@
 (define-key anything-map (kbd "M-v") 'anything-previous-source)
 ;; source list
 (setq anything-sources (list anything-c-source-buffers
+                             anything-c-source-emacs-commands
                              anything-c-source-bookmarks
                              anything-c-source-file-name-history
                              anything-c-source-locate
                              anything-c-source-complex-command-history
-                             anything-c-source-emacs-commands))
+                             ))
+
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 (load "dabbrev-ja")
@@ -194,6 +206,7 @@
 (require 'linum)
 (global-linum-mode)
 
+;; http://openlab.dino.co.jp/2008/07/15/233005294.html
 ;; Show tab, zenkaku-space, white spaces at end of line
 ;; http://www.bookshelf.jp/soft/meadow_26.html#SEC317
 (defface my-face-tab         '((t (:background "Yellow"))) nil :group 'my-faces)
