@@ -30,22 +30,22 @@
 (global-set-key "\C-x\C-i" 'indent-region)
 
 ;; アンチエイリアス設定
-;;(set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
+(set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
 
-;(cond (window-system
-;       (set-default-font
-;        "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
-;       (progn
-;         (set-face-font 'default
-;                        "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
-;         (set-face-font 'bold
-;                        "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
-;         (set-face-font 'italic
-;                        "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
-;         (set-face-font 'bold-italic
-;                        "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
-;       )))
-;;
+(cond (window-system
+       (set-default-font
+        "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
+       (progn
+         (set-face-font 'default
+                        "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
+        (set-face-font 'bold
+                        "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
+         (set-face-font 'italic
+                        "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
+         (set-face-font 'bold-italic
+                        "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
+       )))
+
 ;; C-hでbackspace
 ;(keyboard-translate ?\C-h ?\C-?)
 ;(global-set-key "\C-h" nil)
@@ -62,8 +62,18 @@
 (define-key ctl-x-map "p"
   #'(lambda (arg) (interactive "p") (other-window (- arg))))
 
+;; color-theme
+(setq load-path (cons (expand-file-name "~/.emacs.d/color-theme") load-path))
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-robin-hood)
+
 ;; anything
 (require 'anything-config)
+(require 'anything-dabbrev-expand)
+(global-set-key "\M-/" 'anything-dabbrev-expand)
+(define-key anything-dabbrev-map "\M-/" 'anything-dabbrev-find-all-buffers)
+
 ;; keybind
 (global-set-key (kbd "C-;") 'anything)
 (global-set-key (kbd "C-^") 'anything)
@@ -73,11 +83,13 @@
 (define-key anything-map (kbd "M-v") 'anything-previous-source)
 ;; source list
 (setq anything-sources (list anything-c-source-buffers
+                             anything-c-source-emacs-commands
                              anything-c-source-bookmarks
                              anything-c-source-file-name-history
                              anything-c-source-locate
                              anything-c-source-complex-command-history
-                             anything-c-source-emacs-commands))
+                             ))
+
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 (load "dabbrev-ja")
@@ -204,6 +216,31 @@
   (define-key ctl-x-map (if window-system "U" "r") 'redo)
   (define-key global-map [?\C-.] 'redo))
 
-;; linum-mode
+;; linum
 (require 'linum)
-(global-linum-mode 1)
+(global-linum-mode)
+
+;; http://openlab.dino.co.jp/2008/07/15/233005294.html
+;; Show tab, zenkaku-space, white spaces at end of line
+;; http://www.bookshelf.jp/soft/meadow_26.html#SEC317
+(defface my-face-tab         '((t (:background "Yellow"))) nil :group 'my-faces)
+(defface my-face-zenkaku-spc '((t (:background "LightBlue"))) nil :group 'my-faces)
+(defface my-face-spc-at-eol  '((t (:foreground "Red" :underline t))) nil :group 'my-faces)
+(defvar my-face-tab         'my-face-tab)
+(defvar my-face-zenkaku-spc 'my-face-zenkaku-spc)
+(defvar my-face-spc-at-eol  'my-face-spc-at-eol)
+(defadvice font-lock-mode (before my-font-lock-mode ())
+  (font-lock-add-keywords
+   major-mode
+   '(("\t" 0 my-face-tab append)
+     ("　" 0 my-face-zenkaku-spc append)
+     ("[ \t]+$" 0 my-face-spc-at-eol append)
+     )))
+(ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
+(ad-activate 'font-lock-mode)
+;; settings for text file
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (progn
+               (font-lock-mode t)
+               (font-lock-fontify-buffer))))
