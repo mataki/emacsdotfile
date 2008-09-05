@@ -190,8 +190,8 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(flymake-errline ((((class color)) (:background "red"))))
- '(mmm-declaration-submode-face ((t (:background "DimGray"))))
- '(mmm-default-submode-face ((t (:background "DarkSlateGray")))))
+ '(mmm-code-submode-face ((t (:background "DarkGray"))))
+ '(mmm-output-submode-face ((t (:background "DarkGreen")))))
 
 (put 'narrow-to-region 'disabled nil)
 
