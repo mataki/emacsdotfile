@@ -9,12 +9,12 @@
 
 (defun insert-shiro-shikaku ()
   (interactive)
-  (insert "□")
+  (insert "□ ")
   )
 
 (defun insert-kuro-shikaku ()
   (interactive)
-  (insert "■")
+  (insert "■ ")
   )
 
 (defun toggle-shikaku-func ()

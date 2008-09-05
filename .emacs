@@ -29,22 +29,22 @@
 ;; C-x C-iでリージョンをインデント
 (global-set-key "\C-x\C-i" 'indent-region)
 
-;; アンチエイリアス設定
-(set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
+;; ;; アンチエイリアス設定
+;; (set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
 
-(cond (window-system
-       (set-default-font
-        "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
-       (progn
-         (set-face-font 'default
-                        "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
-        (set-face-font 'bold
-                        "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
-         (set-face-font 'italic
-                        "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
-         (set-face-font 'bold-italic
-                        "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
-       )))
+;; (cond (window-system
+;;        (set-default-font
+;;         "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
+;;        (progn
+;;          (set-face-font 'default
+;;                         "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
+;;         (set-face-font 'bold
+;;                         "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
+;;          (set-face-font 'italic
+;;                         "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
+;;          (set-face-font 'bold-italic
+;;                         "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
+;;        )))
 
 ;; C-hでbackspace
 ;(keyboard-translate ?\C-h ?\C-?)
@@ -55,7 +55,7 @@
 ;; grep-find
 ;;(setq grep-find-command "find . -type f ! -path '*/.svn/*' -print0 | xargs grep -n ")
 ;;(setq grep-find-command "find . -type f ! -path '*/.svn/*' ! -path '*/tmp/*' ! -path '*/log/*' ! -name '*~' -print0 | xargs -0 grep -nH -e ")
-(setq grep-find-command "find . -type f ! -path '*/.svn/*' ! -path '*/tmp/*' ! -path '*/log/*' ! -name '#*#' ! -name '*~' -print0 | xargs -0 grep -nH -e ")
+(setq grep-find-command "find . -type f ! -path '*/.svn/*' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/coverage/*' ! -path '*/log/*' ! -name '#*#' ! -name '*~' -print0 | xargs -0 grep -nH -e ")
 (global-set-key "\C-xgf" 'grep-find)
 
 ;; C-x p で前の画面
@@ -115,6 +115,11 @@
 (require 'color-moccur)
 (eval-after-load "color-moccur"
   '(require 'moccur-edit))
+
+;; http://fkmn.exblog.jp/7311776/
+(setq dmoccur-exclusion-mask
+      (append '("\\~$" "\\.svn\\/\*" "\\.git\\/\*") dmoccur-exclusion-mask))
+
 
 ;; wdiredhttp://www.bookshelf.jp/soft/meadow_25.html#SEC296
 ;; diredでファイル名を一括リネーム
@@ -184,7 +189,9 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(flymake-errline ((((class color)) (:background "red")))))
+ '(flymake-errline ((((class color)) (:background "red"))))
+ '(mmm-declaration-submode-face ((t (:background "DimGray"))))
+ '(mmm-default-submode-face ((t (:background "DarkSlateGray")))))
 
 (put 'narrow-to-region 'disabled nil)
 
@@ -214,7 +221,7 @@
 ;; redo
 (when (require 'redo nil t)
   (define-key ctl-x-map (if window-system "U" "r") 'redo)
-  (define-key global-map [?\C-.] 'redo))
+  (define-key global-map [?\C-_] 'redo))
 
 ;; linum
 (require 'linum)
@@ -244,3 +251,20 @@
              (progn
                (font-lock-mode t)
                (font-lock-fontify-buffer))))
+
+;; ri-emacs
+(setq ri-ruby-script "~/.emacs.d/ri-emacs/ri-emacs.rb")
+(setq load-path (cons (expand-file-name "~/.emacs.d/ri-emacs") load-path))
+;; (add-hook 'ruby-mode-hook (lambda ()
+;;                               (local-set-key 'f1 'ri)
+;;                               (local-set-key "\M-\C-i" 'ri-ruby-complete-symbol)
+;;                               (local-set-key 'f4 'ri-ruby-show-args)
+;;                               ))
+
+(setq viper-mode nil)
+(setq viper-inhibit-startup-message 't)
+(setq viper-expert-level '1)
+(require 'viper)
+
+(fset 'gettext_blkt
+   "\C-s'\C-r\C-r\C-m_(\C-s\C-s\C-s\C-m)")

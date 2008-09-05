@@ -1,7 +1,7 @@
 (setq mmm-submode-decoration-level 2)
-(set-face-background 'mmm-output-submode-face  "LightBlue")
-(set-face-background 'mmm-code-submode-face    "LightGray")
-(set-face-background 'mmm-comment-submode-face "LightYellow")
+(set-face-background 'mmm-output-submode-face  "Blue")
+(set-face-background 'mmm-code-submode-face    "Black")
+(set-face-background 'mmm-comment-submode-face "Yellow")
 (set-face-background 'mmm-special-submode-face "Yellow")
 
 (mmm-add-classes
