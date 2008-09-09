@@ -191,6 +191,7 @@
   ;; If there is more than one, they won't work right.
  '(flymake-errline ((((class color)) (:background "red"))))
  '(mmm-code-submode-face ((t (:background "DarkGray"))))
+ '(mmm-default-submode-face ((t (:background "DarkGoldenrod"))))
  '(mmm-output-submode-face ((t (:background "DarkGreen")))))
 
 (put 'narrow-to-region 'disabled nil)
@@ -261,6 +262,10 @@
 ;;                               (local-set-key 'f4 'ri-ruby-show-args)
 ;;                               ))
 
+;; install-elisp
+(require 'install-elisp)
+(setq install-elisp-repository-directory "~/.emacs.d/")
+
 (setq viper-mode nil)
 (setq viper-inhibit-startup-message 't)
 (setq viper-expert-level '1)
@@ -268,3 +273,4 @@
 
 (fset 'gettext_blkt
    "\C-s'\C-r\C-r\C-m_(\C-s\C-s\C-s\C-m)")
+
