@@ -136,12 +136,12 @@
 ;; browse-kill-ring
 ;; http://www.todesschaf.org/projects/bkr.html
 ;; http://www.bookshelf.jp/soft/meadow_32.html#SEC451
-(require 'browse-kill-ring)
-(global-set-key "\M-y" 'browse-kill-ring)
+;; (require 'browse-kill-ring)
+;; (global-set-key "\M-y" 'browse-kill-ring)
 ;; 必要に応じて browse-kill-ring のウィンドウの大きさを変更する
-(setq browse-kill-ring-resize-window t)
+;; (setq browse-kill-ring-resize-window t)
 ;; 現在選択中の kill-ring のハイライトする
-(setq browse-kill-ring-highlight-current-entry t)
+;; (setq browse-kill-ring-highlight-current-entry t)
 
 ;; 矩形
 ;; http://taiyaki.org/elisp/sense-region/
@@ -198,14 +198,15 @@
 ;; git-emacs
 ;; http://d.hatena.ne.jp/xcezx/20080425/1209081657
 ;; http://tsgates.cafe24.com/git/git-emacs.html
-(require 'imenu)
-(require 'vc-git)
 (setq load-path (cons (expand-file-name "~/.emacs.d/git-emacs") load-path))
+(require 'vc-git)
+(require 'imenu)
 
+;;(require 'git-emacs)
+
+;; ido-mode
 (require 'ido)
 (ido-mode t)
-
-(require 'git-emacs)
 
 ;; rcodetools
 (require 'rcodetools)
