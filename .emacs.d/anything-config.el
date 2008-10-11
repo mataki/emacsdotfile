@@ -12,6 +12,7 @@
 ;;     Bill Clementson <billclem@gmail.com>
 ;;     Stefan Kamphausen <ska@skamphausen.de>
 ;;     Drew Adams <drew.adams@oracle.com>
+;;     Jason McBrayer <jmcbray@carcosa.net>
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -60,7 +61,7 @@
 
 ;;; Version
 
-(defvar anything-c-version "<2008-02-18 Mon 21:05>"
+(defvar anything-c-version "<2008-08-13 Wed 14:49>"
   "The version of anything-config.el, or better the date of the
 last change.")
 
@@ -161,6 +162,30 @@ buffer."
     (candidates . anything-c-buffer-list)
     (volatile)
     (type . buffer)))
+
+(defun anything-c-define-dummy-source (name func &rest other-attrib)
+  `((name . ,name)
+    (candidates "dummy")
+    ,@other-attrib
+    (filtered-candidate-transformer
+     . (lambda (candidates source)
+         (funcall ',func)))
+    (requires-pattern . 1)
+    (volatile)
+    (category create)))
+
+(defun anything-c-dummy-candidate ()
+  ;; `source' is defined in filtered-candidate-transformer
+  (list (cons (concat (assoc-default 'name source) 
+                      " '" anything-input "'")
+              anything-input)))
+
+(defvar anything-c-source-buffer-not-found
+  (anything-c-define-dummy-source
+   "Create buffer"
+   (lambda () (unless (get-buffer anything-input)
+                (anything-c-dummy-candidate)))
+   '(type . buffer)))
 
 ;;;; File name history
 
@@ -701,16 +726,24 @@ use."
                                   (anything-c-external-commands-list-1))
                  file))
 
-(defun anything-c-open-with-default-tool (file)
+(defun w32-shell-execute-open-file (file)
+  (interactive "fOpen file:")
+  (w32-shell-execute "open" (replace-regexp-in-string ;for UNC paths
+                             "/" "\\"
+                             (replace-regexp-in-string ; strip cygdrive paths
+                              "/cygdrive/\\(.\\)" "\\1:" file nil nil) nil t)))
+(defun anything-c-open-file-with-default-tool (file)
   "Open FILE with the default tool on this platform."
-  (start-process "anything-c-open-file-with-default-tool"
-                 nil
-                 (cond ((eq system-type 'gnu/linux)
-                        "xdg-open")
-                       ((or (eq system-type 'darwin)  ;; Mac OS X
-                            (eq system-type 'macos))  ;; Mac OS 9
-                        "open"))
-                 file))
+  (if (eq system-type 'windows-nt)
+      (w32-shell-execute-open-file file)
+    (start-process "anything-c-open-file-with-default-tool"
+                   nil
+                   (cond ((eq system-type 'gnu/linux)
+                          "xdg-open")
+                         ((or (eq system-type 'darwin)  ;; Mac OS X
+                              (eq system-type 'macos))  ;; Mac OS 9
+                          "open"))
+                   file)))
 
 (defun anything-c-open-dired (file)
   "Opens a dired buffer in FILE's directory.  If FILE is a
@@ -775,9 +808,9 @@ evaluate it and put it onto the `command-history'."
 (defvar anything-c-boring-file-regexp
   (rx (or
        ;; Boring directories
-       (and "/" (or ".svn" "CVS" "_darcs" ".git") (or "/" eol))
+       (and "/" (or ".svn" "CVS" "_darcs" ".git" ".hg") (or "/" eol))
        ;; Boring files
-       (and (or ".class" ".la" ".o") eol)))
+       (and (or ".class" ".la" ".o" "~") eol)))
   "File candidates matching this regular expression will be
 filtered from the list of candidates if the
 `anything-c-skip-boring-files' candidate transformer is used, or
@@ -806,6 +839,17 @@ skipped."
           do (when (not (string-match anything-c-boring-file-regexp file))
                (push file filtered-files))
           finally (return (nreverse filtered-files)))))
+
+(defun anything-c-w32-pathname-transformer (args)
+  "Change undesirable features of windows pathnames to ones more acceptable to
+other candidate transformers."
+  (if (eq system-type 'windows-nt)
+          (mapcar (lambda (x)
+                    (replace-regexp-in-string "/cygdrive/\\(.\\)" "\\1:" x))
+                  (mapcar (lambda (y)
+                            (replace-regexp-in-string "\\\\" "/" y)) args))
+    args))
+            
 
 (defun anything-c-shorten-home-path (files)
   "Replaces /home/user with ~."
@@ -1016,6 +1060,7 @@ This function allows easy sequencing of transformer functions."
 
 (setq anything-sources
       (list anything-c-source-buffers
+            anything-c-source-buffer-not-found
             anything-c-source-file-name-history
             anything-c-source-info-pages
             anything-c-source-man-pages
@@ -1055,7 +1100,8 @@ This function allows easy sequencing of transformer functions."
          (candidate-transformer . (lambda (candidates)
                                     (anything-c-compose
                                      (list candidates)
-                                     '(anything-c-shadow-boring-files
+                                     '(anything-c-w32-pathname-transformer
+                                       anything-c-skip-boring-files
                                        anything-c-shorten-home-path)))))
         (command (action ("Call interactively" . (lambda (command-name)
                                                    (call-interactively (intern command-name))))

@@ -68,11 +68,36 @@
 (color-theme-initialize)
 (color-theme-robin-hood)
 
+;; moccur
+(require 'color-moccur)
+(eval-after-load "color-moccur"
+  '(require 'moccur-edit))
+
+;; http://fkmn.exblog.jp/7311776/
+(setq dmoccur-exclusion-mask
+      (append '("\\~$" "\\.svn\\/\*" "\\.git\\/\*") dmoccur-exclusion-mask))
+
+
+;; http://d.hatena.ne.jp/IMAKADO/20080724/1216882563
+;;; color-moccur.elの設定
+;; 複数の検索語や、特定のフェイスのみマッチ等の機能を有効にする
+;; 詳細は http://www.bookshelf.jp/soft/meadow_50.html#SEC751
+(setq moccur-split-word t)
+;; migemoがrequireできる環境ならmigemoを使う
+(when (require 'migemo nil t) ;第三引数がnon-nilだとloadできなかった場合にエラーではなくnilを返す
+  (setq moccur-use-migemo t))
+
 ;; anything
 (require 'anything-config)
+(require 'anything)
+(setq anything-idle-delay 0.3)
+(setq anything-input-idle-delay 0)
+(setq anything-candidate-number-limit 100)
+(require 'anything-c-mx)
+
 (require 'anything-dabbrev-expand)
-(global-set-key "\M-/" 'anything-dabbrev-expand)
-(define-key anything-dabbrev-map "\M-/" 'anything-dabbrev-find-all-buffers)
+(setq anything-dabbrev-input-idle-delay 0.0)
+(setq anything-dabbrev-idle-delay 1.0)
 
 ;; keybind
 (global-set-key (kbd "C-;") 'anything)
@@ -83,12 +108,28 @@
 (define-key anything-map (kbd "M-v") 'anything-previous-source)
 ;; source list
 (setq anything-sources (list anything-c-source-buffers
-                             anything-c-source-emacs-commands
+;;                            anything-c-source-emacs-commands
+                             anything-c-source-mx
                              anything-c-source-bookmarks
                              anything-c-source-file-name-history
                              anything-c-source-locate
                              anything-c-source-complex-command-history
                              ))
+
+;;; anything-c-moccurの設定
+(require 'anything-c-moccur)
+;; カスタマイズ可能変数の設定(M-x customize-group anything-c-moccur でも設定可能)
+(setq anything-c-moccur-anything-idle-delay 0.2 ;`anything-idle-delay'
+      anything-c-moccur-higligt-info-line-flag t ; `anything-c-moccur-dmoccur'などのコマンドでバッファの情報をハイライトする
+      anything-c-moccur-enable-auto-look-flag t ; 現在選択中の候補の位置を他のwindowに表示する
+      anything-c-moccur-enable-initial-pattern t) ; `anything-c-moccur-occur-by-moccur'の起動時にポイントの位置の単語を初期パターンにする
+
+;;; キーバインドの割当(好みに合わせて設定してください)
+(global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
+(global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
+(add-hook 'dired-mode-hook ;dired
+          '(lambda ()
+             (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
 
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
@@ -110,40 +151,6 @@
 ;; http://d.hatena.ne.jp/higepon/20061222/1166774270
 (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
 (require 'rails)
-
-;; moccur
-(require 'color-moccur)
-(eval-after-load "color-moccur"
-  '(require 'moccur-edit))
-
-;; http://fkmn.exblog.jp/7311776/
-(setq dmoccur-exclusion-mask
-      (append '("\\~$" "\\.svn\\/\*" "\\.git\\/\*") dmoccur-exclusion-mask))
-
-
-;; http://d.hatena.ne.jp/IMAKADO/20080724/1216882563
-;;; color-moccur.elの設定
-;; 複数の検索語や、特定のフェイスのみマッチ等の機能を有効にする
-;; 詳細は http://www.bookshelf.jp/soft/meadow_50.html#SEC751
-(setq moccur-split-word t)
-;; migemoがrequireできる環境ならmigemoを使う
-(when (require 'migemo nil t) ;第三引数がnon-nilだとloadできなかった場合にエラーではなくnilを返す
-  (setq moccur-use-migemo t))
-
-;;; anything-c-moccurの設定
-(require 'anything-c-moccur)
-;; カスタマイズ可能変数の設定(M-x customize-group anything-c-moccur でも設定可能)
-(setq anything-c-moccur-anything-idle-delay 0.2 ;`anything-idle-delay'
-      anything-c-moccur-higligt-info-line-flag t ; `anything-c-moccur-dmoccur'などのコマンドでバッファの情報をハイライトする
-      anything-c-moccur-enable-auto-look-flag t ; 現在選択中の候補の位置を他のwindowに表示する
-      anything-c-moccur-enable-initial-pattern t) ; `anything-c-moccur-occur-by-moccur'の起動時にポイントの位置の単語を初期パターンにする
-
-;;; キーバインドの割当(好みに合わせて設定してください)
-(global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
-(global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
-(add-hook 'dired-mode-hook ;dired
-          '(lambda ()
-             (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
 
 ;; wdiredhttp://www.bookshelf.jp/soft/meadow_25.html#SEC296
 ;; diredでファイル名を一括リネーム
