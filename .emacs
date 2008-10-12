@@ -234,7 +234,7 @@
 (require 'vc-git)
 (require 'imenu)
 
-;; (require 'git-emacs)
+(require 'git-emacs)
 
 ;; ido-mode
 (require 'ido)
