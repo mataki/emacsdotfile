@@ -5,3 +5,4 @@
 .emacs.d/anything-c-adaptive-history
 *~
 .emacs.d/session.*
+*.elc

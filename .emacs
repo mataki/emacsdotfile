@@ -68,6 +68,17 @@
 (color-theme-initialize)
 (color-theme-robin-hood)
 
+;; anything-c-source-kill-ring
+(defvar anything-c-source-kill-ring
+    '((name . "Kill Ring")
+      (candidates . (lambda ()
+                      (loop for kill in kill-ring
+                            unless (string-match "^[\\s\\t]+$" kill)
+                            collect kill)))
+      (action . insert)
+      (migemo)
+      (multiline)))
+
 ;; anything
 (require 'anything-config)
 (require 'anything-dabbrev-expand)
@@ -88,8 +99,13 @@
                              anything-c-source-file-name-history
                              anything-c-source-locate
                              anything-c-source-complex-command-history
+                             anything-c-source-kill-ring
                              ))
 
+;; http://d.hatena.ne.jp/rubikitch/20080701/1214844444
+(require 'anything-dabbrev-expand)
+(global-set-key "\M-/" 'anything-dabbrev-expand)
+(define-key anything-dabbrev-map "\M-/" 'anything-dabbrev-find-all-buffers)
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 (load "dabbrev-ja")
@@ -102,8 +118,8 @@
 
 ;; DabbrevExpandMultiple
 ;; http://d.hatena.ne.jp/khiker/20070817/emacs_dabbrev
-(require 'dabbrev-expand-multiple)
-(global-set-key "\M-/" 'dabbrev-expand-multiple)
+;; (require 'dabbrev-expand-multiple)
+;; (global-set-key "\M-/" 'dabbrev-expand-multiple)
 
 ;; emacs-rails
 ;; http://rubyforge.org/projects/emacs-rails/
