@@ -109,7 +109,7 @@
 ;; source list
 (setq anything-sources (list anything-c-source-buffers
 ;;                            anything-c-source-emacs-commands
-                             anything-c-source-mx
+;;                             anything-c-source-mx
                              anything-c-source-bookmarks
                              anything-c-source-file-name-history
                              anything-c-source-locate
@@ -306,3 +306,6 @@
 (fset 'gettext_blkt
    "\C-s'\C-r\C-r\C-m_(\C-s\C-s\C-s\C-m)")
 
+;; 同じファイル名のファイルを開いた際に親ディレクトリ名前を表示する
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
