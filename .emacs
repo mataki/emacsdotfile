@@ -111,8 +111,8 @@
 (define-key anything-map (kbd "M-v") 'anything-previous-source)
 ;; source list
 (setq anything-sources (list anything-c-source-buffers
-;;                            anything-c-source-emacs-commands
-;;                             anything-c-source-mx
+;;                             anything-c-source-emacs-commands
+;;                              anything-c-source-mx
                              anything-c-source-bookmarks
                              anything-c-source-file-name-history
                              anything-c-source-locate
