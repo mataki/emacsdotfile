@@ -1,3 +1,6 @@
+;; setenv PATH
+(setenv "PATH" (concat "/opt/local/bin:" (getenv "PATH")))
+
 ;; load-path
 (setq load-path (cons (expand-file-name "~/.emacs.d") load-path))
 
@@ -309,3 +312,6 @@
 ;; 同じファイル名のファイルを開いた際に親ディレクトリ名前を表示する
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
+;; tabをspaceに変換する
+(require 'untabify-file)
