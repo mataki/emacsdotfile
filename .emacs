@@ -1,3 +1,6 @@
+;; setenv PATH
+(setenv "PATH" (concat "/opt/local/bin:" (getenv "PATH")))
+
 ;; load-path
 (setq load-path (cons (expand-file-name "~/.emacs.d") load-path))
 
@@ -32,19 +35,19 @@
 ;; ;; アンチエイリアス設定
 ;; (set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
 
-(cond (window-system
-       (set-default-font
-        "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
-       (progn
-         (set-face-font 'default
-                        "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
-        (set-face-font 'bold
-                        "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
-         (set-face-font 'italic
-                        "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
-         (set-face-font 'bold-italic
-                        "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
-       )))
+;; (cond (window-system
+;;        (set-default-font
+;;         "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
+;;        (progn
+;;          (set-face-font 'default
+;;                         "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
+;;         (set-face-font 'bold
+;;                         "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
+;;          (set-face-font 'italic
+;;                         "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
+;;          (set-face-font 'bold-italic
+;;                         "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
+;;        )))
 
 ;; C-hでbackspace
 ;(keyboard-translate ?\C-h ?\C-?)
@@ -78,12 +81,37 @@
       (action . insert)
       (migemo)
       (multiline)))
+;; moccur
+(require 'color-moccur)
+(eval-after-load "color-moccur"
+  '(require 'moccur-edit))
+
+;; http://fkmn.exblog.jp/7311776/
+(setq dmoccur-exclusion-mask
+      (append '("\\~$" "\\.svn\\/\*" "\\.git\\/\*") dmoccur-exclusion-mask))
+
+
+;; http://d.hatena.ne.jp/IMAKADO/20080724/1216882563
+;;; color-moccur.elの設定
+;; 複数の検索語や、特定のフェイスのみマッチ等の機能を有効にする
+;; 詳細は http://www.bookshelf.jp/soft/meadow_50.html#SEC751
+(setq moccur-split-word t)
+;; migemoがrequireできる環境ならmigemoを使う
+(when (require 'migemo nil t) ;第三引数がnon-nilだとloadできなかった場合にエラーではなくnilを返す
+  (setq moccur-use-migemo t))
 
 ;; anything
 (require 'anything-config)
+(require 'anything)
+(setq anything-idle-delay 0.3)
+(setq anything-input-idle-delay 0)
+(setq anything-candidate-number-limit 100)
+(require 'anything-c-mx)
+
+;; http://d.hatena.ne.jp/rubikitch/20080701/1214844444
 (require 'anything-dabbrev-expand)
-(global-set-key "\M-/" 'anything-dabbrev-expand)
-(define-key anything-dabbrev-map "\M-/" 'anything-dabbrev-find-all-buffers)
+(setq anything-dabbrev-input-idle-delay 0.0)
+(setq anything-dabbrev-idle-delay 1.0)
 
 ;; keybind
 (global-set-key (kbd "C-;") 'anything)
@@ -94,7 +122,8 @@
 (define-key anything-map (kbd "M-v") 'anything-previous-source)
 ;; source list
 (setq anything-sources (list anything-c-source-buffers
-                             anything-c-source-emacs-commands
+;;                             anything-c-source-emacs-commands
+;;                              anything-c-source-mx
                              anything-c-source-bookmarks
                              anything-c-source-file-name-history
                              anything-c-source-locate
@@ -102,10 +131,21 @@
                              anything-c-source-kill-ring
                              ))
 
-;; http://d.hatena.ne.jp/rubikitch/20080701/1214844444
-(require 'anything-dabbrev-expand)
-(global-set-key "\M-/" 'anything-dabbrev-expand)
-(define-key anything-dabbrev-map "\M-/" 'anything-dabbrev-find-all-buffers)
+;;; anything-c-moccurの設定
+(require 'anything-c-moccur)
+;; カスタマイズ可能変数の設定(M-x customize-group anything-c-moccur でも設定可能)
+(setq anything-c-moccur-anything-idle-delay 0.2 ;`anything-idle-delay'
+      anything-c-moccur-higligt-info-line-flag t ; `anything-c-moccur-dmoccur'などのコマンドでバッファの情報をハイライトする
+      anything-c-moccur-enable-auto-look-flag t ; 現在選択中の候補の位置を他のwindowに表示する
+      anything-c-moccur-enable-initial-pattern t) ; `anything-c-moccur-occur-by-moccur'の起動時にポイントの位置の単語を初期パターンにする
+
+;;; キーバインドの割当(好みに合わせて設定してください)
+(global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
+(global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
+(add-hook 'dired-mode-hook ;dired
+          '(lambda ()
+             (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
+
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 (load "dabbrev-ja")
@@ -127,40 +167,6 @@
 (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
 (require 'rails)
 
-;; moccur
-(require 'color-moccur)
-(eval-after-load "color-moccur"
-  '(require 'moccur-edit))
-
-;; http://fkmn.exblog.jp/7311776/
-(setq dmoccur-exclusion-mask
-      (append '("\\~$" "\\.svn\\/\*" "\\.git\\/\*") dmoccur-exclusion-mask))
-
-
-;; http://d.hatena.ne.jp/IMAKADO/20080724/1216882563
-;;; color-moccur.elの設定
-;; 複数の検索語や、特定のフェイスのみマッチ等の機能を有効にする
-;; 詳細は http://www.bookshelf.jp/soft/meadow_50.html#SEC751
-(setq moccur-split-word t)
-;; migemoがrequireできる環境ならmigemoを使う
-(when (require 'migemo nil t) ;第三引数がnon-nilだとloadできなかった場合にエラーではなくnilを返す
-  (setq moccur-use-migemo t))
-
-;;; anything-c-moccurの設定
-(require 'anything-c-moccur)
-;; カスタマイズ可能変数の設定(M-x customize-group anything-c-moccur でも設定可能)
-(setq anything-c-moccur-anything-idle-delay 0.2 ;`anything-idle-delay'
-      anything-c-moccur-higligt-info-line-flag t ; `anything-c-moccur-dmoccur'などのコマンドでバッファの情報をハイライトする
-      anything-c-moccur-enable-auto-look-flag t ; 現在選択中の候補の位置を他のwindowに表示する
-      anything-c-moccur-enable-initial-pattern t) ; `anything-c-moccur-occur-by-moccur'の起動時にポイントの位置の単語を初期パターンにする
-
-;;; キーバインドの割当(好みに合わせて設定してください)
-(global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
-(global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
-(add-hook 'dired-mode-hook ;dired
-          '(lambda ()
-             (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
-
 ;; wdiredhttp://www.bookshelf.jp/soft/meadow_25.html#SEC296
 ;; diredでファイル名を一括リネーム
 (require 'wdired)
@@ -176,12 +182,12 @@
 ;; browse-kill-ring
 ;; http://www.todesschaf.org/projects/bkr.html
 ;; http://www.bookshelf.jp/soft/meadow_32.html#SEC451
-(require 'browse-kill-ring)
-(global-set-key "\M-y" 'browse-kill-ring)
+;; (require 'browse-kill-ring)
+;; (global-set-key "\M-y" 'browse-kill-ring)
 ;; 必要に応じて browse-kill-ring のウィンドウの大きさを変更する
-(setq browse-kill-ring-resize-window t)
+;; (setq browse-kill-ring-resize-window t)
 ;; 現在選択中の kill-ring のハイライトする
-(setq browse-kill-ring-highlight-current-entry t)
+;; (setq browse-kill-ring-highlight-current-entry t)
 
 ;; 矩形
 ;; http://taiyaki.org/elisp/sense-region/
@@ -239,15 +245,15 @@
 ;; git-emacs
 ;; http://d.hatena.ne.jp/xcezx/20080425/1209081657
 ;; http://tsgates.cafe24.com/git/git-emacs.html
-(require 'imenu)
 (setq load-path (cons (expand-file-name "~/.emacs.d/git-emacs") load-path))
 (require 'vc-git)
-
-
-(require 'ido)
-(ido-mode t)
+(require 'imenu)
 
 (require 'git-emacs)
+
+;; ido-mode
+(require 'ido)
+(ido-mode t)
 
 ;; rcodetools
 (require 'rcodetools)
@@ -315,3 +321,9 @@
 (fset 'gettext_blkt
    "\C-s'\C-r\C-r\C-m_(\C-s\C-s\C-s\C-m)")
 
+;; 同じファイル名のファイルを開いた際に親ディレクトリ名前を表示する
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
+;; tabをspaceに変換する
+(require 'untabify-file)
