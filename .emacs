@@ -71,6 +71,16 @@
 (color-theme-initialize)
 (color-theme-robin-hood)
 
+;; anything-c-source-kill-ring
+(defvar anything-c-source-kill-ring
+    '((name . "Kill Ring")
+      (candidates . (lambda ()
+                      (loop for kill in kill-ring
+                            unless (string-match "^[\\s\\t]+$" kill)
+                            collect kill)))
+      (action . insert)
+      (migemo)
+      (multiline)))
 ;; moccur
 (require 'color-moccur)
 (eval-after-load "color-moccur"
@@ -98,6 +108,7 @@
 (setq anything-candidate-number-limit 100)
 (require 'anything-c-mx)
 
+;; http://d.hatena.ne.jp/rubikitch/20080701/1214844444
 (require 'anything-dabbrev-expand)
 (setq anything-dabbrev-input-idle-delay 0.0)
 (setq anything-dabbrev-idle-delay 1.0)
@@ -117,6 +128,7 @@
                              anything-c-source-file-name-history
                              anything-c-source-locate
                              anything-c-source-complex-command-history
+                             anything-c-source-kill-ring
                              ))
 
 ;;; anything-c-moccurの設定
@@ -156,8 +168,8 @@
 
 ;; DabbrevExpandMultiple
 ;; http://d.hatena.ne.jp/khiker/20070817/emacs_dabbrev
-(require 'dabbrev-expand-multiple)
-(global-set-key "\M-/" 'dabbrev-expand-multiple)
+;; (require 'dabbrev-expand-multiple)
+;; (global-set-key "\M-/" 'dabbrev-expand-multiple)
 
 ;; emacs-rails
 ;; http://rubyforge.org/projects/emacs-rails/
