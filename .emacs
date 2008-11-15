@@ -134,6 +134,16 @@
           '(lambda ()
              (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
 
+;; WidenWindow http://d.hatena.ne.jp/rubikitch/20081113/1226575019
+(require 'widen-window)
+(setq ww-ratio 0.75)
+(global-widen-window-mode 1)
+;;(diminish 'widen-window-mode " WW")
+(defadvice anything (around disable-ww-mode activate)
+  (ad-deactivate-regexp "widen-window")
+  (unwind-protect
+      ad-do-it
+    (ad-activate-regexp "widen-window")))
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 (load "dabbrev-ja")
@@ -225,7 +235,8 @@
   ;; If there is more than one, they won't work right.
  '(flymake-errline ((((class color)) (:background "red"))))
  '(mmm-code-submode-face ((t (:background "DarkGray"))))
- '(mmm-default-submode-face ((t (:background "DarkGoldenrod"))))
+ '(mmm-declaration-submode-face ((t (:background "Aquamarine" :foreground "black"))))
+ '(mmm-default-submode-face ((t (:background "dark slate gray"))))
  '(mmm-output-submode-face ((t (:background "DarkGreen")))))
 
 (put 'narrow-to-region 'disabled nil)
