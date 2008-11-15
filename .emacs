@@ -55,6 +55,19 @@
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key "\C-x?" 'help)
 
+;; grep
+(require 'grep)
+(require 'grep-edit)
+
+(defun my-grep-edit-setup ()
+  (define-key grep-mode-map '[up] nil)
+  (define-key grep-mode-map "\C-c\C-c" 'grep-edit-finish-edit)
+  (message (substitute-command-keys "\\[grep-edit-finish-edit] to apply changes."))
+  (set (make-local-variable 'inhibit-read-only) t)
+  )
+(add-hook 'grep-setup-hook 'my-grep-edit-setup t)
+
+
 ;; grep-find
 ;;(setq grep-find-command "find . -type f ! -path '*/.svn/*' -print0 | xargs grep -n ")
 ;;(setq grep-find-command "find . -type f ! -path '*/.svn/*' ! -path '*/tmp/*' ! -path '*/log/*' ! -name '*~' -print0 | xargs -0 grep -nH -e ")
