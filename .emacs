@@ -109,9 +109,9 @@
 (require 'anything-c-mx)
 
 ;; http://d.hatena.ne.jp/rubikitch/20080701/1214844444
-(require 'anything-dabbrev-expand)
-(setq anything-dabbrev-input-idle-delay 0.0)
-(setq anything-dabbrev-idle-delay 1.0)
+;; (require 'anything-dabbrev-expand)
+;; (setq anything-dabbrev-input-idle-delay 0.0)
+;; (setq anything-dabbrev-idle-delay 1.0)
 
 ;; keybind
 (global-set-key (kbd "C-;") 'anything)
@@ -158,13 +158,13 @@
     (ad-activate-regexp "widen-window")))
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
-(load "dabbrev-ja")
+;; (load "dabbrev-ja")
 ;; http://namazu.org/~tsuchiya/elisp/#dabbrev-highlight
-(require 'dabbrev-highlight)
+;; (require 'dabbrev-highlight)
 
 ;; pabbrev-mode http://www.bookshelf.jp/soft/meadow_34.html#SEC507
-(require 'pabbrev)
-(global-pabbrev-mode)
+;;(require 'pabbrev)
+;;(global-pabbrev-mode)
 
 ;; DabbrevExpandMultiple
 ;; http://d.hatena.ne.jp/khiker/20070817/emacs_dabbrev
@@ -338,3 +338,8 @@
 
 ;; tabをspaceに変換する
 (require 'untabify-file)
+
+;; auto-complete http://d.hatena.ne.jp/rubikitch/20081109/autocomplete
+;; http://dev.ariel-networks.com/Members/matsuyama/auto-complete
+(require 'auto-complete)
+(global-auto-complete-mode t)
