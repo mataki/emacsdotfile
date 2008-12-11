@@ -32,22 +32,22 @@
 ;; C-x C-iでリージョンをインデント
 (global-set-key "\C-x\C-i" 'indent-region)
 
-;; ;; アンチエイリアス設定
-;; (set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
+;; アンチエイリアス設定
+(set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
 
-;; (cond (window-system
-;;        (set-default-font
-;;         "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
-;;        (progn
-;;          (set-face-font 'default
-;;                         "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
-;;         (set-face-font 'bold
-;;                         "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
-;;          (set-face-font 'italic
-;;                         "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
-;;          (set-face-font 'bold-italic
-;;                         "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
-;;        )))
+(cond (window-system
+       (set-default-font
+        "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
+       (progn
+         (set-face-font 'default
+                        "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
+         (set-face-font 'bold
+                        "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
+         (set-face-font 'italic
+                        "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
+         (set-face-font 'bold-italic
+                        "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
+         )))
 
 ;; C-hでbackspace
 ;(keyboard-translate ?\C-h ?\C-?)
@@ -161,7 +161,7 @@
 
 ;; WidenWindow http://d.hatena.ne.jp/rubikitch/20081113/1226575019
 (require 'widen-window)
-(setq ww-ratio 0.75)
+(setq ww-ratio 0.60)
 (global-widen-window-mode 1)
 ;;(diminish 'widen-window-mode " WW")
 (defadvice anything (around disable-ww-mode activate)
@@ -169,6 +169,10 @@
   (unwind-protect
       ad-do-it
     (ad-activate-regexp "widen-window")))
+
+;; http://d.hatena.ne.jp/buzztaiki/20081115/1226760184
+(require 'descbinds-anything)
+(descbinds-anything-install)
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 ;; (load "dabbrev-ja")
@@ -356,3 +360,7 @@
 ;; http://dev.ariel-networks.com/Members/matsuyama/auto-complete
 (require 'auto-complete)
 (global-auto-complete-mode t)
+
+(require 'magit)
+(require 'ansi-color)
+
