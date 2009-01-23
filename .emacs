@@ -32,22 +32,22 @@
 ;; C-x C-iでリージョンをインデント
 (global-set-key "\C-x\C-i" 'indent-region)
 
-;; ;; アンチエイリアス設定
-;; (set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
+;; アンチエイリアス設定
+(set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
 
-;; (cond (window-system
-;;        (set-default-font
-;;         "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
-;;        (progn
-;;          (set-face-font 'default
-;;                         "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
-;;         (set-face-font 'bold
-;;                         "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
-;;          (set-face-font 'italic
-;;                         "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
-;;          (set-face-font 'bold-italic
-;;                         "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
-;;        )))
+(cond (window-system
+       (set-default-font
+        "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
+       (progn
+         (set-face-font 'default
+                        "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
+         (set-face-font 'bold
+                        "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
+         (set-face-font 'italic
+                        "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
+         (set-face-font 'bold-italic
+                        "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
+         )))
 
 ;; C-hでbackspace
 ;(keyboard-translate ?\C-h ?\C-?)
@@ -172,6 +172,10 @@
 
 (require 'anything-complete)
 (anything-lisp-complete-symbol-set-timer 150)
+
+;; http://d.hatena.ne.jp/buzztaiki/20081115/1226760184
+(require 'descbinds-anything)
+(descbinds-anything-install)
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 ;; (load "dabbrev-ja")
@@ -363,6 +367,7 @@
 
 ;; magit http://gitorious.org/projects/magit/repos/mainline
 (require 'magit)
+(require 'ansi-color)
 (put 'downcase-region 'disabled nil)
 
 ;; egg git http://github.com/bogolisk/egg/tree/master
