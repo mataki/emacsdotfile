@@ -6,3 +6,4 @@
 *~
 .emacs.d/session.*
 *.elc
+/.emacs.d/tramp

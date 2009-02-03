@@ -32,10 +32,10 @@
 ;; C-x C-iでリージョンをインデント
 (global-set-key "\C-x\C-i" 'indent-region)
 
-;; アンチエイリアス設定
-(set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
-
 (cond (window-system
+       ;; アンチエイリアス設定
+       (set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
+
        (set-default-font
         "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
        (progn
@@ -82,18 +82,8 @@
 (setq load-path (cons (expand-file-name "~/.emacs.d/color-theme") load-path))
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-robin-hood)
+(color-theme-dark-laptop)
 
-;; anything-c-source-kill-ring
-(defvar anything-c-source-kill-ring
-    '((name . "Kill Ring")
-      (candidates . (lambda ()
-                      (loop for kill in kill-ring
-                            unless (string-match "^[\\s\\t]+$" kill)
-                            collect kill)))
-      (action . insert)
-      (migemo)
-      (multiline)))
 ;; moccur
 (require 'color-moccur)
 (eval-after-load "color-moccur"
@@ -133,7 +123,19 @@
 (define-key anything-map (kbd "C-n") 'anything-next-line)
 (define-key anything-map (kbd "C-v") 'anything-next-source)
 (define-key anything-map (kbd "M-v") 'anything-previous-source)
+
+;; anything-c-source-kill-ring
+(defvar anything-c-source-kill-ring
+    '((name . "Kill Ring")
+      (candidates . (lambda ()
+                      (loop for kill in kill-ring
+                            unless (string-match "^[\\s\\t]+$" kill)
+                            collect kill)))
+      (action . insert)
+      (migemo)
+      (multiline)))
 ;; source list
+
 (setq anything-sources (list anything-c-source-buffers
 ;;                             anything-c-source-emacs-commands
 ;;                              anything-c-source-mx
@@ -143,6 +145,7 @@
                              anything-c-source-complex-command-history
                              anything-c-source-kill-ring
                              ))
+
 
 ;;; anything-c-moccurの設定
 (require 'anything-c-moccur)
@@ -175,9 +178,9 @@
 (descbinds-anything-install)
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
-;; (load "dabbrev-ja")
+(load "dabbrev-ja")
 ;; http://namazu.org/~tsuchiya/elisp/#dabbrev-highlight
-;; (require 'dabbrev-highlight)
+(require 'dabbrev-highlight)
 
 ;; pabbrev-mode http://www.bookshelf.jp/soft/meadow_34.html#SEC507
 ;;(require 'pabbrev)
@@ -285,6 +288,11 @@
 
 ;; rcodetools
 (require 'rcodetools)
+;; (require 'anything-rcodetools)
+;; ;; Command to get all RI entries.
+;; (setq rct-get-all-methods-command "PAGER=cat fri -l")
+;; ;; See docs
+;; (define-key anything-map "\C-z" 'anything-execute-persistent-action)
 
 ;; howm
 (setq howm-menu-lang 'ja)
