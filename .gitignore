@@ -7,3 +7,4 @@
 .emacs.d/session.*
 *.elc
 /.emacs.d/tramp
+/.emacs.d/anything-hatena-bookmark.el?format=raw

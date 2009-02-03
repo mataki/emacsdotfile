@@ -164,7 +164,7 @@
 
 ;; WidenWindow http://d.hatena.ne.jp/rubikitch/20081113/1226575019
 (require 'widen-window)
-(setq ww-ratio 0.60)
+(setq ww-ratio 0.65)
 (global-widen-window-mode 1)
 ;;(diminish 'widen-window-mode " WW")
 (defadvice anything (around disable-ww-mode activate)
@@ -172,6 +172,9 @@
   (unwind-protect
       ad-do-it
     (ad-activate-regexp "widen-window")))
+
+(require 'anything-complete)
+(anything-lisp-complete-symbol-set-timer 150)
 
 ;; http://d.hatena.ne.jp/buzztaiki/20081115/1226760184
 (require 'descbinds-anything)
@@ -259,7 +262,8 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(js2-basic-offset 4))
+ '(js2-basic-offset 4)
+ '(rails-ws:default-server-type "mongrel"))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -369,6 +373,17 @@
 (require 'auto-complete)
 (global-auto-complete-mode t)
 
+;; magit http://gitorious.org/projects/magit/repos/mainline
 (require 'magit)
 (require 'ansi-color)
+(put 'downcase-region 'disabled nil)
 
+;; egg git http://github.com/bogolisk/egg/tree/master
+(setq load-path (cons (expand-file-name "~/.emacs.d/egg") load-path))
+(require 'egg)
+
+;; rst-mode
+(autoload 'rst-mode "rst-mode" "mode for editing reStructuredText documents" t)
+(setq auto-mode-alist
+      (append '(("\\.rst$" . rst-mode)
+                ("\\.rest$" . rst-mode)) auto-mode-alist))
