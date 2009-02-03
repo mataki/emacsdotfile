@@ -410,3 +410,7 @@
 
 ;; cucmber-mode
 (setq load-path (cons (expand-file-name "~/.emacs.d/cucumber.el") load-path))
+
+;; ejacs
+(setq load-path (cons (expand-file-name "~/.emacs.d/ejacs") load-path))
+(autoload 'js-console "js-console" nil t)
