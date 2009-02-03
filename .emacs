@@ -387,3 +387,26 @@
 (setq auto-mode-alist
       (append '(("\\.rst$" . rst-mode)
                 ("\\.rest$" . rst-mode)) auto-mode-alist))
+
+;; org-mode
+(setq load-path (cons (expand-file-name "~/.emacs.d/org-mode/lisp") load-path))
+(require 'org)
+(setq org-startup-truncated nil)
+(setq org-return-follows-link t)
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(org-remember-insinuate)
+(setq org-directory "~/memo/")
+(setq org-default-notes-file (concat org-directory "agenda.org"))
+(setq org-remember-templates
+      '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
+        ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
+        ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
+        ))
+
+
+;; remember-el
+(setq load-path (cons (expand-file-name "~/.emacs.d/remember-el") load-path))
+(require 'remember)
+
+;; cucmber-mode
+(setq load-path (cons (expand-file-name "~/.emacs.d/cucumber.el") load-path))
