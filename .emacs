@@ -379,8 +379,8 @@
 (put 'downcase-region 'disabled nil)
 
 ;; egg git http://github.com/bogolisk/egg/tree/master
-(setq load-path (cons (expand-file-name "~/.emacs.d/egg") load-path))
-(require 'egg)
+;; (setq load-path (cons (expand-file-name "~/.emacs.d/egg") load-path))
+;; (require 'egg)
 
 ;; rst-mode
 (autoload 'rst-mode "rst-mode" "mode for editing reStructuredText documents" t)
