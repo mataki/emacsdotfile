@@ -299,6 +299,7 @@
 ;; (define-key anything-map "\C-z" 'anything-execute-persistent-action)
 
 ;; howm
+(setq load-path (cons (expand-file-name "~/.emacs.d/howm") load-path))
 (setq howm-menu-lang 'ja)
 (global-set-key "\C-c,," 'howm-menu)
 (autoload 'howm-menu "howm-mode" "Hitori Otegaru Wiki Modoki" t)
