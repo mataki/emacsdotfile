@@ -375,13 +375,13 @@ The variable ruby-indent-level controls the amount of indentation.
   (make-local-variable 'add-log-current-defun-function)
   (setq add-log-current-defun-function 'ruby-add-log-current-method)
 
-  (add-hook
-   (cond ((boundp 'before-save-hook)
-          (make-local-variable 'before-save-hook)
-          'before-save-hook)
-         ((boundp 'write-contents-functions) 'write-contents-functions)
-         ((boundp 'write-contents-hooks) 'write-contents-hooks))
-   'ruby-mode-set-encoding)
+;;   (add-hook
+;;    (cond ((boundp 'before-save-hook)
+;;           (make-local-variable 'before-save-hook)
+;;           'before-save-hook)
+;;          ((boundp 'write-contents-functions) 'write-contents-functions)
+;;          ((boundp 'write-contents-hooks) 'write-contents-hooks))
+;;    'ruby-mode-set-encoding)
 
   (set (make-local-variable 'font-lock-defaults) '((ruby-font-lock-keywords) nil nil))
   (set (make-local-variable 'font-lock-keywords) ruby-font-lock-keywords)
@@ -520,7 +520,7 @@ The variable ruby-indent-level controls the amount of indentation.
          (t
           (setq in-string (point))
           (goto-char end))))
-       ((looking-at "/=") 
+       ((looking-at "/=")
         (goto-char pnt))
        ((looking-at "/")
         (cond
@@ -775,7 +775,7 @@ The variable ruby-indent-level controls the amount of indentation.
           (setq indent (ruby-indent-size (current-column) (nth 2 state))))
          (t
           (setq indent (+ (current-column) ruby-indent-level)))))
-       
+
        ((and (nth 2 state) (< (nth 2 state) 0)) ; in negative nest
         (setq indent (ruby-indent-size (current-column) (nth 2 state)))))
       (when indent
@@ -1111,7 +1111,7 @@ balanced expression is found."
                (concat "^[ \t]*\\(def\\|class\\|module\\)[ \t]+"
                        "\\("
                        ;; \\. and :: for class method
-                        "\\([A-Za-z_]" ruby-symbol-re "*\\|\\.\\|::" "\\)" 
+                        "\\([A-Za-z_]" ruby-symbol-re "*\\|\\.\\|::" "\\)"
                         "+\\)")
                nil t)
               (progn
