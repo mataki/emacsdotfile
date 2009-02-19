@@ -415,3 +415,11 @@
 ;; ejacs
 (setq load-path (cons (expand-file-name "~/.emacs.d/ejacs") load-path))
 (autoload 'js-console "js-console" nil t)
+
+;; http://d.hatena.ne.jp/amacou/20081123/1227458260
+;;haml-mode
+(require 'haml-mode nil 't)
+(add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
+;;sass-mode
+(require 'sass-mode nil 't)
+(add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
