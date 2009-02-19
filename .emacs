@@ -375,9 +375,10 @@
 (global-auto-complete-mode t)
 
 ;; magit http://gitorious.org/projects/magit/repos/mainline
-(require 'magit)
-(require 'ansi-color)
-(put 'downcase-region 'disabled nil)
+;; (setq load-path (cons (expand-file-name "~/.emacs.d/magit.git") load-path))
+;; (require 'magit)
+;; (require 'ansi-color)
+;; (put 'downcase-region 'disabled nil)
 
 ;; egg git http://github.com/bogolisk/egg/tree/master
 ;; (setq load-path (cons (expand-file-name "~/.emacs.d/egg") load-path))
