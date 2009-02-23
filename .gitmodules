@@ -1,0 +1,3 @@
+[submodule ".emacs.d/cucumber.el"]
+	path = .emacs.d/cucumber.el
+	url = git://github.com/michaelklishin/cucumber.el.git
