@@ -32,22 +32,22 @@
 ;; C-x C-iでリージョンをインデント
 (global-set-key "\C-x\C-i" 'indent-region)
 
-(cond (window-system
-       ;; アンチエイリアス設定
-       (set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
+;; ;; アンチエイリアス設定
+;; (set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
 
-       (set-default-font
-        "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
-       (progn
-         (set-face-font 'default
-                        "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
-         (set-face-font 'bold
-                        "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
-         (set-face-font 'italic
-                        "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
-         (set-face-font 'bold-italic
-                        "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
-         )))
+;; (cond (window-system
+;;        (set-default-font
+;;         "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
+;;        (progn
+;;          (set-face-font 'default
+;;                         "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
+;;         (set-face-font 'bold
+;;                         "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
+;;          (set-face-font 'italic
+;;                         "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
+;;          (set-face-font 'bold-italic
+;;                         "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
+;;        )))
 
 ;; C-hでbackspace
 ;(keyboard-translate ?\C-h ?\C-?)
@@ -82,8 +82,18 @@
 (setq load-path (cons (expand-file-name "~/.emacs.d/color-theme") load-path))
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-dark-laptop)
+(color-theme-robin-hood)
 
+;; anything-c-source-kill-ring
+(defvar anything-c-source-kill-ring
+    '((name . "Kill Ring")
+      (candidates . (lambda ()
+                      (loop for kill in kill-ring
+                            unless (string-match "^[\\s\\t]+$" kill)
+                            collect kill)))
+      (action . insert)
+      (migemo)
+      (multiline)))
 ;; moccur
 (require 'color-moccur)
 (eval-after-load "color-moccur"
@@ -110,6 +120,7 @@
 (setq anything-input-idle-delay 0)
 (setq anything-candidate-number-limit 100)
 (require 'anything-c-mx)
+(require 'anything-etags)
 
 ;; http://d.hatena.ne.jp/rubikitch/20080701/1214844444
 ;; (require 'anything-dabbrev-expand)
@@ -123,29 +134,17 @@
 (define-key anything-map (kbd "C-n") 'anything-next-line)
 (define-key anything-map (kbd "C-v") 'anything-next-source)
 (define-key anything-map (kbd "M-v") 'anything-previous-source)
-
-;; anything-c-source-kill-ring
-(defvar anything-c-source-kill-ring
-    '((name . "Kill Ring")
-      (candidates . (lambda ()
-                      (loop for kill in kill-ring
-                            unless (string-match "^[\\s\\t]+$" kill)
-                            collect kill)))
-      (action . insert)
-      (migemo)
-      (multiline)))
 ;; source list
-
 (setq anything-sources (list anything-c-source-buffers
-;;                             anything-c-source-emacs-commands
+;;                              anything-c-source-emacs-commands
 ;;                              anything-c-source-mx
                              anything-c-source-bookmarks
+;;                              anything-c-source-etags-select
                              anything-c-source-file-name-history
                              anything-c-source-locate
                              anything-c-source-complex-command-history
                              anything-c-source-kill-ring
                              ))
-
 
 ;;; anything-c-moccurの設定
 (require 'anything-c-moccur)
@@ -176,14 +175,10 @@
 (require 'anything-complete)
 (anything-lisp-complete-symbol-set-timer 150)
 
-;; http://d.hatena.ne.jp/buzztaiki/20081115/1226760184
-(require 'descbinds-anything)
-(descbinds-anything-install)
-
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
-(load "dabbrev-ja")
+;; (load "dabbrev-ja")
 ;; http://namazu.org/~tsuchiya/elisp/#dabbrev-highlight
-(require 'dabbrev-highlight)
+;; (require 'dabbrev-highlight)
 
 ;; pabbrev-mode http://www.bookshelf.jp/soft/meadow_34.html#SEC507
 ;;(require 'pabbrev)
@@ -197,6 +192,7 @@
 ;; emacs-rails
 ;; http://rubyforge.org/projects/emacs-rails/
 ;; http://d.hatena.ne.jp/higepon/20061222/1166774270
+(setq load-path (cons (expand-file-name "~/.emacs.d/ruby-mode") load-path))
 (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
 (require 'rails)
 
@@ -262,8 +258,12 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
+ '(ac-dwim t)
  '(js2-basic-offset 4)
- '(rails-ws:default-server-type "mongrel"))
+ '(rails-ws:default-server-type "mongrel")
+ '(ruby-insert-encoding-magic-comment nil)
+ '(ruby-use-encoding-map t)
+ '(untabify-exclude-list (quote (makefile-mode makefile-bsdmake-mode change-log-mode "Makefile$" Emacs-Lisp))))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -273,7 +273,9 @@
  '(mmm-code-submode-face ((t (:background "DarkGray"))))
  '(mmm-declaration-submode-face ((t (:background "Aquamarine" :foreground "black"))))
  '(mmm-default-submode-face ((t (:background "dark slate gray"))))
- '(mmm-output-submode-face ((t (:background "DarkGreen")))))
+ '(mmm-output-submode-face ((t (:background "DarkGreen"))))
+ '(rst-level-1-face ((t (:background "grey10"))) t)
+ '(rst-level-2-face ((t (:background "grey20"))) t))
 
 (put 'narrow-to-region 'disabled nil)
 
@@ -292,17 +294,13 @@
 
 ;; rcodetools
 (require 'rcodetools)
-;; (require 'anything-rcodetools)
-;; ;; Command to get all RI entries.
-;; (setq rct-get-all-methods-command "PAGER=cat fri -l")
-;; ;; See docs
-;; (define-key anything-map "\C-z" 'anything-execute-persistent-action)
 
 ;; howm
-(setq load-path (cons (expand-file-name "~/.emacs.d/howm") load-path))
+(setq load-path (cons (expand-file-name "~/.emacs.d/hown") load-path))
+;; (require 'hown-mode)
 (setq howm-menu-lang 'ja)
 (global-set-key "\C-c,," 'howm-menu)
-(autoload 'howm-menu "howm-mode" "Hitori Otegaru Wiki Modoki" t)
+;; (autoload 'howm-menu "howm-mode" "Hitori Otegaru Wiki Modoki" t)
 
 ;; matodo
 (require 'matodo-mode)
@@ -373,12 +371,15 @@
 ;; http://dev.ariel-networks.com/Members/matsuyama/auto-complete
 (require 'auto-complete)
 (global-auto-complete-mode t)
+(setq ac-auto-start 4)
+(define-key ac-complete-mode-map "\C-n" 'ac-next)
+(define-key ac-complete-mode-map "\C-p" 'ac-previous)
+
 
 ;; magit http://gitorious.org/projects/magit/repos/mainline
-;; (setq load-path (cons (expand-file-name "~/.emacs.d/magit.git") load-path))
-;; (require 'magit)
-;; (require 'ansi-color)
-;; (put 'downcase-region 'disabled nil)
+(setq load-path (cons (expand-file-name "~/.emacs.d/magit") load-path))
+(require 'magit)
+(autoload 'magit-status "magit" nil t)
 
 ;; egg git http://github.com/bogolisk/egg/tree/master
 ;; (setq load-path (cons (expand-file-name "~/.emacs.d/egg") load-path))
@@ -390,37 +391,10 @@
       (append '(("\\.rst$" . rst-mode)
                 ("\\.rest$" . rst-mode)) auto-mode-alist))
 
-;; org-mode
-(setq load-path (cons (expand-file-name "~/.emacs.d/org-mode/lisp") load-path))
-(require 'org)
-(setq org-startup-truncated nil)
-(setq org-return-follows-link t)
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(org-remember-insinuate)
-(setq org-directory "~/memo/")
-(setq org-default-notes-file (concat org-directory "agenda.org"))
-(setq org-remember-templates
-      '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
-        ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
-        ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
-        ))
 
+;; for mac
+(setq mac-pass-control-to-system nil)
 
-;; remember-el
-(setq load-path (cons (expand-file-name "~/.emacs.d/remember-el") load-path))
-(require 'remember)
-
-;; cucmber-mode
+;; cucumber.el
 (setq load-path (cons (expand-file-name "~/.emacs.d/cucumber.el") load-path))
-
-;; ejacs
-(setq load-path (cons (expand-file-name "~/.emacs.d/ejacs") load-path))
-(autoload 'js-console "js-console" nil t)
-
-;; http://d.hatena.ne.jp/amacou/20081123/1227458260
-;;haml-mode
-(require 'haml-mode nil 't)
-(add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
-;;sass-mode
-(require 'sass-mode nil 't)
-(add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
+(require 'cucumber-mode)
