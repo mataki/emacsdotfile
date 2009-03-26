@@ -24,21 +24,10 @@
 
 ;;; Commentary:
 
-;; 複数候補を選択できる動的略語展開
-;; このパッケージは, Emacs 22 でテストされています.
-
 ;; Dynamic abbrev for multiple selection.
 ;; This package tested on Emacs 22.
 
 ;;; Installation:
-
-;; このファイルをロードパスの通った所へ置き,
-;; 以下の文を .emacs に追加します.
-;;
-;;   (require 'dabbrev-expand-multiple)
-;;   (global-set-key "\M-/" 'dabbrev-expand-multiple)
-;;
-;; キー設定は, 自分の好みに合わせて下さい.
 
 ;; Put this file into your load-path, and,
 ;; add following line to .emacs.
@@ -49,17 +38,6 @@
 ;; Please match key setting to your favor.
 
 ;;; Usage:
-
-;; dabbrev-expand-multiple は, 以下のように振る舞います.
-;;
-;; (1) 最初に, dabbrev-expand-multiple を起動します.
-;;     すると, 通常の dabbrev-expand と同様に振る舞います.
-;; (2) 次に, dabbrev-expand を起動したキーを押すと,
-;;     複数候補を選択するメニューが現れます.
-;; (*) 一度に表示する略語は, デフォルトで3つです.
-;; (*) dabbrev-expand-multiple を起動したキー, M-/, もしくは,
-;;     SPC を押すと, 次の3つを表示します.
-;; (*) x もしくは, Backspace を押すと前の3つに戻ります.
 
 ;; dabbrev-expand-multiple behaves as follows.
 ;;
@@ -103,20 +81,6 @@
 
 ;;; Note:
 
-;; 次の関数は, SKK の関数を元に改造させてもらいました.
-;;
-;; dabbrev-expand-multiple-in-minibuffer-p
-;; dabbrev-expand-multiple-show-tooltip
-;; dabbrev-expand-multiple-mouse-position
-;; dabbrev-expand-multiple-inline-show
-;; dabbrev-expand-multiple-inline-hide
-;;
-;; SKK は, SKK Development Team さんに Copyright があります.
-;;
-;; また, dabbrev-expand-multiple へのアドバイスは,
-;; dabbrev-ja.el を元に改造させてもらいました.
-;; dabbrev-ja.el は, TSUCHIYA Masatoshi さんに Copyright があります.
-
 ;; following functions was remodeled by based on functions of SKK.
 ;;
 ;; dabbrev-expand-multiple-in-minibuffer-p
@@ -135,10 +99,11 @@
 
 (require 'dabbrev)
 
-(defconst dabbrev-expand-multiple-version "1.1.0"
-  "dabbrev-expand-multiple のバージョン
 
-dabbrev-expand-multiple's version")
+;; Variables:
+
+(defconst dabbrev-expand-multiple-version "1.1.1"
+  "dabbrev-expand-multiple's version")
 
 (defgroup dabbrev-expand-multiple nil
   "dabbrev-expand for multiple"
@@ -146,99 +111,78 @@ dabbrev-expand-multiple's version")
   :group 'dabbrev-expand-multiple)
 
 (defcustom dabbrev-expand-multiple-select-keys
-  ;; '("" "" "" "" "")
-  ;; キーを増やしていくと C-g に当たったためコントロール文字は避ける
   '("a" "s" "d")
-;;  '("a" "s" "d" "f" "g")
-  "*候補を選択するために使用するキー設定.
-
-Key config for selecting options."
+  "*Key config for selecting options."
   :type  '(repeat string)
   :group 'dabbrev-expand-multiple)
 
 (defcustom dabbrev-expand-multiple-multi-selection-keys '("\M-/")
-  "*複数候補表示へ移るためのキー設定
-
-Key config for moving to multiple option displaying menu."
+  "*Key config for moving to multiple option displaying menu."
   :type  '(repeat string)
   :group 'dabbrev-expand-multiple)
 
 (defcustom dabbrev-expand-multiple-next-keys '("\M-/" " ")
-  "*次の補完リストの項目へ移るためのキー設定
-
-Key config for moving to next complementarity list."
+  "*Key config for moving to next complementarity list."
   :type  '(repeat string)
   :group 'dabbrev-expand-multiple)
 
 (defcustom dabbrev-expand-multiple-previous-keys '("x" "\177")
-  "*前の補完リストの項目へ移るためのキー設定
-
-Key config for moving to previous complementarity list."
+  "*Key config for moving to previous complementarity list."
   :type  '(repeat string)
   :group 'dabbrev-expand-multiple)
 
 (defcustom dabbrev-expand-multiple-tooltip-timeout 2000
-  "*ツールチップを表示する秒数.
-
-Seconds for displaying tooltip."
+  "*Seconds for displaying tooltip."
   :type  'number
   :group 'dabbrev-expand-multiple)
 
 (defcustom dabbrev-expand-multiple-tooltip-params nil
-  "*ツールチップの見た目の設定.
-
-Face config for tooltip."
+  "*Face config for tooltip."
   :type 'boolean
   :group 'dabbrev-expand-multiple)
 
 (defcustom dabbrev-expand-multiple-highlight-face 'highlight
-  "*最初の文字列を展開したときにかける見た目の変更.
-
-Face to highlight frist time expanded string."
+  "*Face to highlight frist time expanded string."
   :type 'face
   :group 'dabbrev-expand-multiple)
 
 (defcustom dabbrev-expand-multiple-inline-show-face 'underline
-  "*インラインで候補を表示する際のフェイスを指定する変数。
-候補文字列のフェイス属性をそのまま使いたい場合は nil に設定する。
-SKK の skk-inline-show-face より.
-
-A Variable to appoint a face when display a option in inline.
+  "*A Variable to appoint a face when display a option in inline.
 By skk-inline-show-face of SKK."
-  :type '(radio (face  :tag "フェイスを指定")
-                (const :tag "候補文字列のフェイス属性をそのまま使用"))
+  :type '(radio (face  :tag "Specify face")
+                (const :tag "Use default face attribute of candidate string."))
   :group 'dabbrev-expand-multiple)
 
 (defcustom dabbrev-expand-multiple-use-tooltip t
-  "*ツールチップを使って表示するかどうか.
-
-Non-nil means to use tooltip."
+  "*Non-nil means to use tooltip."
   :type 'boolean
   :group 'dabbrev-expand-multiple)
 
 (defvar dabbrev-expand-multiple-inline-overlay nil)
 (defvar dabbrev-expand-multiple-last-key nil)
 
+
+;; Functions:
+
 (defun dabbrev-expand-multiple ()
-  "補完候補を複数掲示する動的略語展開を行う関数.
+  "The function that do dynamic abbrev expansion for multiple selection.
 
-関数を実行すると, 通常の dabbrev-expand と同様に, 1つの候補のみが補完される.
-その補完が自分の求めるものでなかった場合,
-dabbrev-expand-multiple を起動したキー, もしくは,
-M-/ をもう一度押すことで, 複数の補完候補の掲示が行われる.
+When you executed the function, the function behaves as well as normal
+dabbrev-expand. It complement only one candidate.
+If that candidate is not something that you want, It displays multiple
+selection by pushing `M-/' or key that launch dabbrev-expand-multiple.
 
-デフォルトで掲示される補完候補の数は, 3つである.
-この数は, dabbrev-expand-multiple-select-keys により, 制御される.
-この変数内の補完候補の選択に使用するキーを増やすことで,
-一度に表示される補完候補の数も, それに応じて増加する.
+The abbrev displayed at a time is three in default.
+This number is controled by `dabbrev-expand-multiple-select-keys'.
 
-補完候補の表示は, ミニバッファ, インライン, tooltip の3種類が用意されている.
-変数 dabbrev-expand-multiple-use-tooltip を t とすると
-ツールチップでの表示を行う.
-nil ならば, インラインでの表示を行う.
-nil でかつ, ポイントがミニバッファにあった場合は, ミニバッファでの表示を行う.
-
-The function that do dynamic abbrev expansion for multiple selection."
+style format is prepared three types.
+- minibuffer
+- inline
+- tooltip
+if variable `dabbrev-expand-multiple-use-tooltip' is non-nil,
+display by tooltip.
+Nil means displaying inline.
+If variable is nil, And point is minibuffer, display by minibuffer."
   (interactive)
   ;; reset dabbrev's global variables
   (dabbrev--reset-global-variables)
@@ -276,9 +220,7 @@ The function that do dynamic abbrev expansion for multiple selection."
       (message "No dynamic expansion for `%s' found" target)))))
 
 (defun dabbrev-expand-multiple-main (num alist)
-  "補完候補を複数掲示する動的略語展開のメイン部分を担う関数.
-
-The function that do main part of dynamic abbrev expansion for
+  "The function that do main part of dynamic abbrev expansion for
 multiple selection."
   ;; setting local variable
   (let* ((target (dabbrev--abbrev-at-point))
@@ -321,8 +263,9 @@ multiple selection."
                (y (cddr P))
                (oP (mouse-position))
                (oframe (car oP))
-               ;; マウスカーソルがフレーム上にないと,
-               ;; 元のマウス位置が取得できず, エラーが出るので, その対策.
+               ;; unless mouse curosr is on the frame,
+               ;; not be able to get original mouse position.
+               ;; this line is the countermeasure.
                (ox (or (cadr oP) 0))
                (oy (or (cddr oP) 15)))
           ;; move mouse position.
@@ -353,7 +296,7 @@ multiple selection."
        ;; exit while loop
        (t (setq num -1))))
     (cond
-     ;; dabbrev-expand-multiple-select-keys 以外のキーが押された
+     ;; pushed a key except dabbrev-expand-multiple-select-keys
      ((or (= sel 0) (> sel (length abbrev-list)))
       (dabbrev-expand-multiple-do-last-command action))
      (t
@@ -362,8 +305,10 @@ multiple selection."
        (substring (nth (1- sel) abbrev-list) (length target)))))))
 
 (defun dabbrev-expand-multiple-selection-keys-p (action keys &optional last)
-  "dabbrev-expand-multiple を起動するために使用したキーと同じキー,
-もしくは keys のうちどれかが押されたかどうかをチェックする"
+  "Check whether these keys were pushed.
+1. A key same as the key which you used to lauch dabbrev-expand-multiple.
+2. one of variables keys.
+"
   (not (not (memq (aref action 0)
                   (apply 'append
                          (when last
@@ -382,42 +327,34 @@ multiple selection."
                           keys))))))
 
 (defun dabbrev-expand-multiple-do-last-command (action)
-  "入力したキーに割り当てられているコマンドを実行する"
+  "Execute command assigned to the key which you input."
   (let ((last-command-char (aref action 0))
         (command (key-binding action)))
     (when command
       (call-interactively command))
     (message "")))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; SKK より拝借した関数群
-;;; ------------------------------------------------------------
-;; 関数名を dabbrev-expand-multiple に合わせて変更しているのみで,
-;; 内容は, ほぼそのままです.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Functions from SKK
 
 (defun dabbrev-expand-multiple-in-minibuffer-p ()
-  "カレントバッファがミニバッファかどうかをチェックする。
-SKK の skk-in-minibuffer-p をそのまま拝借させて頂きました."
+  "Check whether point is current-buffer or minibuffer.
+by skk-in-minibuffer-p of SKK."
   (eq (current-buffer) (window-buffer (minibuffer-window))))
 
 (defun dabbrev-expand-multiple-show-tooltip (text)
-  "ツールチップを表示する関数.
-ツールチップを適切な位置に表示するために, マウスカーソルの移動を行っている.
-これは, ツールチップは, マウスカーソルのある場所付近に表示されるため.
-ツールチップを表示した後, マウスカーソルは元の場所に戻る.
-ほぼ SKK の skk-tooltip-show-1 のコピー.
-変数設定を dabbrev-expand-multiple-tooltip-params にしたのみ."
+  "Display tooltip.
+by skk-tooltip-show-1 of SKK."
   (condition-case error
       (let ((params (copy-sequence tooltip-frame-parameters))
             fg bg)
         (if dabbrev-expand-multiple-tooltip-params
-            ;; ユーザが独自に tooltip 表示設定する
+            ;; tooltip display config for user
             (dolist (cell dabbrev-expand-multiple-tooltip-params)
               (setq params (tooltip-set-param params
                                               (car cell)
                                               (cdr cell))))
-          ;; tooltip のデフォルトの設定をする
+          ;; set the default of tooltip
           (setq fg (face-attribute 'tooltip :foreground))
           (setq bg (face-attribute 'tooltip :background))
           (when (stringp fg)
@@ -440,8 +377,7 @@ SKK の skk-in-minibuffer-p をそのまま拝借させて頂きました."
   "Return the position of point as (FRAME X . Y).
 Analogous to mouse-position.
 
-SKK の skk-e21-mouse-position をほぼ流用.
-ミニバッファを振り分けていたのを消し, コメントを削除してしまったぐらい."
+by skk-e21-mouse-position of SKK."
   (let* ((w (selected-window))
          (edges (window-edges w))
          (list
@@ -458,8 +394,8 @@ SKK の skk-e21-mouse-position をほぼ流用.
                 (+ (car (cdr edges)) (car (cdr (cdr list))))))))
 
 (defun dabbrev-expand-multiple-inline-show (string face)
-  "overlay を使用して, 文字列をインライン表示する関数.
-SKK の skk-inline-show より名前を変更して拝借させて頂きました."
+  "Display string on inline by using overlay.
+by skk-inline-show of SKK."
   (dabbrev-expand-multiple-inline-hide)
   (unless (dabbrev-expand-multiple-in-minibuffer-p)
     (setq dabbrev-expand-multiple-inline-overlay
@@ -470,18 +406,18 @@ SKK の skk-inline-show より名前を変更して拝借させて頂きました."
                         (if face `(face ,face) nil)))))
 
 (defun dabbrev-expand-multiple-inline-hide ()
-  "dabbrev-expand-multiple-inline-show でのオーバレイを削除する関数.
-SKK の skk-inline-hide より名前を変更して拝借させて頂きました."
+  "Delete overlay of dabbrev-expand-multiple-inline-show.
+by skk-inline-hide of SKK."
   (when dabbrev-expand-multiple-inline-overlay
     (delete-overlay dabbrev-expand-multiple-inline-overlay)
     (setq dabbrev-expand-multiple-inline-overlay nil)))
 
-;; 日本語の単語に対応するようにする設定
-;; from http://namazu.org/~tsuchiya/elisp/dabbrev-ja.el
-;; dabbrev-expand に対するアドバイスを dabbrev-expand-multiple
-;; に変更したのみでそのまま持ってこさせて頂きました.
-(or (boundp 'MULE)                      ; Mule2 と
-    (featurep 'xemacs)                  ; XEmacs は設定不要
+
+;; From http://namazu.org/~tsuchiya/elisp/dabbrev-ja.el
+
+;; dabbrev-expand-multiple for japanese words.
+(or (boundp 'MULE)                      ; Mule2 and
+    (featurep 'xemacs)                  ; XEmacs are setting-free.
     (let (current-load-list)
       (defadvice dabbrev-expand-multiple
         (around modify-regexp-for-japanese activate compile)
@@ -505,4 +441,9 @@ SKK の skk-inline-hide より名前を変更して拝借させて頂きました."
             ad-do-it)))))
 
 (provide 'dabbrev-expand-multiple)
+
+;; Local Variables:
+;; Coding: iso-2022-7bit
+;; End:
+
 ;; dabbrev-expand-multiple.el ends here

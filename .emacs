@@ -238,13 +238,13 @@
 (load "mmm-mode-setting")
 
 ;; javascript-mode js2-mode
-;; (autoload 'js2-mode "js2" nil t)
-;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 ;; javascript-mode
-(add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|json\\|jsn\\)\\'" 'javascript-mode))
-(autoload 'javascript-mode "javascript" nil t)
-(setq js-indent-level 4)
+;; (add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|json\\|jsn\\)\\'" 'javascript-mode))
+;; (autoload 'javascript-mode "javascript" nil t)
+;; (setq js-indent-level 4)
 
 ;; css-mode
 ;; http://www.garshol.priv.no/download/software/css-mode/doco.html
@@ -398,3 +398,7 @@
 ;; cucumber.el
 (setq load-path (cons (expand-file-name "~/.emacs.d/cucumber.el") load-path))
 (require 'cucumber-mode)
+
+;; ejacs
+(add-to-list 'load-path "~/.emacs.d/ejacs")  ; change this to the real location!
+(autoload 'js-console "js-console" nil t)
