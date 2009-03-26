@@ -29,25 +29,11 @@
 ;; バックアップしない
 (setq make-backup-files nil)
 
+;; 環境別設定
+(load "local-settings")
+
 ;; C-x C-iでリージョンをインデント
 (global-set-key "\C-x\C-i" 'indent-region)
-
-;; ;; アンチエイリアス設定
-;; (set-face-font 'default "-sazanami-gothic-medium-r-normal--0-0-0-0-c-0-jisx0212.1990-0")
-
-;; (cond (window-system
-;;        (set-default-font
-;;         "-*-fixed-medium-r-normal--12-*-*-*-*-*-*-*")
-;;        (progn
-;;          (set-face-font 'default
-;;                         "-shinonome-gothic-medium-r-normal--12-*-*-*-*-*-*-*")
-;;         (set-face-font 'bold
-;;                         "-shinonome-gothic-bold-r-normal--12-*-*-*-*-*-*-*")
-;;          (set-face-font 'italic
-;;                         "-shinonome-gothic-medium-i-normal--12-*-*-*-*-*-*-*")
-;;          (set-face-font 'bold-italic
-;;                         "-shinonome-gothic-bold-i-normal--12-*-*-*-*-*-*-*")
-;;        )))
 
 ;; C-hでbackspace
 ;(keyboard-translate ?\C-h ?\C-?)
