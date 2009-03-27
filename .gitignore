@@ -8,3 +8,4 @@
 *.elc
 /.emacs.d/tramp
 /.emacs.d/anything-hatena-bookmark.el?format=raw
+/.emacs.d/local-settings.el
