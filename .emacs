@@ -388,3 +388,7 @@
 ;; ejacs
 (add-to-list 'load-path "~/.emacs.d/ejacs")  ; change this to the real location!
 (autoload 'js-console "js-console" nil t)
+
+;; haml-mode/sass-mode
+(require 'sass-mode)
+(require 'haml-mode)
