@@ -1,6 +1,6 @@
 ;; setenv PATH
 (setenv "PATH" (concat "/opt/local/bin:" (getenv "PATH")))
-(dolist (dir (mapcar 'expand-file-name '("/usr/local/bin")))
+(dolist (dir (mapcar 'expand-file-name '("/opt/local/bin")))
   (setenv "PATH" (concat dir ":" (getenv "PATH")))
   (setq exec-path (append (list dir) exec-path)))
 
