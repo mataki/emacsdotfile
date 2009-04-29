@@ -10,3 +10,6 @@
 [submodule ".emacs.d/rhtml"]
 	path = .emacs.d/rhtml
 	url = git://github.com/eschulte/rhtml.git
+[submodule ".emacs.d/yasnippets-rails"]
+	path = .emacs.d/yasnippets-rails
+	url = git://github.com/eschulte/yasnippets-rails.git

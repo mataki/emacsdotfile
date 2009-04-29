@@ -73,16 +73,6 @@
 (color-theme-initialize)
 (color-theme-robin-hood)
 
-;; anything-c-source-kill-ring
-(defvar anything-c-source-kill-ring
-    '((name . "Kill Ring")
-      (candidates . (lambda ()
-                      (loop for kill in kill-ring
-                            unless (string-match "^[\\s\\t]+$" kill)
-                            collect kill)))
-      (action . insert)
-      (migemo)
-      (multiline)))
 ;; moccur
 (require 'color-moccur)
 (eval-after-load "color-moccur"
@@ -92,7 +82,6 @@
 (setq dmoccur-exclusion-mask
       (append '("\\~$" "\\.svn\\/\*" "\\.git\\/\*") dmoccur-exclusion-mask))
 
-
 ;; http://d.hatena.ne.jp/IMAKADO/20080724/1216882563
 ;;; color-moccur.elの設定
 ;; 複数の検索語や、特定のフェイスのみマッチ等の機能を有効にする
@@ -101,74 +90,16 @@
 ;; migemoがrequireできる環境ならmigemoを使う
 (when (require 'migemo nil t) ;第三引数がnon-nilだとloadできなかった場合にエラーではなくnilを返す
   (setq moccur-use-migemo t))
-
-;; anything
-(require 'anything-config)
-(require 'anything)
-(setq anything-idle-delay 0.3)
-(setq anything-input-idle-delay 0)
-(setq anything-candidate-number-limit 100)
-(require 'anything-c-mx)
-(require 'anything-etags)
-(require 'anything-auto-install)
-(require 'anything-rcodetools)
-(setq rct-get-all-methods-command "PAGER=cat fri -l")
-(define-key anything-map "\C-z" 'anything-execute-persistent-action)
-;; http://d.hatena.ne.jp/rubikitch/20080701/1214844444
-;; (require 'anything-dabbrev-expand)
-;; (setq anything-dabbrev-input-idle-delay 0.0)
-;; (setq anything-dabbrev-idle-delay 1.0)
-
-;; keybind
-(global-set-key (kbd "C-;") 'anything)
-(global-set-key (kbd "C-^") 'anything)
-(define-key anything-map (kbd "C-p") 'anything-previous-line)
-(define-key anything-map (kbd "C-n") 'anything-next-line)
-(define-key anything-map (kbd "C-v") 'anything-next-source)
-(define-key anything-map (kbd "M-v") 'anything-previous-source)
-;; source list
-(setq anything-sources (list anything-c-source-buffers
-                              anything-c-source-emacs-commands
-                              anything-c-source-emacs-functions
-                              anything-c-source-recentf
-;;                              anything-c-source-mx
-                             anything-c-source-bookmarks
-;;                              anything-c-source-etags-select
-                             anything-c-source-file-name-history
-                             anything-c-source-locate
-                             anything-c-source-complex-command-history
-                             anything-c-source-kill-ring
-                             anything-c-source-auto-install-from-emacswiki
-                             ))
-
-;;; anything-c-moccurの設定
-(require 'anything-c-moccur)
-;; カスタマイズ可能変数の設定(M-x customize-group anything-c-moccur でも設定可能)
-(setq anything-c-moccur-anything-idle-delay 0.2 ;`anything-idle-delay'
-      anything-c-moccur-higligt-info-line-flag t ; `anything-c-moccur-dmoccur'などのコマンドでバッファの情報をハイライトする
-      anything-c-moccur-enable-auto-look-flag t ; 現在選択中の候補の位置を他のwindowに表示する
-      anything-c-moccur-enable-initial-pattern t) ; `anything-c-moccur-occur-by-moccur'の起動時にポイントの位置の単語を初期パターンにする
-
-;;; キーバインドの割当(好みに合わせて設定してください)
-(global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
-(global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
-(add-hook 'dired-mode-hook ;dired
-          '(lambda ()
-             (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
-
 ;; WidenWindow http://d.hatena.ne.jp/rubikitch/20081113/1226575019
 (require 'widen-window)
 (setq ww-ratio 0.65)
 (global-widen-window-mode 1)
-;;(diminish 'widen-window-mode " WW")
+;; (diminish 'widen-window-mode " WW")
 (defadvice anything (around disable-ww-mode activate)
   (ad-deactivate-regexp "widen-window")
   (unwind-protect
       ad-do-it
     (ad-activate-regexp "widen-window")))
-
-(require 'anything-complete)
-(anything-lisp-complete-symbol-set-timer 150)
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 ;; (load "dabbrev-ja")
@@ -369,7 +300,7 @@
 (setq ac-auto-start 4)
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
-
+(require 'auto-complete-extension)
 
 ;; magit http://gitorious.org/projects/magit/repos/mainline
 (setq load-path (cons (expand-file-name "~/.emacs.d/magit") load-path))
@@ -421,3 +352,85 @@
           (lambda () (rinari-launch)))
 
 ;; yasnippet
+(setq load-path (cons (expand-file-name "~/.emacs.d/yasnippet-0.5.10") load-path))
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets")
+
+;; ------------------------------
+;; anything
+;; ------------------------------
+(require 'anything-config)
+(require 'anything)
+(setq anything-idle-delay 0.3)
+(setq anything-input-idle-delay 0)
+(setq anything-candidate-number-limit 100)
+(require 'anything-c-mx)
+(require 'anything-etags)
+(require 'anything-auto-install)
+(require 'anything-rcodetools)
+(setq rct-get-all-methods-command "PAGER=cat fri -l")
+(define-key anything-map "\C-z" 'anything-execute-persistent-action)
+;; anything-c-source-kill-ring
+(defvar anything-c-source-kill-ring
+    '((name . "Kill Ring")
+      (candidates . (lambda ()
+                      (loop for kill in kill-ring
+                            unless (string-match "^[\\s\\t]+$" kill)
+                            collect kill)))
+      (action . insert)
+      (migemo)
+      (multiline)))
+(require 'anything-c-yasnippet)
+(setq anything-c-yas-space-match-any-greedy t) ;スペース区切りで絞り込めるようにする デフォルトは nil
+(global-set-key (kbd "C-c y") 'anything-c-yas-complete) ;C-c yで起動 (同時にお使いのマイナーモードとキーバインドがかぶるかもしれません)
+
+;; http://d.hatena.ne.jp/rubikitch/20080701/1214844444
+;; (require 'anything-dabbrev-expand)
+;; (setq anything-dabbrev-input-idle-delay 0.0)
+;; (setq anything-dabbrev-idle-delay 1.0)
+
+;; keybind
+(global-set-key (kbd "C-;") 'anything)
+(global-set-key (kbd "C-^") 'anything)
+(define-key anything-map (kbd "C-p") 'anything-previous-line)
+(define-key anything-map (kbd "C-n") 'anything-next-line)
+(define-key anything-map (kbd "C-v") 'anything-next-source)
+(define-key anything-map (kbd "M-v") 'anything-previous-source)
+;; source list
+(setq anything-sources (list anything-c-source-buffers
+;;                           anything-c-source-yas-complete
+                             anything-c-source-emacs-commands
+                             anything-c-source-emacs-functions
+                             anything-c-source-recentf
+;;                              anything-c-source-mx
+                             anything-c-source-bookmarks
+;;                              anything-c-source-etags-select
+                             anything-c-source-file-name-history
+                             anything-c-source-locate
+                             anything-c-source-complex-command-history
+                             anything-c-source-kill-ring
+                             anything-c-source-auto-install-from-emacswiki
+                             ))
+
+;;; anything-c-moccurの設定
+(require 'anything-c-moccur)
+;; カスタマイズ可能変数の設定(M-x customize-group anything-c-moccur でも設定可能)
+(setq anything-c-moccur-anything-idle-delay 0.2 ;`anything-idle-delay'
+      anything-c-moccur-higligt-info-line-flag t ; `anything-c-moccur-dmoccur'などのコマンドでバッファの情報をハイライトする
+      anything-c-moccur-enable-auto-look-flag t ; 現在選択中の候補の位置を他のwindowに表示する
+      anything-c-moccur-enable-initial-pattern t) ; `anything-c-moccur-occur-by-moccur'の起動時にポイントの位置の単語を初期パターンにする
+
+;;; キーバインドの割当(好みに合わせて設定してください)
+(global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
+(global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
+(add-hook 'dired-mode-hook ;dired
+          '(lambda ()
+             (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
+
+;; anything-complete
+(require 'anything-complete)
+(anything-lisp-complete-symbol-set-timer 150)
+
+
+
