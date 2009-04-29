@@ -48,6 +48,10 @@
 (define-key ctl-x-map "p"
   #'(lambda (arg) (interactive "p") (other-window (- arg))))
 
+;; ido-mode
+(require 'ido)
+(ido-mode t)
+
 ;; 矩形
 ;; http://taiyaki.org/elisp/sense-region/
 (autoload 'sense-region-on "sense-region"
@@ -62,6 +66,31 @@
 ;; linum
 (require 'linum)
 (global-linum-mode)
+
+;; -----------------------------
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(ac-dwim t)
+ '(js2-basic-offset 4)
+ '(rails-ws:default-server-type "mongrel")
+ '(ruby-insert-encoding-magic-comment nil)
+ '(ruby-use-encoding-map t)
+ '(untabify-exclude-list (quote (makefile-mode makefile-bsdmake-mode change-log-mode "Makefile$" Emacs-Lisp))))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(flymake-errline ((((class color)) (:background "red"))))
+ '(mmm-code-submode-face ((t (:background "DarkGray"))))
+ '(mmm-declaration-submode-face ((t (:background "Aquamarine" :foreground "black"))))
+ '(mmm-default-submode-face ((t (:background "dark slate gray"))))
+ '(mmm-output-submode-face ((t (:background "DarkGreen"))))
+ '(rst-level-1-face ((t (:background "grey10"))) t)
+ '(rst-level-2-face ((t (:background "grey20"))) t))
 
 ;; ------------------------------
 ;; color-theme
@@ -179,6 +208,9 @@
 ;; http://www.bookshelf.jp/soft/meadow_28.html#SEC357
 (require 'ibuffer)
 
+;; ------------------------------
+;; mode / 編集モード
+;; ------------------------------
 ;; mmm-mode
 (setq load-path (cons (expand-file-name "~/.emacs.d/mmm-mode") load-path))
 (require 'mmm-mode)
@@ -203,32 +235,6 @@
 (setq auto-mode-alist
      (cons '("\\.css\\'" . css-mode) auto-mode-alist))
 
-;; -----------------------------
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(ac-dwim t)
- '(js2-basic-offset 4)
- '(rails-ws:default-server-type "mongrel")
- '(ruby-insert-encoding-magic-comment nil)
- '(ruby-use-encoding-map t)
- '(untabify-exclude-list (quote (makefile-mode makefile-bsdmake-mode change-log-mode "Makefile$" Emacs-Lisp))))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(flymake-errline ((((class color)) (:background "red"))))
- '(mmm-code-submode-face ((t (:background "DarkGray"))))
- '(mmm-declaration-submode-face ((t (:background "Aquamarine" :foreground "black"))))
- '(mmm-default-submode-face ((t (:background "dark slate gray"))))
- '(mmm-output-submode-face ((t (:background "DarkGreen"))))
- '(rst-level-1-face ((t (:background "grey10"))) t)
- '(rst-level-2-face ((t (:background "grey20"))) t))
-
-(put 'narrow-to-region 'disabled nil)
 ;; ------------------------------
 ;; git
 ;; ------------------------------
@@ -250,10 +256,6 @@
 ;; egg git http://github.com/bogolisk/egg/tree/master
 ;; (setq load-path (cons (expand-file-name "~/.emacs.d/egg") load-path))
 ;; (require 'egg)
-
-;; ido-mode
-(require 'ido)
-(ido-mode t)
 
 ;; howm
 (setq load-path (cons (expand-file-name "~/.emacs.d/hown") load-path))
@@ -391,6 +393,29 @@
 (require 'key-chord)
 (key-chord-mode 1)
 (key-chord-define-global "df" 'describe-bindings)
+(key-chord-define-global "re" 'remember)
+(key-chord-define-global "ms" 'magit-status)
+
+;; ------------------------------
+;; org-mode
+;; ------------------------------
+;; (setq load-path (cons (expand-file-name "~/.emacs.d/org-mode") load-path))
+;; (setq load-path (cons (expand-file-name "~/.emacs.d/remember-el") load-path))
+;; (autoload 'remember "remember" nil t)
+;; (require 'remember)
+;; (require 'org-install)
+;; (setq org-startup-truncated nil)
+;; (setq org-return-follows-link t)
+;; (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+;; (org-remember-insinuate)
+;; (setq org-directory "~/memo/")
+;; (setq org-default-notes-file (concat org-directory "agenda.org"))
+;; (setq org-remember-templates
+;;       '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
+;;         ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
+;;         ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
+;;         ))
+
 
 ;; ------------------------------
 ;; anything
