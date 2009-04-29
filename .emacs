@@ -117,7 +117,7 @@
 ;; http://dev.ariel-networks.com/Members/matsuyama/auto-complete
 (require 'auto-complete)
 (global-auto-complete-mode t)
-;;(setq ac-auto-start 4)
+;; (setq ac-auto-start nil)
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 (require 'auto-complete-extension)
@@ -293,6 +293,8 @@
 ;; ------------------------------
 ;; ruby
 ;; ------------------------------
+(setq load-path (cons (expand-file-name "~/.emacs.d/ruby-mode") load-path))
+(require 'ruby-mode)
 ;; ri-emacs
 (setq ri-ruby-script "~/.emacs.d/ri-emacs/ri-emacs.rb")
 (setq load-path (cons (expand-file-name "~/.emacs.d/ri-emacs") load-path))
@@ -311,9 +313,9 @@
 (require 'auto-complete-ruby)
 ;; (setq ac-omni-completion-sources
 ;;   '((ruby-mode . (("\\.\\=" . (ac-source-rcodetools))))))
-;; (add-hook 'ruby-mode-hook
-;;           (lambda ()
-;;             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 
 ;; ------------------------------
 ;; rails
@@ -321,7 +323,6 @@
 ;; emacs-rails
 ;; http://rubyforge.org/projects/emacs-rails/
 ;; http://d.hatena.ne.jp/higepon/20061222/1166774270
-(setq load-path (cons (expand-file-name "~/.emacs.d/ruby-mode") load-path))
 (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
 (require 'rails)
 
