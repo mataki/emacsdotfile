@@ -115,13 +115,6 @@
 ;; (require 'dabbrev-expand-multiple)
 ;; (global-set-key "\M-/" 'dabbrev-expand-multiple)
 
-;; emacs-rails
-;; http://rubyforge.org/projects/emacs-rails/
-;; http://d.hatena.ne.jp/higepon/20061222/1166774270
-(setq load-path (cons (expand-file-name "~/.emacs.d/ruby-mode") load-path))
-(setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
-(require 'rails)
-
 ;; wdiredhttp://www.bookshelf.jp/soft/meadow_25.html#SEC296
 ;; diredでファイル名を一括リネーム
 (require 'wdired)
@@ -204,22 +197,31 @@
  '(rst-level-2-face ((t (:background "grey20"))) t))
 
 (put 'narrow-to-region 'disabled nil)
+;; ------------------------------
+;; git
+;; ------------------------------
 
 ;; git-emacs
 ;; http://d.hatena.ne.jp/xcezx/20080425/1209081657
 ;; http://tsgates.cafe24.com/git/git-emacs.html
-(setq load-path (cons (expand-file-name "~/.emacs.d/git-emacs") load-path))
-(require 'vc-git)
-(require 'imenu)
+;; (setq load-path (cons (expand-file-name "~/.emacs.d/git-emacs") load-path))
+;; (require 'vc-git)
+;; (require 'imenu)
 
-(require 'git-emacs)
+;; (require 'git-emacs)
+
+;; magit http://gitorious.org/projects/magit/repos/mainline
+(setq load-path (cons (expand-file-name "~/.emacs.d/magit") load-path))
+(require 'magit)
+(autoload 'magit-status "magit" nil t)
+
+;; egg git http://github.com/bogolisk/egg/tree/master
+;; (setq load-path (cons (expand-file-name "~/.emacs.d/egg") load-path))
+;; (require 'egg)
 
 ;; ido-mode
 (require 'ido)
 (ido-mode t)
-
-;; rcodetools
-(require 'rcodetools)
 
 ;; howm
 (setq load-path (cons (expand-file-name "~/.emacs.d/hown") load-path))
@@ -265,6 +267,9 @@
                (font-lock-mode t)
                (font-lock-fontify-buffer))))
 
+;; ------------------------------
+;; ruby
+;; ------------------------------
 ;; ri-emacs
 (setq ri-ruby-script "~/.emacs.d/ri-emacs/ri-emacs.rb")
 (setq load-path (cons (expand-file-name "~/.emacs.d/ri-emacs") load-path))
@@ -274,17 +279,44 @@
 ;;                               (local-set-key 'f4 'ri-ruby-show-args)
 ;;                               ))
 
+;; ruby-block
+(require 'ruby-block)
+(ruby-block-mode t)
+
+;; rcodetools
+(require 'rcodetools)
+
+;; ------------------------------
+;; rails
+;; ------------------------------
+;; emacs-rails
+;; http://rubyforge.org/projects/emacs-rails/
+;; http://d.hatena.ne.jp/higepon/20061222/1166774270
+(setq load-path (cons (expand-file-name "~/.emacs.d/ruby-mode") load-path))
+(setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
+(require 'rails)
+
+;; rinari
+;; http://d.hatena.ne.jp/willnet/20090110/1231595231
+;; http://github.com/eschulte/rinari/tree/master
+(add-to-list 'load-path "~/.emacs.d/rinari")
+(require 'rinari)
+
+;; rhtml using in rinari
+(add-to-list 'load-path "~/.emacs.d/rhtml")
+(require 'rhtml-mode)
+(add-hook 'rhtml-mode-hook
+          (lambda () (rinari-launch)))
+
 ;; install-elisp
 (require 'install-elisp)
 (setq install-elisp-repository-directory "~/.emacs.d/")
 
+;; vim
 (setq viper-mode nil)
 (setq viper-inhibit-startup-message 't)
 (setq viper-expert-level '1)
 (require 'viper)
-
-(fset 'gettext_blkt
-   "\C-s'\C-r\C-r\C-m_(\C-s\C-s\C-s\C-m)")
 
 ;; 同じファイル名のファイルを開いた際に親ディレクトリ名前を表示する
 (require 'uniquify)
@@ -301,15 +333,6 @@
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 (require 'auto-complete-extension)
-
-;; magit http://gitorious.org/projects/magit/repos/mainline
-(setq load-path (cons (expand-file-name "~/.emacs.d/magit") load-path))
-(require 'magit)
-(autoload 'magit-status "magit" nil t)
-
-;; egg git http://github.com/bogolisk/egg/tree/master
-;; (setq load-path (cons (expand-file-name "~/.emacs.d/egg") load-path))
-;; (require 'egg)
 
 ;; rst-mode
 (autoload 'rst-mode "rst-mode" "mode for editing reStructuredText documents" t)
@@ -338,18 +361,6 @@
 (setq auto-install-directory "~/.emacs.d/")
 (auto-install-update-emacswiki-package-name t)
 (auto-install-compatibility-setup)
-
-;; rinari
-;; http://d.hatena.ne.jp/willnet/20090110/1231595231
-;; http://github.com/eschulte/rinari/tree/master
-(add-to-list 'load-path "~/.emacs.d/rinari")
-(require 'rinari)
-
-;; rhtml using in rinari
-(add-to-list 'load-path "~/.emacs.d/rhtml")
-(require 'rhtml-mode)
-(add-hook 'rhtml-mode-hook
-          (lambda () (rinari-launch)))
 
 ;; yasnippet
 (setq load-path (cons (expand-file-name "~/.emacs.d/yasnippet-0.5.10") load-path))
@@ -420,7 +431,7 @@
                              anything-c-source-locate
                              anything-c-source-complex-command-history
                              anything-c-source-kill-ring
-;;                             anything-c-source-auto-install-from-emacswiki
+                             anything-c-source-auto-install-from-emacswiki
                              ))
 
 ;;; anything-c-moccurの設定
