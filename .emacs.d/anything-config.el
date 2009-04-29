@@ -86,6 +86,7 @@
 ;;     `anything-c-source-man-pages'  (Manual Pages)
 ;;     `anything-c-source-info-pages' (Info Pages)
 ;;     `anything-c-source-info-elisp' (Info Elisp)
+;;     `anything-c-source-info-cl'    (Info Common-Lisp)
 ;;  Command:
 ;;     `anything-c-source-complex-command-history'  (Complex Command History)
 ;;     `anything-c-source-extended-command-history' (Emacs Commands History)
@@ -100,7 +101,7 @@
 ;;     `anything-c-source-bookmarks'       (Bookmarks)
 ;;     `anything-c-source-bookmark-set'    (Set Bookmark)
 ;;     `anything-c-source-bookmarks-ssh'   (Bookmarks-ssh)
-;;     `anything-c-source-bookmarks-su'    (Bookmarks-su)
+;;     `anything-c-source-bookmarks-su'    (Bookmarks-root)
 ;;     `anything-c-source-bookmarks-local' (Bookmarks-Local)
 ;;     `anything-c-source-w3m-bookmarks'   (W3m Bookmarks)
 ;;  Library:
@@ -137,6 +138,8 @@
 ;;     `anything-c-source-calculation-result' (Calculation Result)
 ;;     `anything-c-source-google-suggest'     (Google Suggest)
 ;;     `anything-c-source-surfraw'            (Surfraw)
+;;     `anything-c-source-emms-streams'       (Emms Streams)
+;;     `anything-c-source-emms-dired'         (Music Directory)
 ;;     `anything-c-source-jabber-contacts'    (Jabber Contacts)
 ;;     `anything-c-source-call-source'        (Call anything source)
 ;;     `anything-c-source-occur'              (Occur)
@@ -161,6 +164,10 @@
 ;;    Show `minibuffer-history'.
 ;;  `anything-gentoo'
 ;;    Start anything with only gentoo sources.
+;;  `anything-surfraw-only'
+;;    Launch only anything-surfraw.
+;;  `anything-kill-buffers'
+;;    You can continuously kill buffer you selected.
 ;;  `anything-insert-buffer-name'
 ;;    Insert buffer name.
 ;;  `anything-insert-symbol'
@@ -191,6 +198,10 @@
 ;;    List all anything sources for test.
 ;;  `anything-select-source'
 ;;    Select source.
+;;  `anything-emms-stream-edit-bookmark'
+;;    Change the information of current emms-stream bookmark from anything.
+;;  `anything-emms-stream-delete-bookmark'
+;;    Delete an emms-stream bookmark from anything.
 ;;  `anything-call-source'
 ;;    Call anything source.
 ;;  `anything-call-source-from-anything'
@@ -232,6 +243,9 @@
 ;;  `anything-kill-ring-threshold'
 ;;    *Minimum length to be listed by `anything-c-source-kill-ring'.
 ;;    default = 10
+;;  `anything-su-or-sudo'
+;;    What command to use for root access.
+;;    default = "su"
 ;;  `anything-create--actions-private'
 ;;    User defined actions for `anything-create' / `anything-c-source-create'.
 ;;    default = nil
@@ -368,6 +382,11 @@ they will be displayed with face `file-name-shadow' if
   :type 'integer
   :group 'anything-config)
 
+(defcustom anything-su-or-sudo "su"
+  "What command to use for root access."
+  :type 'string
+  :group 'anything-config)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Preconfigured Anything ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun anything-for-files ()
@@ -389,7 +408,7 @@ ffap -> recentf -> buffer -> bookmark -> file-cache -> files-in-current-dir -> l
   (anything '(anything-c-source-info-elisp
               anything-c-source-info-cl
               anything-c-source-info-pages)
-            (thing-at-point 'sexp)))
+            (thing-at-point 'symbol)))
 
 (defun anything-show-kill-ring ()
   "Show `kill-ring'. It is drop-in replacement of `yank-pop'.
@@ -411,6 +430,43 @@ You may bind this command to C-r in minibuffer-local-map / minibuffer-local-comp
   (interactive)
   (anything '(anything-c-source-gentoo
               anything-c-source-use-flags)))
+
+(defun anything-surfraw-only ()
+  "Launch only anything-surfraw.
+If region is marked set anything-pattern to region.
+With one prefix arg search symbol at point.
+With two prefix args allow choosing in which symbol to search."
+  (interactive)
+  (let (search pattern)
+    (cond ((region-active-p)
+           (setq pattern (buffer-substring (region-beginning) (region-end))))
+          ((equal current-prefix-arg '(4))
+           (setq pattern (thing-at-point 'symbol)))
+          ((equal current-prefix-arg '(16))
+           (setq search
+                 (intern
+                  (completing-read "Search in: "
+                                   (list "symbol" "sentence" "sexp" "line" "word"))))
+           (setq pattern (thing-at-point search))))
+    (if pattern
+        (progn
+          (setq pattern (replace-regexp-in-string "\n" "" pattern))
+          (anything 'anything-c-source-surfraw pattern))
+        (anything 'anything-c-source-surfraw))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Anything Applications ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun anything-kill-buffers ()
+  "You can continuously kill buffer you selected."
+  (interactive)
+  (anything
+   '(((name . "Kill Buffers")
+      (candidates . anything-c-buffer-list)
+      (action
+       ("Kill Buffer" . (lambda (candidate)
+                          (kill-buffer candidate)
+                          (anything-kill-buffers)
+                          )))))
+   nil nil))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Interactive Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1018,16 +1074,12 @@ source.")
                     (loop for i in anything-c-info-cl-fn
                           if (string-match "^* [^ \n]+[^: ]" i)
                           collect (match-string 0 i))))
-    (action . (("Goto Info Node" . (lambda (candidate)
-                                     (Info-find-node "cl" "Function Index")
-                                     (Info-index (replace-regexp-in-string "* " "" candidate))))
-               ("Find Example" . (lambda (candidate)
-                                   (and (fboundp 'traverse-deep-rfind)
-                                        (traverse-deep-rfind traverse-example-directory
-                                                             (replace-regexp-in-string "* " "" candidate)
-                                                             ".el"))))))
+    (action . (lambda (candidate)
+                (Info-find-node "cl" "Function Index")
+                (Info-index (replace-regexp-in-string "* " "" candidate))))
     (volatile)
     (requires-pattern . 2)))
+;; (anything 'anything-c-source-info-cl)
 
 ;;;; <Command>
 ;;; Complex command history
@@ -1205,7 +1257,7 @@ http://www.nongnu.org/bm/")
 ;; (anything 'anything-c-source-bookmarks-ssh)
 
 (defvar anything-c-source-bookmarks-su
-  '((name . "Bookmarks-su")
+  '((name . "Bookmarks-root")
     (init . (lambda ()
               (require 'bookmark)))
     ;; DRY
@@ -1213,7 +1265,7 @@ http://www.nongnu.org/bm/")
                     (let (lis-all lis-su)
                       (setq lis-all (bookmark-all-names))
                       (setq lis-su (loop for i in lis-all
-                                         if (string-match "^(su)" i)
+                                         if (string-match (format "^(%s)" anything-su-or-sudo) i)
                                          collect i))
                       (sort lis-su 'string-lessp))))
     (candidate-transformer anything-c-highlight-bookmark-su)
@@ -1233,7 +1285,7 @@ http://www.nongnu.org/bm/")
 (defun tv-root-logged-p ()
   (catch 'break
     (dolist (i (mapcar #'buffer-name (buffer-list)))
-      (when (string-match "*tramp/su ." i)
+      (when (string-match (format "*tramp/%s ." anything-su-or-sudo) i)
         (throw 'break t)))))
 
 
@@ -1953,7 +2005,7 @@ http://en.wikipedia.org/wiki/Ruby_Document_format")
 
 (defvar anything-c-source-emacs-lisp-expectations
   '((name . "Emacs Lisp Expectations")
-    (headline . "(desc \\|(expectations")
+    (headline . "(desc[ ]\\|(expectations")
     (condition . (eq major-mode 'emacs-lisp-mode)))
   "Show descriptions (desc) in Emacs Lisp Expectations.
 
@@ -2170,7 +2222,7 @@ removed."
                                        "yahoo" "translate"
                                        "codesearch" "genpkg"
                                        "genportage" "fast" 
-                                       "filesearching" "currency")
+                                       "currency")
   "All elements of this list will appear first in results.")
 (defvar anything-c-surfraw-use-only-favorites nil
   "If non-nil use only `anything-c-surfraw-favorites'.")
@@ -2245,6 +2297,78 @@ A list of search engines."
     (delayed)))
 
 ;; (anything 'anything-c-source-surfraw)
+
+;;; Emms
+
+(defun anything-emms-stream-edit-bookmark (elm)
+  "Change the information of current emms-stream bookmark from anything."
+  (interactive)
+  (let* ((cur-buf anything-current-buffer)
+         (bookmark (assoc elm emms-stream-list))
+         (name     (read-from-minibuffer "Description: "
+                                         (nth 0 bookmark)))
+         (url      (read-from-minibuffer "URL: "
+                                         (nth 1 bookmark)))
+         (fd       (read-from-minibuffer "Feed Descriptor: "
+                                         (int-to-string (nth 2 bookmark))))
+         (type     (read-from-minibuffer "Type (url, streamlist, or lastfm): "
+                                         (format "%s" (car (last bookmark))))))
+    (save-excursion
+      (emms-streams)
+      (when (re-search-forward (concat "^" name) nil t)
+        (beginning-of-line)
+        (emms-stream-delete-bookmark)
+        (emms-stream-add-bookmark name url (string-to-number fd) type)
+        (emms-stream-save-bookmarks-file)
+        (emms-stream-quit)
+        (switch-to-buffer cur-buf)))))
+
+(defun anything-emms-stream-delete-bookmark (elm)
+  "Delete an emms-stream bookmark from anything."
+  (interactive)
+  (let* ((cur-buf anything-current-buffer)
+         (bookmark (assoc elm emms-stream-list))
+         (name (nth 0 bookmark)))
+    (save-excursion
+      (emms-streams)
+      (when (re-search-forward (concat "^" name) nil t)
+        (beginning-of-line)
+        (emms-stream-delete-bookmark)
+        (emms-stream-save-bookmarks-file)
+        (emms-stream-quit)
+        (switch-to-buffer cur-buf)))))
+
+(defvar anything-c-source-emms-streams
+  '((name . "Emms Streams")
+    (init . (lambda ()
+              (emms-stream-init)))
+    (candidates . (lambda ()
+                    (mapcar 'car emms-stream-list)))
+    (action . (("Play" . (lambda (elm)
+                           (let* ((stream (assoc elm emms-stream-list))
+                                  (fn (intern (concat "emms-play-" (symbol-name (car (last stream))))))
+                                  (url (second stream)))
+                             (funcall fn url))))
+               ("Delete" . anything-emms-stream-delete-bookmark)
+               ("Edit" . anything-emms-stream-edit-bookmark)))
+    (volatile)))
+;; (anything 'anything-c-source-emms-streams)
+
+;; Don't forget to set `emms-source-file-default-directory'
+(defvar anything-c-source-emms-dired
+  '((name . "Music Directory")
+    (candidates . (lambda ()
+                    (cddr (directory-files emms-source-file-default-directory))))
+    (action . (("Play Directory" . (lambda (item)
+                                     (emms-play-directory
+                                      (expand-file-name item
+                                                        emms-source-file-default-directory))))
+               ("Open dired in file's directory" . (lambda (item)
+                                                     (anything-c-open-dired
+                                                      (expand-file-name item
+                                                                        emms-source-file-default-directory))))))
+    (volatile)))
+;; (anything 'anything-c-source-emms-dired)
 
 ;;; Jabber Contacts (jabber.el)
 (defun anything-c-jabber-online-contacts ()
@@ -2725,7 +2849,7 @@ directory, open this directory."
     (anything-match-line-color-current-line)))
 
 (defun anything-find-file-as-root (candidate)
-  (find-file (concat "/su::" (expand-file-name candidate))))
+  (find-file (concat "/" anything-su-or-sudo "::" (expand-file-name candidate))))
 
 ;; borrowed from etags.el
 ;; (anything-c-goto-line-with-adjustment (line-number-at-pos) ";; borrowed from etags.el")
@@ -2932,6 +3056,22 @@ other candidate transformers."
                          function)
                    list)
           finally (return (nreverse list)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Marked candidates ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun anything-c-list-marked-candidate ()
+  (interactive)
+  (let (marked-candidates)
+    (with-anything-window
+      (goto-char (point-min))
+      (beginning-of-line)
+      (while (anything-next-visible-mark)
+        (push (buffer-substring-no-properties (point-at-bol) (point-at-eol)) marked-candidates)))
+    marked-candidates))
+
+(defvar anything-c-marked-candidate-list nil)
+(defadvice anything-select-action (before save-marked-candidates () activate)
+  (setq anything-c-marked-candidate-list (anything-c-list-marked-candidate)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Adaptive Sorting of Candidates ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar anything-c-adaptive-done nil
@@ -3196,6 +3336,22 @@ If optional 2nd argument is non-nil, the file opened with `auto-revert-mode'.")
   (unless recenter
     (set-window-start (get-buffer-window anything-current-buffer) (point))))
 
+(defun anything-revert-buffer (candidate)
+  (with-current-buffer candidate
+    (when (buffer-modified-p)
+      (revert-buffer t t))))
+
+(defun anything-revert-marked-buffers (candidate)
+  (dolist (i anything-c-marked-candidate-list)
+    (anything-revert-buffer i)))
+
+(defun anything-kill-marked-buffers (candidate)
+  (dolist (i anything-c-marked-candidate-list)
+    (kill-buffer i)))
+
+(defun anything-delete-marked-files (candidate)
+  (dolist (i anything-c-marked-candidate-list)
+    (anything-c-delete-file i)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Setup ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -3209,11 +3365,10 @@ If optional 2nd argument is non-nil, the file opened with `auto-revert-mode'.")
            ("Switch to buffer other window" . switch-to-buffer-other-window)
            ("Switch to buffer other frame" . switch-to-buffer-other-frame)))
      ("Display buffer"   . display-buffer)
-     ("Revert buffer" . (lambda (elm)
-                          (with-current-buffer elm
-                            (when (buffer-modified-p)
-                              (revert-buffer t t)))))
-     ("Kill buffer"      . kill-buffer))
+     ("Revert buffer" . anything-revert-buffer)
+     ("Revert Marked buffers" . anything-revert-marked-buffers)
+     ("Kill buffer" . kill-buffer)
+     ("Kill Marked buffers" . anything-kill-marked-buffers))
     (candidate-transformer . anything-c-skip-boring-buffers))
   "Buffer or buffer name.")
 
@@ -3229,6 +3384,7 @@ If optional 2nd argument is non-nil, the file opened with `auto-revert-mode'.")
            ("Find file other frame" . find-file-other-frame)))
      ("Open dired in file's directory" . anything-c-open-dired)
      ("Delete file" . anything-c-delete-file)
+     ("Delete Marked files" . anything-delete-marked-files)
      ("Open file externally" . anything-c-open-file-externally)
      ("Open file with default tool" . anything-c-open-file-with-default-tool))
     (action-transformer anything-c-transform-file-load-el

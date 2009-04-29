@@ -1,7 +1,13 @@
-対象OS
-　Ubuntu8.04
+!!! TARGET ENVIROMENT
+ Mac OS X 10.5
+ Carbon Emacs
 
-必須パッケージ
-　ruby-elisp
-　ttf-sazanami-gothic
-　ttf-sazanami-mincho
+!!! INSTALL
+$ git clone git://github.com/mataki/emacsdotfile.git
+$ cd emacsdotfile
+$ git submodule init
+$ git submodule update
+$ cd .emacs.d/rinari
+$ git submodule init
+$ git submodule update
+

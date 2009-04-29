@@ -4,3 +4,9 @@
 [submodule ".emacs.d/magit"]
 	path = .emacs.d/magit
 	url = git://gitorious.org/magit/mainline.git
+[submodule ".emacs.d/rinari"]
+	path = .emacs.d/rinari
+	url = git://github.com/eschulte/rinari.git
+[submodule ".emacs.d/rhtml"]
+	path = .emacs.d/rhtml
+	url = git://github.com/eschulte/rhtml.git

@@ -1,5 +1,8 @@
 ;; setenv PATH
 (setenv "PATH" (concat "/opt/local/bin:" (getenv "PATH")))
+(dolist (dir (mapcar 'expand-file-name '("/usr/local/bin")))
+  (setenv "PATH" (concat dir ":" (getenv "PATH")))
+  (setq exec-path (append (list dir) exec-path)))
 
 ;; load-path
 (setq load-path (cons (expand-file-name "~/.emacs.d") load-path))
@@ -107,7 +110,10 @@
 (setq anything-candidate-number-limit 100)
 (require 'anything-c-mx)
 (require 'anything-etags)
-
+(require 'anything-auto-install)
+(require 'anything-rcodetools)
+(setq rct-get-all-methods-command "PAGER=cat fri -l")
+(define-key anything-map "\C-z" 'anything-execute-persistent-action)
 ;; http://d.hatena.ne.jp/rubikitch/20080701/1214844444
 ;; (require 'anything-dabbrev-expand)
 ;; (setq anything-dabbrev-input-idle-delay 0.0)
@@ -122,7 +128,9 @@
 (define-key anything-map (kbd "M-v") 'anything-previous-source)
 ;; source list
 (setq anything-sources (list anything-c-source-buffers
-;;                              anything-c-source-emacs-commands
+                              anything-c-source-emacs-commands
+                              anything-c-source-emacs-functions
+                              anything-c-source-recentf
 ;;                              anything-c-source-mx
                              anything-c-source-bookmarks
 ;;                              anything-c-source-etags-select
@@ -130,6 +138,7 @@
                              anything-c-source-locate
                              anything-c-source-complex-command-history
                              anything-c-source-kill-ring
+                             anything-c-source-auto-install-from-emacswiki
                              ))
 
 ;;; anything-c-moccurの設定
@@ -392,3 +401,23 @@
 ;; haml-mode/sass-mode
 (require 'sass-mode)
 (require 'haml-mode)
+
+;; auto-install
+(require 'auto-install)
+(setq auto-install-directory "~/.emacs.d/")
+(auto-install-update-emacswiki-package-name t)
+(auto-install-compatibility-setup)
+
+;; rinari
+;; http://d.hatena.ne.jp/willnet/20090110/1231595231
+;; http://github.com/eschulte/rinari/tree/master
+(add-to-list 'load-path "~/.emacs.d/rinari")
+(require 'rinari)
+
+;; rhtml using in rinari
+(add-to-list 'load-path "~/.emacs.d/rhtml")
+(require 'rhtml-mode)
+(add-hook 'rhtml-mode-hook
+          (lambda () (rinari-launch)))
+
+;; yasnippet
