@@ -16,3 +16,6 @@
 [submodule ".emacs.d/org-mode"]
 	path = .emacs.d/org-mode
 	url = git://repo.or.cz/org-mode.git
+[submodule ".emacs.d/remember-el"]
+	path = .emacs.d/remember-el
+	url = git://repo.or.cz/remember-el.git
