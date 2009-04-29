@@ -30,7 +30,7 @@
     )
 ; Javascript-mode js2-mode
    (html-script
-    :submode js2-mode
+    :submode Javascript-mode
     :delimiter-mode nil
     :front "<script\[^>\]*\\(language=[\"|\']javascript\\([0-9.]*\\)[\"|']\\|type=[\"|']text/javascript[\"|']\\)\[^>\]*>\n"
     :back"</script>"
