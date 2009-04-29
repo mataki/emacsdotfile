@@ -1,11 +1,11 @@
 ;;; descbinds-anything.el --- Yet Another `describe-bindings' with `anything'.
 
-;; Copyright (C) 2008  Taiki SUGAWARA <buzz.taiki@gmail.com>
+;; Copyright (C) 2008,2009  Taiki SUGAWARA <buzz.taiki@gmail.com>
 
 ;; Author: Taiki SUGAWARA <buzz.taiki@gmail.com>
 ;; Keywords: anything, help
-;; Version: 1.02
-;; Time-stamp: <2008-11-16 14:06:02 UTC taiki>
+;; Version: 1.03
+;; Time-stamp: <2009-03-29 17:57:12 UTC taiki>
 ;; URL: http://www.emacswiki.org/cgi-bin/wiki/descbinds-anything.el
 
 ;; This file is free software; you can redistribute it and/or modify
@@ -41,6 +41,11 @@
 ;; the menu.
 
 ;;; History:
+;; 2009-03-29 UTC  Taiki SUGAWARA  <buzz.taiki@gmail.com>
+;; 
+;;   * descbinds-anything.el: Version 1.03
+;;   fix typo.
+;; 
 ;; 2008-11-16 UTC  Taiki SUGAWARA  <buzz.taiki@gmail.com>
 ;; 
 ;;   * descbinds-anything.el: Version 1.02
@@ -56,7 +61,8 @@
 (require 'anything)
 
 (defgroup descbinds-anything nil
-  "Yet Another `describe-bindings' with `anything'.")
+  "Yet Another `describe-bindings' with `anything'."
+  :group 'anything)
   
 (defcustom descbinds-anything-actions
   '(("Execute" . descbinds-anything-action:execute)
@@ -108,7 +114,7 @@ This function called two argument KEY and BINDING."
 	  (let ((binding-start (save-excursion
 				 (and (re-search-forward "\t+" nil t)
 				      (match-end 0))))
-		key binidng)
+		key binding)
 	    (when binding-start
 	      (setq key (buffer-substring-no-properties (point) binding-start)
 		    key (replace-regexp-in-string"^[ \t\n]+" "" key)

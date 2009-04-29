@@ -357,6 +357,18 @@
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets")
 
+;; one-key
+(require 'one-key)
+(require 'one-key-default)
+(require 'one-key-config)
+(one-key-default-setup-keys)
+;;(define-key global-map "\C-x" 'one-key-menu-C-x) ;; C-x にコマンドを定義
+
+;; key-chord
+(require 'key-chord)
+(key-chord-mode 1)
+(key-chord-define-global "df" 'describe-bindings)
+
 ;; ------------------------------
 ;; anything
 ;; ------------------------------
@@ -384,6 +396,9 @@
 (require 'anything-c-yasnippet)
 (setq anything-c-yas-space-match-any-greedy t) ;スペース区切りで絞り込めるようにする デフォルトは nil
 (global-set-key (kbd "C-c y") 'anything-c-yas-complete) ;C-c yで起動 (同時にお使いのマイナーモードとキーバインドがかぶるかもしれません)
+
+(require 'descbinds-anything)
+(descbinds-anything-install)
 
 ;; http://d.hatena.ne.jp/rubikitch/20080701/1214844444
 ;; (require 'anything-dabbrev-expand)
