@@ -400,11 +400,6 @@
 (require 'descbinds-anything)
 (descbinds-anything-install)
 
-;; http://d.hatena.ne.jp/rubikitch/20080701/1214844444
-;; (require 'anything-dabbrev-expand)
-;; (setq anything-dabbrev-input-idle-delay 0.0)
-;; (setq anything-dabbrev-idle-delay 1.0)
-
 ;; keybind
 (global-set-key (kbd "C-;") 'anything)
 (global-set-key (kbd "C-^") 'anything)
@@ -416,7 +411,7 @@
 (setq anything-sources (list anything-c-source-buffers
 ;;                           anything-c-source-yas-complete
                              anything-c-source-emacs-commands
-                             anything-c-source-emacs-functions
+;;                             anything-c-source-emacs-functions
                              anything-c-source-recentf
 ;;                              anything-c-source-mx
                              anything-c-source-bookmarks
@@ -425,7 +420,7 @@
                              anything-c-source-locate
                              anything-c-source-complex-command-history
                              anything-c-source-kill-ring
-                             anything-c-source-auto-install-from-emacswiki
+;;                             anything-c-source-auto-install-from-emacswiki
                              ))
 
 ;;; anything-c-moccurの設定
@@ -446,6 +441,10 @@
 ;; anything-complete
 (require 'anything-complete)
 (anything-lisp-complete-symbol-set-timer 150)
-
-
-
+(require 'anything-show-completion)
+;; http://d.hatena.ne.jp/rubikitch/20080701/1214844444
+(require 'anything-dabbrev-expand)
+(setq anything-dabbrev-input-idle-delay 0.0)
+(setq anything-dabbrev-idle-delay 1.0)
+(global-set-key "\M-/" 'anything-dabbrev-expand)
+(define-key anything-dabbrev-map "\M-/" 'anything-dabbrev-find-all-buffers)

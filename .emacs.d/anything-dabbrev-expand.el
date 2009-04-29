@@ -1,5 +1,5 @@
 ;;; anything-dabbrev-expand.el --- dabbrev-expand / dabbrev-completion / partial-dabbrev using anything.el
-;; $Id: anything-dabbrev-expand.el,v 1.17 2008/08/28 13:02:11 rubikitch Exp $
+;; $Id: anything-dabbrev-expand.el,v 1.20 2009/04/20 16:26:43 rubikitch Exp rubikitch $
 
 ;; Copyright (C) 2008  rubikitch
 
@@ -26,6 +26,20 @@
 
 ;; Dynamic abbrev for multiple selection using `anything', and partial dabbrev.
 ;; This package is tested on Emacs 22.
+
+;;; Commands:
+;;
+;; Below are complete command list:
+;;
+;;  `anything-dabbrev-expand'
+;;    The command does dynamic abbrev expansion for multiple selection using `anything'.
+;;  `anything-dabbrev-find-all-buffers'
+;;    Display dabbrev candidates in all buffers.
+;;
+;;; Customizable Options:
+;;
+;; Below are customizable option list:
+;;
 
 ;;; Installation:
 
@@ -67,6 +81,16 @@
 ;;; History:
 
 ;; $Log: anything-dabbrev-expand.el,v $
+;; Revision 1.20  2009/04/20 16:26:43  rubikitch
+;; Set anything-samewindow to nil
+;;
+;; Revision 1.19  2009/04/18 10:10:53  rubikitch
+;; * auto-document.
+;; * Use anything-show-completion.el if available.
+;;
+;; Revision 1.18  2008/09/22 09:17:03  rubikitch
+;; *** empty log message ***
+;;
 ;; Revision 1.17  2008/08/28 13:02:11  rubikitch
 ;; `anything-dabbrev-expand--first-partial-dabbrev': allow prefix match too
 ;;
@@ -130,6 +154,10 @@
 
 (require 'dabbrev)
 (require 'anything)
+
+(when (require 'anything-show-completion nil t)
+  (use-anything-show-completion 'anything-dabbrev-expand
+                                '(length anything-dabbrev-last-target)))
 
 (defvar anything-dabbrev-map (copy-keymap anything-map)
   "Keymap for `anything-dabbrev-expand'. It is based on `anything-map'.")
@@ -305,8 +333,9 @@ It uses ruby because elisp is too slow."
         (anything-input-idle-delay anything-dabbrev-input-idle-delay)
         (anything-idle-delay anything-dabbrev-idle-delay)
         (anything-sources anything-dabbrev-sources))
-    (let ((anything-map anything-dabbrev-map))
-      (anything))))
+    (let ((anything-map anything-dabbrev-map)
+          anything-samewindow)
+      (anything nil nil nil nil nil "*anything dabbrev*"))))
 
 (defun anything-dabbrev-find-all-buffers (&rest ignore)
   "Display dabbrev candidates in all buffers."
