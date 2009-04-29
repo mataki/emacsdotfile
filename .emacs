@@ -44,7 +44,36 @@
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key "\C-x?" 'help)
 
+;; C-x p で前の画面
+(define-key ctl-x-map "p"
+  #'(lambda (arg) (interactive "p") (other-window (- arg))))
+
+;; 矩形
+;; http://taiyaki.org/elisp/sense-region/
+(autoload 'sense-region-on "sense-region"
+          "System to toggle region and rectangle." t nil)
+(sense-region-on)
+
+;; redo
+(when (require 'redo nil t)
+  (define-key ctl-x-map (if window-system "U" "r") 'redo)
+  (define-key global-map [?\C-_] 'redo))
+
+;; linum
+(require 'linum)
+(global-linum-mode)
+
+;; ------------------------------
+;; color-theme
+;; ------------------------------
+(setq load-path (cons (expand-file-name "~/.emacs.d/color-theme") load-path))
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-robin-hood)
+
+;; ------------------------------
 ;; grep
+;; ------------------------------
 (require 'grep)
 (require 'grep-edit)
 
@@ -56,22 +85,11 @@
   )
 (add-hook 'grep-setup-hook 'my-grep-edit-setup t)
 
-
 ;; grep-find
 ;;(setq grep-find-command "find . -type f ! -path '*/.svn/*' -print0 | xargs grep -n ")
 ;;(setq grep-find-command "find . -type f ! -path '*/.svn/*' ! -path '*/tmp/*' ! -path '*/log/*' ! -name '*~' -print0 | xargs -0 grep -nH -e ")
 (setq grep-find-command "find . -type f ! -path '*/.svn/*' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/coverage/*' ! -path '*/log/*' ! -name '#*#' ! -name '*~' -print0 | xargs -0 grep -nH -e ")
 (global-set-key "\C-xgf" 'grep-find)
-
-;; C-x p で前の画面
-(define-key ctl-x-map "p"
-  #'(lambda (arg) (interactive "p") (other-window (- arg))))
-
-;; color-theme
-(setq load-path (cons (expand-file-name "~/.emacs.d/color-theme") load-path))
-(require 'color-theme)
-(color-theme-initialize)
-(color-theme-robin-hood)
 
 ;; moccur
 (require 'color-moccur)
@@ -90,16 +108,19 @@
 ;; migemoがrequireできる環境ならmigemoを使う
 (when (require 'migemo nil t) ;第三引数がnon-nilだとloadできなかった場合にエラーではなくnilを返す
   (setq moccur-use-migemo t))
-;; WidenWindow http://d.hatena.ne.jp/rubikitch/20081113/1226575019
-(require 'widen-window)
-(setq ww-ratio 0.65)
-(global-widen-window-mode 1)
-;; (diminish 'widen-window-mode " WW")
-(defadvice anything (around disable-ww-mode activate)
-  (ad-deactivate-regexp "widen-window")
-  (unwind-protect
-      ad-do-it
-    (ad-activate-regexp "widen-window")))
+
+;; ------------------------------
+;; complete 補完
+;; ------------------------------
+
+;; auto-complete http://d.hatena.ne.jp/rubikitch/20081109/autocomplete
+;; http://dev.ariel-networks.com/Members/matsuyama/auto-complete
+(require 'auto-complete)
+(global-auto-complete-mode t)
+;;(setq ac-auto-start 4)
+(define-key ac-complete-mode-map "\C-n" 'ac-next)
+(define-key ac-complete-mode-map "\C-p" 'ac-previous)
+(require 'auto-complete-extension)
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 ;; (load "dabbrev-ja")
@@ -114,6 +135,23 @@
 ;; http://d.hatena.ne.jp/khiker/20070817/emacs_dabbrev
 ;; (require 'dabbrev-expand-multiple)
 ;; (global-set-key "\M-/" 'dabbrev-expand-multiple)
+
+;; yasnippet
+(setq load-path (cons (expand-file-name "~/.emacs.d/yasnippet-0.5.10") load-path))
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets")
+
+;; WidenWindow http://d.hatena.ne.jp/rubikitch/20081113/1226575019
+(require 'widen-window)
+(setq ww-ratio 0.65)
+(global-widen-window-mode 1)
+;; (diminish 'widen-window-mode " WW")
+(defadvice anything (around disable-ww-mode activate)
+  (ad-deactivate-regexp "widen-window")
+  (unwind-protect
+      ad-do-it
+    (ad-activate-regexp "widen-window")))
 
 ;; wdiredhttp://www.bookshelf.jp/soft/meadow_25.html#SEC296
 ;; diredでファイル名を一括リネーム
@@ -136,12 +174,6 @@
 ;; (setq browse-kill-ring-resize-window t)
 ;; 現在選択中の kill-ring のハイライトする
 ;; (setq browse-kill-ring-highlight-current-entry t)
-
-;; 矩形
-;; http://taiyaki.org/elisp/sense-region/
-(autoload 'sense-region-on "sense-region"
-          "System to toggle region and rectangle." t nil)
-(sense-region-on)
 
 ;; ibuffer
 ;; http://www.bookshelf.jp/soft/meadow_28.html#SEC357
@@ -233,15 +265,6 @@
 ;; matodo
 (require 'matodo-mode)
 
-;; redo
-(when (require 'redo nil t)
-  (define-key ctl-x-map (if window-system "U" "r") 'redo)
-  (define-key global-map [?\C-_] 'redo))
-
-;; linum
-(require 'linum)
-(global-linum-mode)
-
 ;; http://openlab.dino.co.jp/2008/07/15/233005294.html
 ;; Show tab, zenkaku-space, white spaces at end of line
 ;; http://www.bookshelf.jp/soft/meadow_26.html#SEC317
@@ -285,6 +308,12 @@
 
 ;; rcodetools
 (require 'rcodetools)
+(require 'auto-complete-ruby)
+;; (setq ac-omni-completion-sources
+;;   '((ruby-mode . (("\\.\\=" . (ac-source-rcodetools))))))
+;; (add-hook 'ruby-mode-hook
+;;           (lambda ()
+;;             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 
 ;; ------------------------------
 ;; rails
@@ -325,24 +354,12 @@
 ;; tabをspaceに変換する
 (require 'untabify-file)
 
-;; auto-complete http://d.hatena.ne.jp/rubikitch/20081109/autocomplete
-;; http://dev.ariel-networks.com/Members/matsuyama/auto-complete
-(require 'auto-complete)
-(global-auto-complete-mode t)
-(setq ac-auto-start 4)
-(define-key ac-complete-mode-map "\C-n" 'ac-next)
-(define-key ac-complete-mode-map "\C-p" 'ac-previous)
-(require 'auto-complete-extension)
-
 ;; rst-mode
 (autoload 'rst-mode "rst-mode" "mode for editing reStructuredText documents" t)
 (setq auto-mode-alist
       (append '(("\\.rst$" . rst-mode)
                 ("\\.rest$" . rst-mode)) auto-mode-alist))
 
-
-;; for mac
-(setq mac-pass-control-to-system nil)
 
 ;; cucumber.el
 (setq load-path (cons (expand-file-name "~/.emacs.d/cucumber.el") load-path))
@@ -361,12 +378,6 @@
 (setq auto-install-directory "~/.emacs.d/")
 (auto-install-update-emacswiki-package-name t)
 (auto-install-compatibility-setup)
-
-;; yasnippet
-(setq load-path (cons (expand-file-name "~/.emacs.d/yasnippet-0.5.10") load-path))
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets")
 
 ;; one-key
 (require 'one-key)
