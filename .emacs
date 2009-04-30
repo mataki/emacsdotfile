@@ -146,10 +146,19 @@
 ;; http://dev.ariel-networks.com/Members/matsuyama/auto-complete
 (require 'auto-complete)
 (global-auto-complete-mode t)
-;; (setq ac-auto-start nil)
+;; (setq ac-auto-start 4)
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 (require 'auto-complete-extension)
+
+;; auto-complete anything
+(require 'ac-anything)
+(define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-anything)
+
+(require 'ac-dabbrev)
+(setq ac-sources
+     (list ac-source-dabbrev
+           ))
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 ;; (load "dabbrev-ja")
@@ -495,3 +504,4 @@
 (setq anything-dabbrev-idle-delay 1.0)
 (global-set-key "\M-/" 'anything-dabbrev-expand)
 (define-key anything-dabbrev-map "\M-/" 'anything-dabbrev-find-all-buffers)
+
