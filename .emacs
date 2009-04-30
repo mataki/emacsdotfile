@@ -393,7 +393,6 @@
 (require 'key-chord)
 (key-chord-mode 1)
 (key-chord-define-global "df" 'describe-bindings)
-(key-chord-define-global "re" 'remember)
 (key-chord-define-global "ms" 'magit-status)
 
 ;; ------------------------------
