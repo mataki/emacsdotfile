@@ -12,7 +12,7 @@ $ cd .emacs.d/rinari
 $ git submodule init
 $ git submodule update
 
-!!!! set dot file
+!!!! set dot file as symlink
 $ ln -s /path/to/emacsdotfile/.emacs ~/.emacs
 $ ln -s /path/to/emacsdotfile/.emacs.d ~/.emacs.d
 
