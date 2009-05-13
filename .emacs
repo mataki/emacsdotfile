@@ -244,6 +244,42 @@
 (setq auto-mode-alist
      (cons '("\\.css\\'" . css-mode) auto-mode-alist))
 
+;; rst-mode
+(autoload 'rst-mode "rst-mode" "mode for editing reStructuredText documents" t)
+(setq auto-mode-alist
+      (append '(("\\.rst$" . rst-mode)
+                ("\\.rest$" . rst-mode)) auto-mode-alist))
+
+;; haml-mode/sass-mode
+(require 'sass-mode)
+(require 'haml-mode)
+
+;; cucumber.el
+(setq load-path (cons (expand-file-name "~/.emacs.d/cucumber.el") load-path))
+(require 'cucumber-mode)
+
+;; ------------------------------
+;; org-mode
+;; ------------------------------
+;; (setq load-path (cons (expand-file-name "~/.emacs.d/org-mode") load-path))
+;; (setq load-path (cons (expand-file-name "~/.emacs.d/remember-el") load-path))
+;; (autoload 'remember "remember" nil t)
+;; (require 'remember)
+;; (require 'org-install)
+;; (setq org-startup-truncated nil)
+;; (setq org-return-follows-link t)
+;; (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+;; (org-remember-insinuate)
+;; (setq org-directory "~/memo/")
+;; (setq org-default-notes-file (concat org-directory "agenda.org"))
+;; (setq org-remember-templates
+;;       '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
+;;         ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
+;;         ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
+;;         ))
+
+
+
 ;; ------------------------------
 ;; git
 ;; ------------------------------
@@ -366,24 +402,9 @@
 ;; tabをspaceに変換する
 (require 'untabify-file)
 
-;; rst-mode
-(autoload 'rst-mode "rst-mode" "mode for editing reStructuredText documents" t)
-(setq auto-mode-alist
-      (append '(("\\.rst$" . rst-mode)
-                ("\\.rest$" . rst-mode)) auto-mode-alist))
-
-
-;; cucumber.el
-(setq load-path (cons (expand-file-name "~/.emacs.d/cucumber.el") load-path))
-(require 'cucumber-mode)
-
 ;; ejacs
 (add-to-list 'load-path "~/.emacs.d/ejacs")  ; change this to the real location!
 (autoload 'js-console "js-console" nil t)
-
-;; haml-mode/sass-mode
-(require 'sass-mode)
-(require 'haml-mode)
 
 ;; auto-install
 (require 'auto-install)
@@ -403,26 +424,6 @@
 (key-chord-mode 1)
 (key-chord-define-global "df" 'describe-bindings)
 (key-chord-define-global "ms" 'magit-status)
-
-;; ------------------------------
-;; org-mode
-;; ------------------------------
-;; (setq load-path (cons (expand-file-name "~/.emacs.d/org-mode") load-path))
-;; (setq load-path (cons (expand-file-name "~/.emacs.d/remember-el") load-path))
-;; (autoload 'remember "remember" nil t)
-;; (require 'remember)
-;; (require 'org-install)
-;; (setq org-startup-truncated nil)
-;; (setq org-return-follows-link t)
-;; (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-;; (org-remember-insinuate)
-;; (setq org-directory "~/memo/")
-;; (setq org-default-notes-file (concat org-directory "agenda.org"))
-;; (setq org-remember-templates
-;;       '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
-;;         ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
-;;         ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
-;;         ))
 
 ;; ------------------------------
 ;; irc
