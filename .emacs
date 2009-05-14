@@ -146,7 +146,7 @@
 ;; http://dev.ariel-networks.com/Members/matsuyama/auto-complete
 (require 'auto-complete)
 (global-auto-complete-mode t)
-;; (setq ac-auto-start 4)
+(setq ac-auto-start 4)
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 (require 'auto-complete-extension)
@@ -358,11 +358,11 @@
 ;; rcodetools
 (require 'rcodetools)
 (require 'auto-complete-ruby)
-;; (setq ac-omni-completion-sources
-;;   '((ruby-mode . (("\\.\\=" . (ac-source-rcodetools))))))
-;; (add-hook 'ruby-mode-hook
-;;           (lambda ()
-;;             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
+(setq ac-omni-completion-sources
+  '((ruby-mode . (("\\.\\=" . (ac-source-rcodetools))))))
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 
 ;; ------------------------------
 ;; rails
