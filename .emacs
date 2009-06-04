@@ -75,9 +75,14 @@
   ;; If there is more than one, they won't work right.
  '(ac-dwim t)
  '(js2-basic-offset 4)
+ '(magit-log-cutoff-length 300)
+ '(python-indent 2)
  '(rails-ws:default-server-type "mongrel")
  '(ruby-insert-encoding-magic-comment nil)
  '(ruby-use-encoding-map t)
+ '(twit-follow-idle-interval 300)
+ '(twit-mode t)
+ '(twit-show-user-images t)
  '(untabify-exclude-list (quote (makefile-mode makefile-bsdmake-mode change-log-mode "Makefile$" Emacs-Lisp))))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
@@ -90,7 +95,10 @@
  '(mmm-default-submode-face ((t (:background "dark slate gray"))))
  '(mmm-output-submode-face ((t (:background "DarkGreen"))))
  '(rst-level-1-face ((t (:background "grey10"))) t)
- '(rst-level-2-face ((t (:background "grey20"))) t))
+ '(rst-level-2-face ((t (:background "grey20"))) t)
+ '(twit-title-face ((((class color) (background dark)) (:background "chartreuse4"))))
+ '(twit-zebra-1-face ((((class color) (background dark)) (:background "SeaGreen4"))))
+ '(twit-zebra-2-face ((((class color) (background dark)) (:background "SpringGreen4")))))
 
 ;; ------------------------------
 ;; color-theme
@@ -360,9 +368,9 @@
 (require 'auto-complete-ruby)
 (setq ac-omni-completion-sources
   '((ruby-mode . (("\\.\\=" . (ac-source-rcodetools))))))
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
+;; (add-hook 'ruby-mode-hook
+;;           (lambda ()
+;;             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 
 ;; ------------------------------
 ;; rails
@@ -409,14 +417,14 @@
 ;; auto-install
 (require 'auto-install)
 (setq auto-install-directory "~/.emacs.d/")
-(auto-install-update-emacswiki-package-name t)
-(auto-install-compatibility-setup)
+;; (auto-install-update-emacswiki-package-name t)
+;; (auto-install-compatibility-setup)
 
 ;; one-key
-(require 'one-key)
-(require 'one-key-default)
-(require 'one-key-config)
-(one-key-default-setup-keys)
+;; (require 'one-key)
+;; (require 'one-key-default)
+;; (require 'one-key-config)
+;; (one-key-default-setup-keys)
 ;;(define-key global-map "\C-x" 'one-key-menu-C-x) ;; C-x にコマンドを定義
 
 ;; key-chord
