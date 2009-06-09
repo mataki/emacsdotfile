@@ -76,6 +76,7 @@
  '(ac-dwim t)
  '(js2-basic-offset 4)
  '(magit-log-cutoff-length 300)
+ '(magit-process-popup-time 0)
  '(python-indent 2)
  '(rails-ws:default-server-type "mongrel")
  '(ruby-insert-encoding-magic-comment nil)
