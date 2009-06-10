@@ -130,4 +130,3 @@ It is useful to narrow candidates."
 ;; How to save (DO NOT REMOVE!!)
 ;; (emacswiki-post "ac-anything.el")
 ;;; ac-anything.el ends here
-

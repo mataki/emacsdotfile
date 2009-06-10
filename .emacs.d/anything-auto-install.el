@@ -6,9 +6,9 @@
 ;; Maintainer: Andy Stewart <lazycat.manatee@gmail.com>
 ;; Copyright (C) 2009, Andy Stewart, all rights reserved.
 ;; Created: 2009-02-09 17:48:01
-;; Version: 0.2.1
-;; Last-Updated: 2009-02-17 10:17:24
-;;           By: Andy Stewart
+;; Version: 0.2.3
+;; Last-Updated: 2009-05-30 05:10:14
+;;           By: rubikitch
 ;; URL: http://www.emacswiki.org/emacs/download/anything-auto-install.el
 ;; Keywords: auto-install, anything
 ;; Compatibility: GNU Emacs 23.0.60.1
@@ -57,6 +57,24 @@
 ;;        ))
 ;;
 
+;;; Commands:
+;;
+;; Below are complete command list:
+;;
+;;  `anything-auto-install-from-emacswiki'
+;;    Launch anything with auto-install separately.
+;;  `anything-auto-install-from-library'
+;;    Update library with `anything'.
+;;  `anything-auto-install-batch'
+;;    Batch install elisp libraries.
+;;  `anything-auto-install'
+;;    All-in-one command for elisp installation.
+;;
+;;; Customizable Options:
+;;
+;; Below are customizable option list:
+;;
+
 ;;; Installation:
 ;;
 ;; Put anything-auto-install.el to your load-path.
@@ -82,6 +100,12 @@
 ;;
 
 ;;; Change log:
+;;
+;; 2009/05/30
+;;      * All-in-one install command `anything-auto-install'.
+;;
+;; 2009/05/27
+;;      * Support batch install.
 ;;
 ;; 2009/02/17
 ;;      * Clean up.
@@ -127,16 +151,56 @@
     (action . (("Update library" . (lambda (candidate)
                                      (auto-install-from-library candidate)))))))
 
+(defvar anything-c-source-auto-install-batch
+  '((name . "Auto Install Batch")
+    (candidates . (lambda ()
+                    (mapcar 'car auto-install-batch-list)))
+    (action . (("Batch Install Emacs Extension" . (lambda (candidate)
+                                                    (auto-install-batch candidate)))))))
+
+(defvar anything-c-source-auto-install-from-url
+  '((name . "Auto Install from URL")
+    (dummy)
+    (action . (("Install from URL" . (lambda (candidate)
+                                       (auto-install-from-url candidate)))))))
+
+(defvar anything-c-source-auto-install-from-gist
+  '((name . "Auto Install from Gist")
+    (dummy)
+    (action . (("Install from Gist" . (lambda (candidate)
+                                        (auto-install-from-gist candidate)))))))
+
+(defvar anything-auto-install-buffer "*anything auto install*")
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Interactive Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun anything-auto-install-from-emacswiki ()
   "Launch anything with auto-install separately."
   (interactive)
-  (anything 'anything-c-source-auto-install-from-emacswiki))
+  (anything 'anything-c-source-auto-install-from-emacswiki
+            nil nil nil nil anything-auto-install-buffer))
 
 (defun anything-auto-install-from-library ()
   "Update library with `anything'."
   (interactive)
-  (anything 'anything-c-source-auto-install-from-library))
+  (anything 'anything-c-source-auto-install-from-library
+            nil nil nil nil anything-auto-install-buffer))
+
+(defun anything-auto-install-batch ()
+  "Batch install elisp libraries."
+  (interactive)
+  (anything `anything-c-source-auto-install-batch
+            nil nil nil nil anything-auto-install-buffer))
+
+(defun anything-auto-install ()
+  "All-in-one command for elisp installation."
+  (interactive)
+  (anything '(anything-c-source-auto-install-batch
+              anything-c-source-auto-install-from-emacswiki
+              anything-c-source-auto-install-from-library
+              anything-c-source-auto-install-from-url
+              anything-c-source-auto-install-from-gist)
+            nil nil nil nil anything-auto-install-buffer))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Uilties Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun anything-auto-install-init ()
