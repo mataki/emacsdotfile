@@ -48,6 +48,9 @@
 (define-key ctl-x-map "p"
   #'(lambda (arg) (interactive "p") (other-window (- arg))))
 
+;; http://d.hatena.ne.jp/mat_aki/20080421
+(windmove-default-keybindings)
+
 ;; ido-mode
 (require 'ido)
 (ido-mode t)
