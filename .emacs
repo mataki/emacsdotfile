@@ -175,11 +175,11 @@
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 ;; (load "dabbrev-ja")
 ;; http://namazu.org/~tsuchiya/elisp/#dabbrev-highlight
-;; (require 'dabbrev-highlight)
+(require 'dabbrev-highlight)
 
 ;; pabbrev-mode http://www.bookshelf.jp/soft/meadow_34.html#SEC507
-;;(require 'pabbrev)
-;;(global-pabbrev-mode)
+;; (require 'pabbrev)
+;; (global-pabbrev-mode)
 
 ;; DabbrevExpandMultiple
 ;; http://d.hatena.ne.jp/khiker/20070817/emacs_dabbrev
@@ -273,24 +273,22 @@
 ;; ------------------------------
 ;; org-mode
 ;; ------------------------------
-;; (setq load-path (cons (expand-file-name "~/.emacs.d/org-mode") load-path))
-;; (setq load-path (cons (expand-file-name "~/.emacs.d/remember-el") load-path))
-;; (autoload 'remember "remember" nil t)
-;; (require 'remember)
+(setq load-path (cons (expand-file-name "~/.emacs.d/org-mode") load-path))
+(setq load-path (cons (expand-file-name "~/.emacs.d/remember-el") load-path))
+(autoload 'remember "remember" nil t)
+(require 'remember)
 ;; (require 'org-install)
-;; (setq org-startup-truncated nil)
-;; (setq org-return-follows-link t)
-;; (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-;; (org-remember-insinuate)
-;; (setq org-directory "~/memo/")
-;; (setq org-default-notes-file (concat org-directory "agenda.org"))
-;; (setq org-remember-templates
-;;       '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
-;;         ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
-;;         ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
-;;         ))
-
-
+(setq org-startup-truncated nil)
+(setq org-return-follows-link t)
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(org-remember-insinuate)
+(setq org-directory "~/memo/")
+(setq org-default-notes-file (concat org-directory "agenda.org"))
+(setq org-remember-templates
+      '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
+        ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
+        ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
+        ))
 
 ;; ------------------------------
 ;; git
@@ -372,9 +370,9 @@
 (require 'auto-complete-ruby)
 (setq ac-omni-completion-sources
   '((ruby-mode . (("\\.\\=" . (ac-source-rcodetools))))))
-;; (add-hook 'ruby-mode-hook
-;;           (lambda ()
-;;             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 
 ;; ------------------------------
 ;; rails
@@ -382,8 +380,8 @@
 ;; emacs-rails
 ;; http://rubyforge.org/projects/emacs-rails/
 ;; http://d.hatena.ne.jp/higepon/20061222/1166774270
-(setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
-(require 'rails)
+;; (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
+;; (require 'rails)
 
 ;; rinari
 ;; http://d.hatena.ne.jp/willnet/20090110/1231595231
@@ -396,6 +394,10 @@
 (require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook
           (lambda () (rinari-launch)))
+
+;; ------------------------------
+;; tools
+;; ------------------------------
 
 ;; install-elisp
 (require 'install-elisp)
@@ -446,7 +448,6 @@
 ;; twitter
 ;; ------------------------------
 (require 'twit)
-
 
 ;; ------------------------------
 ;; anything
