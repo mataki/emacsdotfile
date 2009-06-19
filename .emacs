@@ -488,18 +488,20 @@
 (define-key anything-map (kbd "C-v") 'anything-next-source)
 (define-key anything-map (kbd "M-v") 'anything-previous-source)
 ;; source list
-(setq anything-sources (list anything-c-source-buffers
+(setq anything-sources (list anything-c-source-buffers+
 ;;                           anything-c-source-yas-complete
                              anything-c-source-emacs-commands
 ;;                             anything-c-source-emacs-functions
-                             anything-c-source-recentf
 ;;                              anything-c-source-mx
                              anything-c-source-bookmarks
 ;;                              anything-c-source-etags-select
                              anything-c-source-file-name-history
                              anything-c-source-locate
                              anything-c-source-complex-command-history
+                             anything-c-source-extended-command-history
                              anything-c-source-kill-ring
+                             anything-c-source-org-headline
+                             anything-c-source-minibuffer-history
                              anything-c-source-auto-install-from-emacswiki
                              ))
 
