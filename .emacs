@@ -267,6 +267,7 @@
 (require 'haml-mode)
 
 ;; cucumber.el
+(setq load-path (cons (expand-file-name "~/.emacs.d/cucumber.el") load-path))
 (autoload 'feature-mode "feature-mode" "Mode for editing cucumber files" t)
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
