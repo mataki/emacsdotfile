@@ -381,7 +381,7 @@
 ;; emacs-rails
 ;; http://rubyforge.org/projects/emacs-rails/
 ;; http://d.hatena.ne.jp/higepon/20061222/1166774270
-;; (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
+(setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
 ;; (require 'rails)
 
 ;; rinari
