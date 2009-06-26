@@ -369,11 +369,11 @@
 ;; rcodetools
 (require 'rcodetools)
 (require 'auto-complete-ruby)
-(setq ac-omni-completion-sources
-  '((ruby-mode . (("\\.\\=" . (ac-source-rcodetools))))))
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
+;; (setq ac-omni-completion-sources
+;;   '((ruby-mode . (("\\.\\=" . (ac-source-rcodetools))))))
+;; (add-hook 'ruby-mode-hook
+;;           (lambda ()
+;;             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 
 ;; ------------------------------
 ;; rails
