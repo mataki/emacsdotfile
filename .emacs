@@ -80,6 +80,8 @@
  '(js2-basic-offset 4)
  '(magit-log-cutoff-length 300)
  '(magit-process-popup-time 0)
+ '(python-continuation-offset 2)
+ '(python-guess-indent t)
  '(python-indent 2)
  '(rails-ws:default-server-type "mongrel")
  '(ruby-insert-encoding-magic-comment nil)
@@ -282,7 +284,7 @@
 (setq org-startup-truncated nil)
 (setq org-return-follows-link t)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(org-remember-insinuate)
+;; (org-remember-insinuate)
 (setq org-directory "~/memo/")
 (setq org-default-notes-file (concat org-directory "agenda.org"))
 (setq org-remember-templates
