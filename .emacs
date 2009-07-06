@@ -189,8 +189,12 @@
 ;; yasnippet
 (setq load-path (cons (expand-file-name "~/.emacs.d/yasnippet-0.5.10") load-path))
 (require 'yasnippet)
-(yas/initialize)
 (yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets")
+(add-to-list 'yas/extra-mode-hooks 'ruby-mode-hook)
+(add-to-list 'yas/extra-mode-hooks 'feature-mode-hook)
+(setq yas/trigger-key (kbd "SPC"))
+(setq yas/trigger-key (kbd "C-:"))
+(yas/initialize)
 
 ;; WidenWindow http://d.hatena.ne.jp/rubikitch/20081113/1226575019
 (require 'widen-window)
@@ -353,6 +357,8 @@
 ;; ------------------------------
 (setq load-path (cons (expand-file-name "~/.emacs.d/ruby-mode") load-path))
 (require 'ruby-mode)
+(require 'ruby-electric)
+(require 'inf-ruby)
 ;; ri-emacs
 (setq ri-ruby-script "~/.emacs.d/ri-emacs/ri-emacs.rb")
 (setq load-path (cons (expand-file-name "~/.emacs.d/ri-emacs") load-path))
@@ -382,7 +388,7 @@
 ;; http://rubyforge.org/projects/emacs-rails/
 ;; http://d.hatena.ne.jp/higepon/20061222/1166774270
 (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
-;; (require 'rails)
+(require 'rails)
 
 ;; rinari
 ;; http://d.hatena.ne.jp/willnet/20090110/1231595231
