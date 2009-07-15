@@ -22,6 +22,7 @@
 (set-scroll-bar-mode 'right)
 (display-time)
 (setq visible-bell t)
+(tool-bar-mode nil)
 ;; http://www.bookshelf.jp/soft/meadow_42.html#SEC632
 (show-paren-mode t)
 (setq show-paren-style 'mixed)
