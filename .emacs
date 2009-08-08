@@ -1,3 +1,8 @@
+;; http://d.hatena.ne.jp/rubikitch/20090609/1244484272
+(defun add-to-load-path-recompile (dir)
+  (add-to-list 'load-path dir)
+  (let (save-abbrevs) (byte-recompile-directory dir)))
+
 ;; setenv PATH
 (setenv "PATH" (concat "/opt/local/bin:" (getenv "PATH")))
 (dolist (dir (mapcar 'expand-file-name '("/opt/local/bin")))
@@ -5,7 +10,7 @@
   (setq exec-path (append (list dir) exec-path)))
 
 ;; load-path
-(setq load-path (cons (expand-file-name "~/.emacs.d") load-path))
+(add-to-load-path-recompile "~/.emacs.d")
 
 ;; 日本語設定設定
 ;; http://d.hatena.ne.jp/SISY/searchdiary?word=*[emacs]
@@ -111,7 +116,7 @@
 ;; ------------------------------
 ;; color-theme
 ;; ------------------------------
-(setq load-path (cons (expand-file-name "~/.emacs.d/color-theme") load-path))
+(add-to-load-path-recompile "~/.emacs.d/color-theme")
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-robin-hood)
@@ -191,7 +196,7 @@
 ;; (global-set-key "\M-/" 'dabbrev-expand-multiple)
 
 ;; yasnippet
-(setq load-path (cons (expand-file-name "~/.emacs.d/yasnippet-0.5.10") load-path))
+(add-to-load-path-recompile "~/.emacs.d/yasnippet-0.5.10")
 (require 'yasnippet)
 (yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets")
 (add-to-list 'yas/extra-mode-hooks 'ruby-mode-hook)
@@ -241,7 +246,7 @@
 ;; mode / 編集モード
 ;; ------------------------------
 ;; mmm-mode
-(setq load-path (cons (expand-file-name "~/.emacs.d/mmm-mode") load-path))
+(add-to-load-path-recompile "~/.emacs.d/mmm-mode")
 (require 'mmm-mode)
 (require 'mmm-auto)
 (setq mmm-global-mode 'maybe)
@@ -275,15 +280,15 @@
 (require 'haml-mode)
 
 ;; cucumber.el
-(setq load-path (cons (expand-file-name "~/.emacs.d/cucumber.el") load-path))
+(add-to-load-path-recompile "~/.emacs.d/cucumber.el")
 (autoload 'feature-mode "feature-mode" "Mode for editing cucumber files" t)
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
 ;; ------------------------------
 ;; org-mode
 ;; ------------------------------
-(setq load-path (cons (expand-file-name "~/.emacs.d/org-mode") load-path))
-(setq load-path (cons (expand-file-name "~/.emacs.d/remember-el") load-path))
+(add-to-load-path-recompile "~/.emacs.d/org-mode")
+(add-to-load-path-recompile "~/.emacs.d/remember-el")
 (autoload 'remember "remember" nil t)
 (require 'remember)
 ;; (require 'org-install)
@@ -313,7 +318,7 @@
 ;; (require 'git-emacs)
 
 ;; magit http://gitorious.org/projects/magit/repos/mainline
-(setq load-path (cons (expand-file-name "~/.emacs.d/magit") load-path))
+(add-to-load-path-recompile "~/.emacs.d/magit")
 (require 'magit)
 (autoload 'magit-status "magit" nil t)
 
@@ -322,9 +327,9 @@
 ;; (require 'egg)
 
 ;; howm
-(setq load-path (cons (expand-file-name "~/.emacs.d/hown") load-path))
-;; (require 'hown-mode)
-(setq howm-menu-lang 'ja)
+(add-to-list 'load-path "~/.emacs.d/howm")
+;; (require 'howm-mode)
+(setq howm-menu-lang 'ja)		;
 (global-set-key "\C-c,," 'howm-menu)
 ;; (autoload 'howm-menu "howm-mode" "Hitori Otegaru Wiki Modoki" t)
 
@@ -359,13 +364,13 @@
 ;; ------------------------------
 ;; ruby
 ;; ------------------------------
-(setq load-path (cons (expand-file-name "~/.emacs.d/ruby-mode") load-path))
+(add-to-load-path-recompile "~/.emacs.d/ruby-mode")
 (require 'ruby-mode)
 (require 'ruby-electric)
 (require 'inf-ruby)
 ;; ri-emacs
 (setq ri-ruby-script "~/.emacs.d/ri-emacs/ri-emacs.rb")
-(setq load-path (cons (expand-file-name "~/.emacs.d/ri-emacs") load-path))
+(add-to-load-path-recompile "~/.emacs.d/ri-emacs")
 ;; (add-hook 'ruby-mode-hook (lambda ()
 ;;                               (local-set-key 'f1 'ri)
 ;;                               (local-set-key "\M-\C-i" 'ri-ruby-complete-symbol)
@@ -391,17 +396,17 @@
 ;; emacs-rails
 ;; http://rubyforge.org/projects/emacs-rails/
 ;; http://d.hatena.ne.jp/higepon/20061222/1166774270
-(setq load-path (cons (expand-file-name "~/.emacs.d/emacs-rails") load-path))
+(add-to-load-path-recompile "~/.emacs.d/emacs-rails")
 (require 'rails)
 
 ;; rinari
 ;; http://d.hatena.ne.jp/willnet/20090110/1231595231
 ;; http://github.com/eschulte/rinari/tree/master
-(add-to-list 'load-path "~/.emacs.d/rinari")
+(add-to-load-path-recompile "~/.emacs.d/rinari")
 (require 'rinari)
 
 ;; rhtml using in rinari
-(add-to-list 'load-path "~/.emacs.d/rhtml")
+(add-to-load-path-recompile "~/.emacs.d/rhtml")
 (require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook
           (lambda () (rinari-launch)))
@@ -428,7 +433,7 @@
 (require 'untabify-file)
 
 ;; ejacs
-(add-to-list 'load-path "~/.emacs.d/ejacs")  ; change this to the real location!
+(add-to-load-path-recompile "~/.emacs.d/ejacs")
 (autoload 'js-console "js-console" nil t)
 
 ;; auto-install
