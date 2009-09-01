@@ -84,7 +84,7 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(ac-dwim t)
- '(js2-basic-offset 4)
+ '(js2-basic-offset 2)
  '(magit-log-cutoff-length 300)
  '(magit-process-popup-time 0)
  '(python-continuation-offset 2)
