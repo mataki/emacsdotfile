@@ -97,12 +97,19 @@
 ;;  Variable:
 ;;     `anything-c-source-emacs-variables' (Emacs Variables)
 ;;  Bookmark:
-;;     `anything-c-source-bookmarks'       (Bookmarks)
-;;     `anything-c-source-bookmark-set'    (Set Bookmark)
-;;     `anything-c-source-bookmarks-ssh'   (Bookmarks-ssh)
-;;     `anything-c-source-bookmarks-su'    (Bookmarks-root)
-;;     `anything-c-source-bookmarks-local' (Bookmarks-Local)
-;;     `anything-c-source-w3m-bookmarks'   (W3m Bookmarks)
+;;     `anything-c-source-bookmarks'               (Bookmarks)
+;;     `anything-c-source-bookmark-set'            (Set Bookmark)
+;;     `anything-c-source-bookmarks-ssh'           (Bookmarks-ssh)
+;;     `anything-c-source-bookmarks-su'            (Bookmarks-root)
+;;     `anything-c-source-bookmarks-local'         (Bookmarks-Local)
+;;     `anything-c-source-bookmark-regions'        (Bookmark Regions)
+;;     `anything-c-source-bookmark-w3m'            (Bookmark W3m)
+;;     `anything-c-source-bookmark-gnus'           (Bookmark Gnus)
+;;     `anything-c-source-bookmark-info'           (Bookmark Info)
+;;     `anything-c-source-bookmark-files&dirs'     (Bookmark Files&Directories)
+;;     `anything-c-source-bookmark-su-files&dirs'  (Bookmark Root-Files&Directories)
+;;     `anything-c-source-bookmark-ssh-files&dirs' (Bookmark Ssh-Files&Directories)
+;;     `anything-c-source-w3m-bookmarks'           (W3m Bookmarks)
 ;;  Library:
 ;;     `anything-c-source-elisp-library-scan' (Elisp libraries (Scan))
 ;;  Programming:
@@ -122,6 +129,9 @@
 ;;     `anything-c-source-icicle-region' (Icicle Regions)
 ;;  Kill ring:
 ;;     `anything-c-source-kill-ring' (Kill Ring)
+;;  Mark ring:
+;;     `anything-c-source-mark-ring'        (mark-ring)
+;;     `anything-c-source-global-mark-ring' (global-mark-ring)
 ;;  Register:
 ;;     `anything-c-source-register' (Registers)
 ;;  Headline Extraction:
@@ -149,131 +159,18 @@
 ;;     `anything-c-source-occur'              (Occur)
 ;;     `anything-c-source-create'             (Create)
 ;;     `anything-c-source-minibuffer-history' (Minibuffer History)
+;;     `anything-c-source-elscreen'           (Elscreen)
 ;;  System:
 ;;     `anything-c-source-xrandr-change-resolution' (Change Resolution)
+;;     `anything-c-source-xfonts'                   (X Fonts)
 ;;     `anything-c-source-gentoo'                   (Portage sources)
 ;;     `anything-c-source-use-flags'                (Use Flags)
 ;;     `anything-c-source-emacs-process'            (Emacs Process)
 
-;;; Commands:
-;;
-;; Below are complete command list:
-;;
-;;  `anything-for-files'
-;;    Preconfigured `anything' for opening files.
-;;  `anything-info-at-point'
-;;    Preconfigured `anything' for searching info at point.
-;;  `anything-show-kill-ring'
-;;    Show `kill-ring'. It is drop-in replacement of `yank-pop'.
-;;  `anything-minibuffer-history'
-;;    Show `minibuffer-history'.
-;;  `anything-gentoo'
-;;    Start anything with only gentoo sources.
-;;  `anything-surfraw-only'
-;;    Launch only anything-surfraw.
-;;  `anything-imenu'
-;;    Show `imenu'.
-;;  `anything-kill-buffers'
-;;    You can continuously kill buffer you selected.
-;;  `anything-query-replace-regexp'
-;;    Drop-in replacement of `query-replace-regexp' with building regexp visually.
-;;  `anything-regexp'
-;;    It is like `re-builder'. It helps buliding regexp and replacement.
-;;  `anything-insert-buffer-name'
-;;    Insert buffer name.
-;;  `anything-insert-symbol'
-;;    Insert current symbol.
-;;  `anything-insert-selection'
-;;    Insert current selection.
-;;  `anything-show-buffer-only'
-;;    Only show sources about buffer.
-;;  `anything-show-bbdb-only'
-;;    Only show sources about BBDB.
-;;  `anything-show-locate-only'
-;;    Only show sources about Locate.
-;;  `anything-show-info-only'
-;;    Only show sources about Info.
-;;  `anything-show-imenu-only'
-;;    Only show sources about Imenu.
-;;  `anything-show-files-only'
-;;    Only show sources about File.
-;;  `anything-show-w3m-bookmarks-only'
-;;    Only show source about w3m bookmark.
-;;  `anything-show-colors-only'
-;;    Only show source about color.
-;;  `anything-show-kill-ring-only'
-;;    Only show source about kill ring.
-;;  `anything-show-this-source-only'
-;;    Only show this source.
-;;  `anything-test-sources'
-;;    List all anything sources for test.
-;;  `anything-select-source'
-;;    Select source.
-;;  `anything-yaoddmuse-cache-pages'
-;;    Fetch the list of files on emacswiki and create cache file.
-;;  `anything-yaoddmuse-emacswiki-edit-or-view'
-;;    Edit or View EmacsWiki page.
-;;  `anything-yaoddmuse-emacswiki-post-library'
-;;    Post library to EmacsWiki.
-;;  `anything-emms-stream-edit-bookmark'
-;;    Change the information of current emms-stream bookmark from anything.
-;;  `anything-emms-stream-delete-bookmark'
-;;    Delete an emms-stream bookmark from anything.
-;;  `anything-call-source'
-;;    Call anything source.
-;;  `anything-call-source-from-anything'
-;;    Call anything source within `anything' session.
-;;  `anything-create-from-anything'
-;;    Run `anything-create' from `anything' as a fallback.
-;;  `anything-create'
-;;    Do many create actions from STRING.
-;;  `anything-c-set-variable'
-;;    Set value to VAR interactively.
-;;  `anything-c-adaptive-save-history'
-;;    Save history information to file given by `anything-c-adaptive-history-file'.
-;;
-;;; Customizable Options:
-;;
-;; Below are customizable option list:
-;;
-;;  `anything-c-use-standard-keys'
-;;    Whether use standard keybindings. (no effect)
-;;    default = nil
-;;  `anything-c-adaptive-history-file'
-;;    Path of file where history information is stored.
-;;    default = "~/.emacs.d/anything-c-adaptive-history"
-;;  `anything-c-adaptive-history-length'
-;;    Maximum number of candidates stored for a source.
-;;    default = 50
-;;  `anything-c-google-suggest-url'
-;;    URL used for looking up suggestions.
-;;    default = "http://www.google.com/complete/search?hl=en&js=true&qu="
-;;  `anything-c-google-suggest-search-url'
-;;    URL used for searching.
-;;    default = "http://www.google.com/search?ie=utf-8&oe=utf-8&q="
-;;  `anything-c-boring-buffer-regexp'
-;;    The regexp that match boring buffers.
-;;    default = (rx (or (group bos " ") "*anything" " *Echo Area" " *Minibuf"))
-;;  `anything-c-boring-file-regexp'
-;;    The regexp that match boring files.
-;;    default = (rx (or (and "/" ... ...) (and line-start ".#") (and ... eol)))
-;;  `anything-kill-ring-threshold'
-;;    *Minimum length to be listed by `anything-c-source-kill-ring'.
-;;    default = 10
-;;  `anything-su-or-sudo'
-;;    What command to use for root access.
-;;    default = "su"
-;;  `anything-for-files-prefered-list'
-;;    Your prefered sources to find files.
-;;    default = (quote (anything-c-source-ffap-line anything-c-source-ffap-guesser anything-c-source-buffers+ anything-c-source-recentf anything-c-source-bookmarks ...))
-;;  `anything-create--actions-private'
-;;    User defined actions for `anything-create' / `anything-c-source-create'.
-;;    default = nil
-
 ;;; Change log:
 ;;
 ;;  Change log of this file is found at
-;;  http://repo.or.cz/w/anything-config.git?a=shortlog;h=b30091a6bb64828eb3d70007db5b68d51b868bcc
+;;  http://repo.or.cz/w/anything-config.git?a=shortlog
 
 ;;; Contributors:
 ;;
@@ -418,21 +315,27 @@ they will be displayed with face `file-name-shadow' if
   "Your prefered sources to find files."
   :type 'list
   :group 'anything-config)
- 
+
+(defcustom anything-create--actions-private nil
+  "User defined actions for `anything-create' / `anything-c-source-create'.
+It is a list of (DISPLAY . FUNCTION) pairs like `action'
+attribute of `anything-sources'.
+
+It is prepended to predefined pairs."
+  :type 'list
+  :group 'anything-config)
+
+(defcustom anything-allow-skipping-current-buffer t
+  "Show current buffer or not in anything buffer"
+  :type 'boolean
+  :group 'anything-config)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Preconfigured Anything ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun anything-for-files ()
   "Preconfigured `anything' for opening files.
 ffap -> recentf -> buffer -> bookmark -> file-cache -> files-in-current-dir -> locate"
   (interactive)
-  (anything anything-for-files-prefered-list))
-  ;; (anything '(anything-c-source-ffap-line
-  ;;             anything-c-source-ffap-guesser
-  ;;             anything-c-source-recentf
-  ;;             anything-c-source-buffers+
-  ;;             anything-c-source-bookmarks
-  ;;             anything-c-source-file-cache
-  ;;             anything-c-source-files-in-current-dir+
-  ;;             anything-c-source-locate)))
+  (anything-other-buffer anything-for-files-prefered-list "*anything for files*"))
 
 (defun anything-info-at-point ()
   "Preconfigured `anything' for searching info at point."
@@ -440,20 +343,20 @@ ffap -> recentf -> buffer -> bookmark -> file-cache -> files-in-current-dir -> l
   (anything '(anything-c-source-info-elisp
               anything-c-source-info-cl
               anything-c-source-info-pages)
-            (thing-at-point 'symbol)))
+            (thing-at-point 'symbol) nil nil nil "*anything info*"))
 
 (defun anything-show-kill-ring ()
-  "Show `kill-ring'. It is drop-in replacement of `yank-pop'.
+  "Preconfigured `anything' for `kill-ring'. It is drop-in replacement of `yank-pop'.
 You may bind this command to M-y."
   (interactive)
-  (anything 'anything-c-source-kill-ring nil nil nil nil "*anything kill-ring*"))
+  (anything-other-buffer 'anything-c-source-kill-ring "*anything kill-ring*"))
 
 (defun anything-minibuffer-history ()
-  "Show `minibuffer-history'."
+  "Preconfigured `anything' for `minibuffer-history'."
   (interactive)
   (let ((enable-recursive-minibuffers t))
-    (anything 'anything-c-source-minibuffer-history nil nil nil nil
-              "*anything minibuffer-history*")))
+    (anything-other-buffer 'anything-c-source-minibuffer-history
+                           "*anything minibuffer-history*")))
 
 (dolist (map (list minibuffer-local-filename-completion-map
                    minibuffer-local-completion-map
@@ -465,13 +368,14 @@ You may bind this command to M-y."
   (define-key map "\C-r" 'anything-minibuffer-history))
 
 (defun anything-gentoo ()
-  "Start anything with only gentoo sources."
+  "Preconfigured `anything' for gentoo linux."
   (interactive)
-  (anything '(anything-c-source-gentoo
-              anything-c-source-use-flags)))
+  (anything-other-buffer '(anything-c-source-gentoo
+                           anything-c-source-use-flags)
+                         "*anything gentoo*"))
 
 (defun anything-surfraw-only ()
-  "Launch only anything-surfraw.
+  "Preconfigured `anything' for surfraw.
 If region is marked set anything-pattern to region.
 With one prefix arg search symbol at point.
 With two prefix args allow choosing in which symbol to search."
@@ -487,16 +391,48 @@ With two prefix args allow choosing in which symbol to search."
                   (completing-read "Search in: "
                                    (list "symbol" "sentence" "sexp" "line" "word"))))
            (setq pattern (thing-at-point search))))
-    (if pattern
-        (progn
-          (setq pattern (replace-regexp-in-string "\n" "" pattern))
-          (anything 'anything-c-source-surfraw pattern))
-        (anything 'anything-c-source-surfraw))))
+    (anything 'anything-c-source-surfraw
+              (and pattern (replace-regexp-in-string "\n" "" pattern))
+              nil nil nil "*anything surfraw*")))
 
 (defun anything-imenu ()
-  "Show `imenu'."
+  "Preconfigured `anything' for `imenu'."
   (interactive)
   (anything 'anything-c-source-imenu nil nil nil nil "*anything imenu*"))
+
+(defun anything-google-suggest ()
+  "Preconfigured `anything' for google search with google suggest."
+  (interactive)
+  (anything-other-buffer 'anything-c-source-google-suggest "*anything google*"))
+
+;;; Converted from anything-show-*-only
+(defun anything-for-buffers ()
+  "Preconfigured `anything' for buffer."
+  (interactive)
+  (anything-other-buffer 'anything-c-source-buffers "*anything for buffers*"))
+
+(defun anything-bbdb ()
+  "Preconfigured `anything' for BBDB."
+  (interactive)
+  (anything-other-buffer 'anything-c-source-bbdb "*anything bbdb*"))
+
+(defun anything-locate ()
+  "Preconfigured `anything' for Locate."
+  (interactive)
+  (anything-other-buffer 'anything-c-source-locate "*anything locate*"))
+
+(defun anything-w3m-bookmarks ()
+  "Preconfigured `anything' for w3m bookmark."
+  (interactive)
+  (anything-other-buffer 'anything-c-source-w3m-bookmarks "*anything w3m bookmarks*"))
+
+(defun anything-colors ()
+  "Preconfigured `anything' for color."
+  (interactive)
+  (anything-other-buffer '(anything-c-source-colors anything-c-source-customize-face)
+                         "*anything colors*"))
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Anything Applications ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; kill buffers
@@ -622,52 +558,61 @@ With two prefix args allow choosing in which symbol to search."
      (anything-get-selection))))
 
 (defun anything-show-buffer-only ()
-  "Only show sources about buffer."
+  "[OBSOLETE] Only show sources about buffer.
+Use `anything-for-buffers' instead."
   (interactive)
   (anything-set-source-filter '("Buffers")))
 
 (defun anything-show-bbdb-only ()
-  "Only show sources about BBDB."
+  "[OBSOLETE] Only show sources about BBDB.
+Use `anything-bbdb' instead."
   (interactive)
   (anything-set-source-filter '("BBDB")))
 
 (defun anything-show-locate-only ()
-  "Only show sources about Locate."
+  "[OBSOLETE] Only show sources about Locate.
+Use `anything-locate' instead."
   (interactive)
   (anything-set-source-filter '("Locate")))
 
 (defun anything-show-info-only ()
-  "Only show sources about Info."
+  "[OBSOLETE] Only show sources about Info.
+Use `anything-info-at-point' instead."
   (interactive)
   (anything-set-source-filter '("Info Pages"
                                 "Info Elisp"
                                 "Info Common-Lisp")))
 
 (defun anything-show-imenu-only ()
-  "Only show sources about Imenu."
+  "[OBSOLETE] Only show sources about Imenu.
+Use `anything-imenu' instead."
   (interactive)
   (anything-set-source-filter '("Imenu")))
 
 (defun anything-show-files-only ()
-  "Only show sources about File."
+  "[OBSOLETE] Only show sources about File.
+Use `anything-for-files' instead."
   (interactive)
   (anything-set-source-filter '("File Name History"
                                 "Files from Current Directory"
                                 "Recentf")))
 
 (defun anything-show-w3m-bookmarks-only ()
-  "Only show source about w3m bookmark."
+  "[OBSOLETE] Only show source about w3m bookmark.
+Use `anything-w3m-bookmarks' instead."
   (interactive)
   (anything-set-source-filter '("W3m Bookmarks")))
 
 (defun anything-show-colors-only ()
-  "Only show source about color."
+  "[OBSOLETE] Only show source about color.
+Use `anything-colors' instead."
   (interactive)
   (anything-set-source-filter '("Colors"
                                 "Customize Faces")))
 
 (defun anything-show-kill-ring-only ()
-  "Only show source about kill ring."
+  "[OBSOLETE] Only show source about kill ring.
+Use `anything-show-kill-ring' instead."
   (interactive)
   (anything-set-source-filter '("Kill Ring")))
 
@@ -839,12 +784,18 @@ It is cleared after executing action.")
   "Create `anything' summary."
   (save-excursion
     (goto-char (point-min))
-    (loop while (re-search-forward "^;;;; <\\(.+?\\)>$\\|^;; (anything '\\(.+?\\))$"  nil t)
-          collect (if (match-beginning 1)
-                      (cons 'section (match-string-no-properties 1))
-                    (cons 'source
-                          (cons (match-string-no-properties 2)
-                                (assoc-default 'name (symbol-value (intern (match-string-no-properties 2))))))))))
+    (loop while (re-search-forward "^;;;; <\\(.+?\\)>$\\|^;; (anything '\\(.+?\\))$\\|^ *;; (anything '\\(.+?\\))$"  nil t)
+          collect (cond ((match-beginning 1)
+                         (cons 'section (match-string-no-properties 1)))
+                        ((match-beginning 2)
+                         (cons 'source
+                               (cons (match-string-no-properties 2)
+                                     (assoc-default 'name (symbol-value (intern (match-string-no-properties 2)))))))
+                        ((match-beginning 3)
+                         (cons 'source
+                               (cons (match-string-no-properties 3)
+                                     (assoc-default 'name (symbol-value (intern (match-string-no-properties 3)))))))))))
+                         
 ;; (find-epp (anything-c-create-summary))
 
 (defun anything-c-insert-summary ()
@@ -1437,49 +1388,61 @@ http://www.nongnu.org/bm/")
   (loop for i in files
         collect (propertize i 'face anything-c-bookmarks-face3)))
 
-(defun anything-c-highlight-bookmark (files)
+(defun anything-c-highlight-bookmark (bookmarks)
   "Colors mean:
 Grey ==> non--buffer-filename with saved region or not.
 Yellow ==> w3m url with saved region.
+Magenta ==> Gnus buffer.
 Green ==> info buffer with saved region.
 Blue ==> regular file with maybe a region saved.
 RedOnWhite ==> Directory."
-  (loop for i in files
-     for pred = (bookmark-get-filename i)
-     for bufp = (and (fboundp 'bookmark-get-buffername)
-                     (bookmark-get-buffername i))
-     for regp = (and (fboundp 'bookmark-get-endposition)
-                     (bookmark-get-endposition i)
-                     (/= (bookmark-get-position i)
-                         (bookmark-get-endposition i)))
-     for handlerp = (and (fboundp 'bookmark-get-handler)
-                         (bookmark-get-handler i))
-     if (and pred ;; directories
+  (loop for i in bookmarks
+     for pred      = (bookmark-get-filename i)
+     for bufp      = (and (fboundp 'bookmarkp-get-buffer-name)
+                          (bookmarkp-get-buffer-name i))
+     for regp      = (and (fboundp 'bookmarkp-get-end-position)
+                          (bookmarkp-get-end-position i)
+                          (/= (bookmark-get-position i)
+                              (bookmarkp-get-end-position i)))
+     for handlerp  = (and (fboundp 'bookmark-get-handler)
+                          (bookmark-get-handler i))
+     for isannotation  = (bookmark-get-annotation i)       
+     if (and isannotation (not (string-equal isannotation "")))
+     do (setq i (concat "*" i))
+     ;; info buffers
+     if (and (fboundp 'bookmarkp-get-buffer-name)
+             (eq handlerp 'Info-bookmark-jump)
+             (string= bufp "*info*"))
+     collect (propertize i 'face '((:foreground "green")) 'help-echo pred)
+     ;; w3m buffers
+     if (and (fboundp 'bookmarkp-get-buffer-name)
+             (string= bufp "*w3m*"))
+     collect (propertize i 'face '((:foreground "yellow")) 'help-echo pred)
+     ;; gnus buffers
+     if (eq handlerp 'bookmarkp-jump-gnus)
+     collect (propertize i 'face '((:foreground "magenta")) 'help-echo pred)
+     ;; directories
+     if (and pred 
              (file-directory-p pred))
-     collect (propertize i 'face anything-c-bookmarks-face1)
-     if (and pred ;; regular files
-             (not (file-directory-p pred))
-             (file-exists-p pred)
-             (not regp))
-     collect (propertize i 'face anything-c-bookmarks-face2)
-     if (and pred ;; regular files with regions saved
+     collect (propertize i 'face anything-c-bookmarks-face1 'help-echo pred)
+     ;; regular files with regions saved
+     if (and pred 
              (not (file-directory-p pred))
              (file-exists-p pred)
              regp)
-     collect (propertize i 'face '((:foreground "Indianred2")))
-     if (and (fboundp 'bookmark-get-buffername) ;; buffer non--filename
+     collect (propertize i 'face '((:foreground "Indianred2")) 'help-echo pred)
+     ;; regular files
+     if (and pred 
+             (not (file-directory-p pred))
+             (file-exists-p pred)
+             (not regp))
+     collect (propertize i 'face anything-c-bookmarks-face2 'help-echo pred)
+     ;; buffer non--filename
+     if (and (fboundp 'bookmarkp-get-buffer-name)
              bufp
-             (not pred))
-     collect (propertize i 'face '((:foreground "grey")))
-     if (and (fboundp 'bookmark-get-buffername) ;; w3m buffers
-             (string= bufp "*w3m*")
-             (when pred
-               (not (file-exists-p pred))))
-     collect (propertize i 'face '((:foreground "yellow")))
-     if (and (fboundp 'bookmark-get-buffername) ;; info buffers
-             (eq handlerp 'Info-bookmark-jump)
-             (string= bufp "*info*"))
-     collect (propertize i 'face '((:foreground "green")))))
+             (not (bookmark-get-handler i))
+             (if pred (not (file-exists-p pred)) (not pred)))
+     collect (propertize i 'face '((:foreground "grey")))))
        
 
 (defvar anything-c-source-bookmarks-local
@@ -1499,6 +1462,145 @@ RedOnWhite ==> Directory."
     (type . bookmark))
   "See (info \"(emacs)Bookmarks\").")
 ;; (anything 'anything-c-source-bookmarks-local)
+
+;;; Sources to filter bookmark+ bookmarks.
+;; Dependency: http://www.emacswiki.org/cgi-bin/emacs/bookmark+.el
+
+(when (require 'bookmark+ nil t)
+  (bookmark-maybe-load-default-file)
+  
+  (defun anything-c-bookmark+-filter-setup-alist (fn &rest args)
+    "Return a filtered `bookmark-alist' using one of the bookmark+ filters functions."
+    (loop
+       with alist = (if args
+                        (apply #'(lambda (x) (funcall fn x)) args)
+                        (funcall fn))
+       for i in alist
+       for b = (car i)
+       collect b into sa
+       finally return (sort sa 'string-lessp)))
+
+  ;; Regions
+  (defvar anything-c-source-bookmark-regions
+    '((name . "Bookmark Regions")
+      (candidates . anything-c-bookmark-region-setup-alist)
+      (candidate-transformer anything-c-highlight-bookmark)
+      (type . bookmark)))
+
+  ;; (anything 'anything-c-source-bookmark-regions)
+
+  (defun anything-c-bookmark-region-setup-alist ()
+    "Specialized filter function for bookmark+ regions."
+    (anything-c-bookmark+-filter-setup-alist 'bookmarkp-region-alist-only))
+
+  ;; W3m
+  (defvar anything-c-source-bookmark-w3m
+    '((name . "Bookmark W3m")
+      (candidates . anything-c-bookmark-w3m-setup-alist)
+      (candidate-transformer anything-c-highlight-bookmark)
+      (type . bookmark)))
+
+  ;; (anything 'anything-c-source-bookmark-w3m)
+
+  (defun anything-c-bookmark-w3m-setup-alist ()
+    "Specialized filter function for bookmark+ w3m."
+    (anything-c-bookmark+-filter-setup-alist 'bookmarkp-w3m-alist-only))
+
+  ;; Gnus
+  (defvar anything-c-source-bookmark-gnus
+    '((name . "Bookmark Gnus")
+      (candidates . anything-c-bookmark-gnus-setup-alist)
+      (candidate-transformer anything-c-highlight-bookmark)
+      (type . bookmark)))
+  ;; (anything 'anything-c-source-bookmark-gnus)
+
+  (defun anything-c-bookmark-gnus-setup-alist ()
+    "Specialized filter function for bookmark+ gnus."
+    (anything-c-bookmark+-filter-setup-alist 'bookmarkp-gnus-alist-only))
+
+  ;; Info
+  (defvar anything-c-source-bookmark-info
+    '((name . "Bookmark Info")
+      (candidates . anything-c-bookmark-info-setup-alist)
+      (candidate-transformer anything-c-highlight-bookmark)
+      (type . bookmark)))
+  ;; (anything 'anything-c-source-bookmark-info)
+
+  (defun anything-c-bookmark-info-setup-alist ()
+    "Specialized filter function for bookmark+ info."
+    (anything-c-bookmark+-filter-setup-alist 'bookmarkp-info-alist-only))
+
+  ;; Local Files&directories
+  (defvar anything-c-source-bookmark-files&dirs
+    '((name . "Bookmark Files&Directories")
+      (candidates . anything-c-bookmark-local-files-setup-alist)
+      (candidate-transformer anything-c-highlight-bookmark)
+      (type . bookmark)))
+  ;; (anything 'anything-c-source-bookmark-files&dirs)
+
+  (defun anything-c-bookmark-local-files-setup-alist ()
+    "Specialized filter function for bookmark+ locals files."
+    (anything-c-bookmark+-filter-setup-alist 'bookmarkp-local-file-alist-only))
+
+  ;; Su Files&directories
+
+  (defun anything-c-highlight-bookmark+-su (bmk)
+    (if (bookmarkp-root-or-sudo-logged-p)
+        (anything-c-highlight-bookmark bmk)
+        (anything-c-highlight-not-logged bmk)))
+
+  (defvar anything-c-source-bookmark-su-files&dirs
+    '((name . "Bookmark Root-Files&Directories")
+      (candidates . anything-c-bookmark-su-files-setup-alist)
+      (candidate-transformer anything-c-highlight-bookmark+-su)
+      (type . bookmark)))
+  ;; (anything 'anything-c-source-bookmark-su-files&dirs)
+
+  (defun anything-c-bookmark-su-files-setup-alist ()
+    "Specialized filter function for bookmark+ su/sudo files."
+    (loop
+       with l = (anything-c-bookmark+-filter-setup-alist 'bookmarkp-remote-file-alist-only)
+       for i in l
+       for isfile = (bookmark-get-filename i)
+       for istramp = (and isfile (boundp 'tramp-file-name-regexp)
+                          (save-match-data
+                            (string-match tramp-file-name-regexp isfile)))
+       for issu = (and istramp
+                       (string-match bookmarkp-su-or-sudo-regexp isfile))
+       if issu
+       collect i))
+
+  ;; Ssh Files&directories
+  (defvar anything-c-source-bookmark-ssh-files&dirs
+    '((name . "Bookmark Ssh-Files&Directories")
+      (candidates . anything-c-bookmark-ssh-files-setup-alist)
+      (type . bookmark)))
+  ;; (anything 'anything-c-source-bookmark-ssh-files&dirs)
+
+  (defun anything-c-bookmark-ssh-files-setup-alist ()
+    "Specialized filter function for bookmark+ ssh files."
+    (loop
+       with l = (anything-c-bookmark+-filter-setup-alist 'bookmarkp-remote-file-alist-only)
+       for i in l
+       for isfile = (bookmark-get-filename i)
+       for istramp = (and isfile (boundp 'tramp-file-name-regexp)
+                          (save-match-data
+                            (string-match tramp-file-name-regexp isfile)))
+       for isssh = (and istramp
+                        (string-match "/ssh:" isfile))
+       if isssh
+       collect i))
+
+  ;; All bookmark+ sources.
+  (defun anything-bookmark+ ()
+    "Preconfigured anything for bookmark+ sources."
+    (interactive)
+    (anything '(anything-c-source-bookmark-files&dirs
+                anything-c-source-bookmark-w3m
+                anything-c-source-bookmark-gnus
+                anything-c-source-bookmark-regions
+                anything-c-source-bookmark-su-files&dirs
+                anything-c-source-bookmark-ssh-files&dirs))))
 
 
 ;; W3m bookmark
@@ -1521,7 +1623,7 @@ RedOnWhite ==> Directory."
         (forward-line)
         (when (re-search-forward "href=" nil t)
           (beginning-of-line)
-          (when (re-search-forward "http://[^>]*" nil t)
+          (when (re-search-forward "\\(http\\|file\\)://[^>]*" nil t)
             (setq url (concat "\"" (match-string 0))))
           (beginning-of-line)
           (when (re-search-forward anything-w3m-bookmarks-regexp nil t)
@@ -1811,13 +1913,11 @@ http://ctags.sourceforge.net/")
     (persistent-action . (lambda (elm)
                            (anything-semantic-default-action elm)
                            (anything-match-line-color-current-line)))
-    (action ("Goto tag" . (lambda (candidate)
-                            (let ((tag (cdr (assoc candidate anything-semantic-candidates))))
-                              (semantic-go-to-tag tag))))))
+    (action . anything-semantic-default-action)
   "Needs semantic in CEDET.
 
 http://cedet.sourceforge.net/semantic.shtml
-http://cedet.sourceforge.net/")
+http://cedet.sourceforge.net/"))
 
 ;; (anything 'anything-c-source-semantic)
 
@@ -2105,6 +2205,95 @@ If this action is executed just after `yank', replace with STR as yanked string.
   (kill-new str))
 
 ;; (anything 'anything-c-source-kill-ring)
+
+;;;; <Mark ring>
+;; DO NOT include these sources in `anything-sources' use
+;; the commands `anything-mark-ring' and `anything-global-mark-ring' instead.
+
+(defun anything-c-source-mark-ring-candidates ()
+  (flet ((get-marks (pos)
+           (save-excursion
+             (goto-char pos)
+             (beginning-of-line)
+             (let ((line  (car (split-string (thing-at-point 'line) "[\n\r]"))))
+               (when (string= "" line)
+                 (setq line  "<EMPTY LINE>"))
+               (format "%7d: %s" (line-number-at-pos) line)))))
+    (with-current-buffer anything-current-buffer
+      (loop
+         with marks = (cons (mark-marker) mark-ring)
+         with recip = nil
+         for i in marks
+         for f = (get-marks i) 
+         if (not (member f recip))
+         do
+           (push f recip)
+         finally (return (reverse recip))))))
+           
+(defvar anything-mark-ring-cache nil)
+(defvar anything-c-source-mark-ring
+  '((name . "mark-ring")
+    (init . (lambda ()
+              (setq anything-mark-ring-cache
+                    (anything-c-source-mark-ring-candidates))))
+    (candidates . (lambda ()
+                    (anything-aif anything-mark-ring-cache
+                        it)))
+    (action . (("Goto line" . (lambda (candidate)
+                                (goto-line (string-to-number candidate))))))
+    (persistent-action . (lambda (candidate)
+                           (goto-line (string-to-number candidate))
+                           (anything-match-line-color-current-line)))))
+
+;; (anything 'anything-c-source-mark-ring)
+
+(defun anything-mark-ring ()
+  "Preconfigured `anything' for `anything-c-source-mark-ring'."
+  (interactive)
+  (anything 'anything-c-source-mark-ring))
+
+;;; Global-mark-ring
+(defvar anything-c-source-global-mark-ring
+  '((name . "global-mark-ring")
+    (candidates . anything-c-source-global-mark-ring-candidates)
+    (action . (("Goto line" . (lambda (candidate)
+                                (let ((items (split-string candidate ":")))
+                                  (switch-to-buffer (second items))
+                                  (goto-line (string-to-number (car items))))))))
+    (persistent-action . (lambda (candidate)
+                           (let ((items (split-string candidate ":")))
+                             (switch-to-buffer (second items))
+                             (goto-line (string-to-number (car items)))
+                             (anything-match-line-color-current-line))))))
+                             
+(defun anything-c-source-global-mark-ring-candidates ()
+  (flet ((buf-fn (m)
+           (with-current-buffer (marker-buffer m)
+             (goto-char m)
+             (beginning-of-line)
+             (let (line)
+               (if (string= "" line)
+                   (setq line  "<EMPTY LINE>")
+                   (setq line (car (split-string (thing-at-point 'line) "[\n\r]"))))
+               (format "%7d:%s:    %s" (line-number-at-pos) (marker-buffer m) line)))))
+    (loop
+       with marks = global-mark-ring
+       with recip = nil  
+       for i in marks
+       if (not (or (string-match "^ " (format "%s" (marker-buffer i)))
+                   (null (marker-buffer i))))
+       for a = (buf-fn i)
+       if (and a (not (member a recip)))
+       do
+         (push a recip)
+       finally (return (reverse recip)))))
+
+;; (anything 'anything-c-source-global-mark-ring)
+
+(defun anything-global-mark-ring ()
+  "Preconfigured `anything' for `anything-c-source-global-mark-ring'."
+  (interactive)
+  (anything 'anything-c-source-global-mark-ring))
 
 ;;;; <Register>
 ;;; Insert from register
@@ -2825,14 +3014,6 @@ A list of search engines."
   "Do many create actions from `anything-pattern'.
 See also `anything-create--actions'.")
 ;; (anything 'anything-c-source-create)
-(defcustom anything-create--actions-private nil
-  "User defined actions for `anything-create' / `anything-c-source-create'.
-It is a list of (DISPLAY . FUNCTION) pairs like `action'
-attribute of `anything-sources'.
-
-It is prepended to predefined pairs."
-  :type 'list
-  :group 'anything-config)
 
 (defun anything-create-from-anything ()
   "Run `anything-create' from `anything' as a fallback."
@@ -2881,6 +3062,28 @@ See also `anything-create--actions'."
     (action . insert)))
 ;; (anything 'anything-c-source-minibuffer-history)
 
+;; elscreen
+(defvar anything-c-source-elscreen
+  '((name . "Elscreen")
+    (candidates . (lambda ()
+                    (if (cdr (elscreen-get-screen-to-name-alist))
+                        (sort
+                         (loop for sname in (elscreen-get-screen-to-name-alist)
+                               append (list (format "[%d] %s" (car sname) (cdr sname))) into lst
+                               finally (return lst))
+                         '(lambda (a b) (compare-strings a nil nil b nil nil))))))
+    (action . (("Change Screen".
+                (lambda (candidate)
+                  (elscreen-goto (- (aref candidate 1) (aref "0" 0)))))
+               ("Kill Screen".
+                (lambda (candidate)
+                  (elscreen-kill (- (aref candidate 1) (aref "0" 0)))))
+               ("Only Screen".
+                (lambda (candidate)
+                  (elscreen-goto (- (aref candidate 1) (aref "0" 0)))
+                  (elscreen-kill-others)))))))
+;; (anything 'anything-c-source-elscreen)
+
 ;;;; <System>
 
 ;;; X RandR resolution change
@@ -2911,11 +3114,16 @@ See also `anything-create--actions'."
   (let ((default-font elm))
     (set-default-font default-font)))
 
+(defvar anything-c-xfonts-cache nil)
 (defvar anything-c-source-xfonts
   '((name . "X Fonts")
-    (candidates . (lambda ()
-                    (x-list-fonts "*")))
+    (init . (lambda ()
+              (unless anything-c-xfonts-cache
+                (setq anything-c-xfonts-cache
+                      (x-list-fonts "*")))))  
+    (candidates . anything-c-xfonts-cache)
     (multiline)
+    (volatile)
     (action . (("Copy to kill ring" . (lambda (elm)
                                         (kill-new elm)))
                ("Set Font" . (lambda (elm)
@@ -2967,8 +3175,10 @@ See also `anything-create--actions'."
                                      (font-lock-mode 1)))
                ("Run emerge pretend" . (lambda (elm)
                                          (anything-c-gentoo-eshell-action elm "emerge -p")))
-               ("Emerge" . anything-gentoo-install)
-               ("Unmerge" . anything-gentoo-uninstall)
+               ("Emerge" . (lambda (elm)
+                             (anything-gentoo-install elm :action 'install)))
+               ("Unmerge" . (lambda (elm)
+                              (anything-gentoo-install elm :action 'uninstall)))
                ("Show dependencies" . (lambda (elm)
                                         (anything-c-gentoo-default-action elm "equery" "-C" "d")))
                ("Show related files" . (lambda (elm)
@@ -2979,19 +3189,17 @@ See also `anything-create--actions'."
 
 ;; (anything 'anything-c-source-gentoo)
 
-(defun anything-gentoo-install (candidate)
+(defun* anything-gentoo-install (candidate &key action)
   (funcall anything-gentoo-prefered-shell)
+  (let ((command (case action
+                   ('install "sudo emerge -av ")
+                   ('uninstall "sudo emerge -avC ")
+                   (t (error "Unknow action")))))
   (if anything-c-marked-candidate-list
       (let ((elms (mapconcat 'identity anything-c-marked-candidate-list " ")))
-        (insert (concat "sudo emerge -av " elms)))
-      (insert (concat "sudo emerge -av " candidate))))
+        (insert (concat command elms)))
+      (insert (concat command candidate)))))
 
-(defun anything-gentoo-uninstall (candidate)
-  (funcall anything-gentoo-prefered-shell)
-  (if anything-c-marked-candidate-list
-      (let ((elms (mapconcat 'identity anything-c-marked-candidate-list " ")))
-        (insert (concat "sudo emerge -avC " elms)))
-      (insert (concat "sudo emerge -avC " candidate))))
 
 (defun anything-c-gentoo-default-action (elm command &rest args)
   "Gentoo default action that use `anything-c-gentoo-buffer'."
@@ -3054,7 +3262,14 @@ See also `anything-create--actions'."
   (when (get-buffer "*EShell Command Output*")
     (kill-buffer "*EShell Command Output*"))
   (message "Wait searching...")
-  (eshell-command (format "%s %s" command elm)))
+  (let ((buf-fname (buffer-file-name anything-current-buffer)))
+    (if (and buf-fname (string-match tramp-file-name-regexp buf-fname))
+        (progn
+          (save-window-excursion
+            (pop-to-buffer "*scratch*")
+            (eshell-command (format "%s %s" command elm)))
+          (pop-to-buffer "*EShell Command Output*"))
+        (eshell-command (format "%s %s" command elm)))))
 
 (defun anything-c-gentoo-get-use ()
   "Initialize buffer with all use flags."
@@ -3121,6 +3336,7 @@ See also `anything-create--actions'."
                                    (delete-process (get-process elm))))))))
 
 ;; (anything 'anything-c-source-emacs-process)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Action Helpers ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Files
@@ -3435,7 +3651,9 @@ evaluate it and put it onto the `command-history'."
   (anything-c-skip-entries buffers anything-c-boring-buffer-regexp))
 
 (defun anything-c-skip-current-buffer (buffers)
-  (remove (buffer-name anything-current-buffer) buffers))
+  (if anything-allow-skipping-current-buffer
+      (remove (buffer-name anything-current-buffer) buffers)
+      buffers))
 
 (defun anything-c-shadow-boring-buffers (buffers)
   "Buffers matching `anything-c-boring-buffer-regexp' will be
@@ -3487,23 +3705,6 @@ other candidate transformers."
                          function)
                    list)
           finally (return (nreverse list)))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Marked candidates ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun anything-c-list-marked-candidate ()
-  (interactive)
-  (let (marked-candidates)
-    (with-anything-window
-      (goto-char (point-min))
-      (beginning-of-line)
-      (while (anything-next-visible-mark)
-        (push (buffer-substring-no-properties (point-at-bol) (point-at-eol)) marked-candidates)))
-    marked-candidates))
-
-(defvar anything-c-marked-candidate-list nil)
-(defadvice anything-select-action (before save-marked-candidates () activate)
-  (setq anything-c-marked-candidate-list (anything-c-list-marked-candidate))
-  (anything-clear-visible-mark))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Adaptive Sorting of Candidates ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar anything-c-adaptive-done nil
@@ -3788,12 +3989,58 @@ If optional 2nd argument is non-nil, the file opened with `auto-revert-mode'.")
     (anything-c-delete-file i)))
 
 (defun anything-ediff-marked-buffers (candidate &optional merge)
-  (when (eq (length anything-c-marked-candidate-list) 2)
-    (let ((buf1 (first anything-c-marked-candidate-list))
-          (buf2 (second anything-c-marked-candidate-list)))
-      (if merge
-          (ediff-merge-buffers buf1 buf2)
-          (ediff-buffers buf1 buf2)))))
+  "Ediff 2 marked buffers or 1 marked buffer and current-buffer.
+With optional arg `merge' call `ediff-merge-buffers'."
+  (let ((lg-lst (length anything-c-marked-candidate-list))
+        buf1 buf2)
+    (case lg-lst
+      (0
+       (error "Error:You have to mark at least 1 buffer"))
+      (1
+       (setq buf1 anything-current-buffer
+             buf2 (first anything-c-marked-candidate-list)))
+      (2 
+       (setq buf1 (first anything-c-marked-candidate-list)
+             buf2 (second anything-c-marked-candidate-list)))
+      (t
+       (error "Error:To much buffers marked!")))
+    (if merge
+        (ediff-merge-buffers buf1 buf2)
+        (ediff-buffers buf1 buf2))))
+
+(defun anything-bookmark-get-bookmark-from-name (bmk)
+  "Return bookmark name even if it is a bookmark with annotation.
+e.g prepended with *.
+Return nil if bmk is not a valid bookmark."
+  (let ((bookmark (replace-regexp-in-string "\*" "" bmk)))
+    (if (assoc bookmark bookmark-alist)
+        bookmark
+        (when (assoc bmk bookmark-alist)
+          bmk))))
+
+(defun anything-delete-marked-bookmarks (elm)
+  "Delete this bookmark or all marked bookmarks."
+  (let ((bookmark (anything-bookmark-get-bookmark-from-name elm)))
+    (anything-aif anything-c-marked-candidate-list
+        (dolist (i it)
+          (let ((bmk (anything-bookmark-get-bookmark-from-name i)))
+            (bookmark-delete bmk 'batch)))
+      (bookmark-delete bookmark 'batch))))
+
+(defun anything-bookmark-active-region-maybe (candidate)
+  "Active saved region if this bookmark have one."
+  (let ((bookmark (anything-bookmark-get-bookmark-from-name candidate)))
+    (condition-case nil
+        (when (and (boundp bookmarkp-use-region-flag)
+                   bookmarkp-use-region-flag)
+          (let ((bmk-name (or (bookmarkp-get-buffer-name bookmark)
+                              (file-name-nondirectory
+                               (bookmark-get-filename bookmark)))))
+            (when bmk-name
+              (with-current-buffer bmk-name
+                (setq deactivate-mark nil)))))
+      (error nil))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Setup ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -3871,30 +4118,35 @@ If optional 2nd argument is non-nil, the file opened with `auto-revert-mode'.")
   "String representing S-Expressions.")
 
 (define-anything-type-attribute 'bookmark
-  '((action
+  `((action
      ("Jump to bookmark" . (lambda (candidate)
-                             (bookmark-jump candidate)
+                             (let ((bookmark (anything-bookmark-get-bookmark-from-name candidate)))
+                               (bookmark-jump bookmark))
                              (anything-update)
-                             (condition-case nil
-                                 (when bookmark-use-region
-                                   (let ((bmk-name (or (bookmark-get-buffername candidate)
-                                                       (file-name-nondirectory
-                                                        (bookmark-get-filename candidate)))))
-                                     (when bmk-name
-                                       (with-current-buffer bmk-name
-                                         (setq deactivate-mark nil)))))
-                               (error nil))))
+                             (anything-bookmark-active-region-maybe candidate)))
      ("Jump to BM other window" . (lambda (candidate)
-                                    (bookmark-jump-other-window candidate)
-                                    (anything-update)))
+                                    (let ((bookmark (anything-bookmark-get-bookmark-from-name candidate)))
+                                      (bookmark-jump-other-window bookmark))
+                                    (anything-update)
+                                    (anything-bookmark-active-region-maybe candidate)))
      ("Bookmark edit annotation" . (lambda (candidate)
-                                     (bookmark-edit-annotation candidate)))
+                                     (let ((bookmark (anything-bookmark-get-bookmark-from-name candidate)))
+                                       (bookmark-edit-annotation bookmark))))
      ("Bookmark show annotation" . (lambda (candidate)
-                                     (bookmark-show-annotation candidate)))
-     ("Delete bookmark" . bookmark-delete)
-     ("Rename bookmark" . bookmark-rename)
-     ("Relocate bookmark" . bookmark-relocate)))
-  "Bookmark name.")
+                                     (let ((bookmark (anything-bookmark-get-bookmark-from-name candidate)))
+                                       (bookmark-show-annotation bookmark))))
+     ("Delete bookmark(s)" . anything-delete-marked-bookmarks)
+     ,@(when (fboundp 'bookmarkp-edit-bookmark)
+             '(("Edit Bookmark" . (lambda (candidate)
+                                    (let ((bookmark (anything-bookmark-get-bookmark-from-name candidate)))
+                                            (bookmarkp-edit-bookmark bookmark))))))
+     ("Rename bookmark" . (lambda (candidate)
+                            (let ((bookmark (anything-bookmark-get-bookmark-from-name candidate)))
+                              (bookmark-rename bookmark))))
+     ("Relocate bookmark" . (lambda (candidate)
+                              (let ((bookmark (anything-bookmark-get-bookmark-from-name candidate)))
+                                (bookmark-relocate bookmark))))
+     "Bookmark name.")))
 
 (define-anything-type-attribute 'line
   '((display-to-real . anything-c-display-to-real-line)
