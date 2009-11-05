@@ -84,6 +84,7 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(ac-dwim t)
+ '(display-time-mode t)
  '(js2-basic-offset 2)
  '(magit-log-cutoff-length 300)
  '(magit-process-popup-time 0)
@@ -328,8 +329,8 @@
 
 ;; howm
 (add-to-list 'load-path "~/.emacs.d/howm")
-;; (require 'howm-mode)
-(setq howm-menu-lang 'ja)		;
+(require 'howm-mode)
+(setq howm-menu-lang 'ja)
 (global-set-key "\C-c,," 'howm-menu)
 ;; (autoload 'howm-menu "howm-mode" "Hitori Otegaru Wiki Modoki" t)
 
