@@ -327,6 +327,11 @@
 ;; (setq load-path (cons (expand-file-name "~/.emacs.d/egg") load-path))
 ;; (require 'egg)
 
+;; ------------------------------
+;; gist
+;; ------------------------------
+(require 'gist)
+
 ;; howm
 (add-to-list 'load-path "~/.emacs.d/howm")
 (require 'howm-mode)
