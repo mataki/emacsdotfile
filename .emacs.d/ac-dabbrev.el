@@ -17,7 +17,7 @@
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
-;; Version: 0.0.6
+;; Version: 0.0.8
 ;; Author: k1LoW (Kenichirou Oyama), <k1lowxb [at] gmail [dot] com> <k1low [at] 101000lab [dot] org>
 ;; URL: http://code.101000lab.org, http://trac.codecheck.in
 
@@ -31,6 +31,8 @@
 ;;            ))
 
 ;;; Change Log
+;; 0.0.8: fix parameter for auto-complete.el 1.0a
+;; 0.0.7: fix parameter for auto-complete.el 0.3.0
 ;; 0.0.6: fix face for auto-complete.el 0.2.0
 ;; 0.0.5: add face.
 ;; 0.0.4: new valiable:ac-dabbrev-reset-char. this valiable is suga idea. this valiable reset count when this valiable have insert char.
@@ -100,14 +102,14 @@ If IGNORE-CASE is non-nil, accept matches which differ in case."
     (ac-dabbrev-get-limit-candidates abbrev nil)))
 
 (defvar ac-source-dabbrev
-  '((candidates
+ '((candidates
      . (lambda () (all-completions ac-target (ac-dabbrev-get-candidates ac-target))))
     (candidate-face . ac-dabbrev-menu-face)
     (selection-face . ac-dabbrev-selection-face))
   "Source for dabbrev")
 
 (defface ac-dabbrev-menu-face
-  '((t (:background "white" :foreground "blue")))
+  '((t (:background "lightgray" :foreground "blue")))
   "Face for dabbrev candidate menu."
   :group 'auto-complete)
 
@@ -121,4 +123,3 @@ If IGNORE-CASE is non-nil, accept matches which differ in case."
 
 ;;; end
 ;;; ac-dabbrev.el ends here
-

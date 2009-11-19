@@ -166,12 +166,14 @@
 
 ;; auto-complete http://d.hatena.ne.jp/rubikitch/20081109/autocomplete
 ;; http://dev.ariel-networks.com/Members/matsuyama/auto-complete
+(add-to-load-path-recompile "~/.emacs.d/auto-complete")
 (require 'auto-complete)
+(require 'auto-complete-config)
 (global-auto-complete-mode t)
 (setq ac-auto-start 4)
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
-(require 'auto-complete-extension)
+(setq-default ac-sources '(ac-source-filename ac-source-abbrev ac-source-words-in-buffer ac-source-words-in-same-mode-buffers ac-source-abbrev ac-source-files-in-current-dir ac-source-dabbrev))
 
 ;; auto-complete anything
 (require 'ac-anything)
@@ -224,10 +226,9 @@
 
 ;; find-fileでの補完
 ;; http://www.bookshelf.jp/soft/meadow_23.html#SEC219
-(setq hc-ctrl-x-c-is-completion t)
-(require 'highlight-completion)
-(highlight-completion-mode 1)
-(global-set-key "\C-\\" 'toggle-input-method)
+;; (setq hc-ctrl-x-c-is-completion t)
+;; (require 'highlight-completion)
+;; (highlight-completion-mode 1)
 
 ;; browse-kill-ring
 ;; http://www.todesschaf.org/projects/bkr.html
@@ -389,7 +390,6 @@
 
 ;; rcodetools
 (require 'rcodetools)
-(require 'auto-complete-ruby)
 ;; (setq ac-omni-completion-sources
 ;;   '((ruby-mode . (("\\.\\=" . (ac-source-rcodetools))))))
 ;; (add-hook 'ruby-mode-hook
