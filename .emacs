@@ -178,6 +178,7 @@
 ;; auto-complete anything
 (require 'ac-anything)
 (define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-anything)
+(require 'anything-show-completion)
 
 (require 'ac-dabbrev)
 (setq ac-sources
