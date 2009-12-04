@@ -173,17 +173,12 @@
 (setq ac-auto-start 4)
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
-(setq-default ac-sources '(ac-source-filename ac-source-abbrev ac-source-words-in-buffer ac-source-words-in-same-mode-buffers ac-source-abbrev ac-source-files-in-current-dir ac-source-dabbrev))
+(setq-default ac-sources '(ac-source-filename ac-source-words-in-same-mode-buffers ac-source-files-in-current-dir))
 
 ;; auto-complete anything
 (require 'ac-anything)
 (define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-anything)
 (require 'anything-show-completion)
-
-(require 'ac-dabbrev)
-(setq ac-sources
-     (list ac-source-dabbrev
-           ))
 
 ;; http://www.bookshelf.jp/soft/meadow_34.html#SEC497
 ;; (load "dabbrev-ja")
