@@ -25,3 +25,6 @@
 [submodule ".emacs.d/undo-tree"]
 	path = .emacs.d/undo-tree
 	url = http://www.dr-qubit.org/git/undo-tree.git
+[submodule ".emacs.d/js2-mode"]
+	path = .emacs.d/js2-mode
+	url = git://github.com/mooz/js2-mode.git
