@@ -1,7 +1,8 @@
 ;; http://d.hatena.ne.jp/rubikitch/20090609/1244484272
 (defun add-to-load-path-recompile (dir)
   (add-to-list 'load-path dir)
-  (let (save-abbrevs) (byte-recompile-directory dir)))
+;;  (let (save-abbrevs) (byte-recompile-directory dir))
+  )
 
 ;; setenv PATH
 (setenv "PATH" (concat "/opt/local/bin:" (getenv "PATH")))
@@ -26,8 +27,8 @@
 ;; 基本設定
 (set-scroll-bar-mode 'right)
 (display-time)
-(setq visible-bell t)
-(tool-bar-mode nil)
+(setq visible-bell nil)
+(tool-bar-mode 0)
 (global-hl-line-mode 1)
 ;; http://www.bookshelf.jp/soft/meadow_42.html#SEC632
 (show-paren-mode t)
@@ -68,10 +69,14 @@
           "System to toggle region and rectangle." t nil)
 (sense-region-on)
 
-;; redo
-(when (require 'redo nil t)
-  (define-key ctl-x-map (if window-system "U" "r") 'redo)
-  (define-key global-map [?\C-_] 'redo))
+;; undo-tree
+;; (when (require 'redo nil t)
+;;   (define-key ctl-x-map (if window-system "U" "r") 'redo)
+;;   (define-key global-map [?\C-_] 'redo))
+(add-to-load-path-recompile "~/.emacs.d/undo-tree")
+(require 'undo-tree)
+(global-undo-tree-mode)
+(global-set-key "\C-_" 'undo-tree-redo)
 
 ;; linum
 (require 'linum)
@@ -506,22 +511,16 @@
 (define-key anything-map (kbd "C-v") 'anything-next-source)
 (define-key anything-map (kbd "M-v") 'anything-previous-source)
 ;; source list
-(setq anything-sources (list anything-c-source-buffers+
-;;                           anything-c-source-yas-complete
-                             anything-c-source-emacs-commands
-;;                             anything-c-source-emacs-functions
-;;                              anything-c-source-mx
-                             anything-c-source-bookmarks
-;;                              anything-c-source-etags-select
-                             anything-c-source-file-name-history
-                             anything-c-source-locate
-                             anything-c-source-complex-command-history
-                             anything-c-source-extended-command-history
-                             anything-c-source-kill-ring
-                             anything-c-source-org-headline
-                             anything-c-source-minibuffer-history
-                             anything-c-source-auto-install-from-emacswiki
-                             ))
+(setq anything-sources
+      '(anything-c-source-buffers+
+        anything-c-source-colors
+        anything-c-source-recentf
+        anything-c-source-kill-ring
+        anything-c-source-emacs-commands
+        anything-c-source-emacs-functions
+        anything-c-source-minibuffer-history
+        anything-c-source-files-in-current-dir
+        ))
 
 ;;; anything-c-moccurの設定
 (require 'anything-c-moccur)
