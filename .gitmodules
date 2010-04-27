@@ -28,3 +28,6 @@
 [submodule ".emacs.d/js2-mode"]
 	path = .emacs.d/js2-mode
 	url = git://github.com/mooz/js2-mode.git
+[submodule ".emacs.d/yaml-mode"]
+	path = .emacs.d/yaml-mode
+	url = git://github.com/yoshiki/yaml-mode.git
