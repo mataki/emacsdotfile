@@ -30,7 +30,7 @@
     )
 ; Javascript-mode js2-mode
    (html-script
-    :submode Javascript-mode
+    :submode js2-mode
     :delimiter-mode nil
     :front "<script\[^>\]*\\(language=[\"|\']javascript\\([0-9.]*\\)[\"|']\\|type=[\"|']text/javascript[\"|']\\)\[^>\]*>\n"
     :back"</script>"
@@ -42,4 +42,9 @@
 (add-hook 'html-mode-hook
           '(lambda ()
              (setq mmm-classes '(html-script erb-code embedded-css))
+             (mmm-mode-on)))
+
+(add-hook 'nxml-mode-hook
+          '(lambda ()
+             (setq mmm-classes '(html-script embedded-css))
              (mmm-mode-on)))
