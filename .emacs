@@ -111,7 +111,7 @@
  '(flymake-errline ((((class color)) (:background "red"))))
  '(mmm-code-submode-face ((t (:background "DarkGray"))))
  '(mmm-declaration-submode-face ((t (:background "Aquamarine" :foreground "black"))))
- '(mmm-default-submode-face ((t (:background "dark slate gray"))))
+ '(mmm-default-submode-face ((t (:background "black"))))
  '(mmm-output-submode-face ((t (:background "DarkGreen"))))
  '(rst-level-1-face ((t (:background "grey10"))) t)
  '(rst-level-2-face ((t (:background "grey20"))) t)
@@ -171,6 +171,8 @@
 
 ;; auto-complete http://d.hatena.ne.jp/rubikitch/20081109/autocomplete
 ;; http://dev.ariel-networks.com/Members/matsuyama/auto-complete
+(require 'imenu)
+
 (add-to-load-path-recompile "~/.emacs.d/auto-complete")
 (require 'auto-complete)
 (require 'auto-complete-config)
@@ -179,6 +181,9 @@
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 (setq-default ac-sources '(ac-source-filename ac-source-words-in-same-mode-buffers ac-source-files-in-current-dir))
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/auto-complete/dict")
+(require 'auto-complete-config)
+(ac-config-default)
 
 ;; auto-complete anything
 (require 'ac-anything)
@@ -258,8 +263,9 @@
 (load "mmm-mode-setting")
 
 ;; javascript-mode js2-mode
+(add-to-load-path-recompile "~/.emacs.d/js2-mode")
 (autoload 'js2-mode "js2" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.js$" . 'js2-mode))
 
 ;; javascript-mode
 ;; (add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|json\\|jsn\\)\\'" 'javascript-mode))
@@ -316,7 +322,6 @@
 ;; http://tsgates.cafe24.com/git/git-emacs.html
 ;; (setq load-path (cons (expand-file-name "~/.emacs.d/git-emacs") load-path))
 ;; (require 'vc-git)
-;; (require 'imenu)
 
 ;; (require 'git-emacs)
 
@@ -419,6 +424,14 @@
           (lambda () (rinari-launch)))
 
 ;; ------------------------------
+;; yaml-mode
+;; ------------------------------
+(add-to-load-path-recompile "~/.emacs.d/yaml-mode")
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yml\\.sample$" . yaml-mode))
+
+;; ------------------------------
 ;; tools
 ;; ------------------------------
 
@@ -461,6 +474,7 @@
 (key-chord-mode 1)
 (key-chord-define-global "df" 'describe-bindings)
 (key-chord-define-global "ms" 'magit-status)
+(key-chord-define-global "mn" 'anything-imenu)
 
 ;; ------------------------------
 ;; irc
