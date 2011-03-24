@@ -93,6 +93,7 @@
  '(js2-basic-offset 2)
  '(magit-log-cutoff-length 300)
  '(magit-process-popup-time 0)
+ '(org-capture-templates nil t)
  '(python-continuation-offset 2)
  '(python-guess-indent t)
  '(python-indent 2)
@@ -264,13 +265,13 @@
 
 ;; javascript-mode js2-mode
 (add-to-load-path-recompile "~/.emacs.d/js2-mode")
-(autoload 'js2-mode "js2" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . 'js2-mode))
+(autoload 'js2-mode "js2-mode" nil t)
+(add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|json\\|jsn\\)\\'" 'js2-mode))
 
 ;; javascript-mode
 ;; (add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|json\\|jsn\\)\\'" 'javascript-mode))
 ;; (autoload 'javascript-mode "javascript" nil t)
-;; (setq js-indent-level 4)
+;; (setq js-indent-level 2)
 
 ;; css-mode
 ;; http://www.garshol.priv.no/download/software/css-mode/doco.html
@@ -296,22 +297,24 @@
 ;; ------------------------------
 ;; org-mode
 ;; ------------------------------
-(add-to-load-path-recompile "~/.emacs.d/org-mode")
-(add-to-load-path-recompile "~/.emacs.d/remember-el")
-(autoload 'remember "remember" nil t)
-(require 'remember)
-;; (require 'org-install)
+(add-to-load-path-recompile "~/.emacs.d/org-mode/lisp")
+(require 'org-install)
 (setq org-startup-truncated nil)
 (setq org-return-follows-link t)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-;; (org-remember-insinuate)
 (setq org-directory "~/memo/")
 (setq org-default-notes-file (concat org-directory "agenda.org"))
-(setq org-remember-templates
-      '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
-        ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
-        ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
-        ))
+(setq org-capture-templates
+      '(("t" "Todo" entry
+         (file+headline nil "Inbox")
+         "** TODO %?\n   %i\n   %a\n   %t")
+        ("b" "Bug" entry
+         (file+headline nil "Inbox")
+         "** TODO %?   :bug:\n   %i\n   %a\n   %t")
+        ("i" "Idea" entry
+         (file+headline nil "New Ideas")
+         "** %?\n   %i\n   %a\n   %t")))
+(global-set-key (kbd "C-c c") 'org-capture)
 
 ;; ------------------------------
 ;; git
@@ -527,7 +530,6 @@
 ;; source list
 (setq anything-sources
       '(anything-c-source-buffers+
-        anything-c-source-colors
         anything-c-source-recentf
         anything-c-source-kill-ring
         anything-c-source-emacs-commands
