@@ -380,10 +380,12 @@
 ;; ------------------------------
 ;; ruby
 ;; ------------------------------
+(add-to-load-path-recompile "~/.emacs.d/rinari/util")
 (add-to-load-path-recompile "~/.emacs.d/ruby-mode")
 (require 'ruby-mode)
 (require 'ruby-electric)
 (require 'inf-ruby)
+
 ;; ri-emacs
 (setq ri-ruby-script "~/.emacs.d/ri-emacs/ri-emacs.rb")
 (add-to-load-path-recompile "~/.emacs.d/ri-emacs")
@@ -425,6 +427,9 @@
 (require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook
           (lambda () (rinari-launch)))
+
+(require 'ruby-compilation-rspec)
+(require 'cucumber-mode-compilation)
 
 ;; ------------------------------
 ;; yaml-mode
