@@ -25,10 +25,10 @@
 (set-default-coding-systems 'utf-8)
 (setq default-buffer-file-coding-systems 'utf-8)
 ;; 基本設定
-(set-scroll-bar-mode 'right)
+;; (set-scroll-bar-mode 'right)
 (display-time)
 (setq visible-bell nil)
-(tool-bar-mode 0)
+;; (tool-bar-mode 0)
 (global-hl-line-mode 1)
 ;; http://www.bookshelf.jp/soft/meadow_42.html#SEC632
 (show-paren-mode t)
@@ -97,7 +97,6 @@
  '(python-continuation-offset 2)
  '(python-guess-indent t)
  '(python-indent 2)
- '(rails-ws:default-server-type "mongrel")
  '(ruby-insert-encoding-magic-comment nil)
  '(ruby-use-encoding-map t)
  '(twit-follow-idle-interval 300)
@@ -266,12 +265,12 @@
 ;; javascript-mode js2-mode
 (add-to-load-path-recompile "~/.emacs.d/js2-mode")
 (autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|json\\|jsn\\)\\'" 'js2-mode))
+(add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|jsn\\)\\'" 'js2-mode))
 
 ;; javascript-mode
-;; (add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|json\\|jsn\\)\\'" 'javascript-mode))
-;; (autoload 'javascript-mode "javascript" nil t)
-;; (setq js-indent-level 2)
+(add-to-list 'auto-mode-alist (cons  "\\.\\(json\\)\\'" 'javascript-mode))
+(autoload 'javascript-mode "javascript" nil t)
+(setq js-indent-level 2)
 
 ;; css-mode
 ;; http://www.garshol.priv.no/download/software/css-mode/doco.html
@@ -385,6 +384,7 @@
 (require 'ruby-mode)
 (require 'ruby-electric)
 (require 'inf-ruby)
+(add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
 
 ;; ri-emacs
 (setq ri-ruby-script "~/.emacs.d/ri-emacs/ri-emacs.rb")
@@ -414,7 +414,7 @@
 ;; http://rubyforge.org/projects/emacs-rails/
 ;; http://d.hatena.ne.jp/higepon/20061222/1166774270
 (add-to-load-path-recompile "~/.emacs.d/emacs-rails")
-(require 'rails)
+;; (require 'rails)
 
 ;; rinari
 ;; http://d.hatena.ne.jp/willnet/20090110/1231595231
