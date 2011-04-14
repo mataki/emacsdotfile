@@ -1,33 +1,39 @@
 [submodule ".emacs.d/cucumber.el"]
-	path = .emacs.d/cucumber.el
-	url = git://github.com/michaelklishin/cucumber.el.git
+        path = .emacs.d/cucumber.el
+        url = git://github.com/michaelklishin/cucumber.el.git
 [submodule ".emacs.d/magit"]
-	path = .emacs.d/magit
-	url = git://gitorious.org/magit/mainline.git
+        path = .emacs.d/magit
+        url = git://gitorious.org/magit/mainline.git
 [submodule ".emacs.d/rinari"]
-	path = .emacs.d/rinari
-	url = git://github.com/eschulte/rinari.git
+        path = .emacs.d/rinari
+        url = git://github.com/eschulte/rinari.git
 [submodule ".emacs.d/rhtml"]
-	path = .emacs.d/rhtml
-	url = git://github.com/eschulte/rhtml.git
+        path = .emacs.d/rhtml
+        url = git://github.com/eschulte/rhtml.git
 [submodule ".emacs.d/yasnippets-rails"]
-	path = .emacs.d/yasnippets-rails
-	url = git://github.com/eschulte/yasnippets-rails.git
+        path = .emacs.d/yasnippets-rails
+        url = git://github.com/eschulte/yasnippets-rails.git
 [submodule ".emacs.d/org-mode"]
-	path = .emacs.d/org-mode
-	url = git://repo.or.cz/org-mode.git
+        path = .emacs.d/org-mode
+        url = git://repo.or.cz/org-mode.git
 [submodule ".emacs.d/remember-el"]
-	path = .emacs.d/remember-el
-	url = git://repo.or.cz/remember-el.git
+        path = .emacs.d/remember-el
+        url = git://repo.or.cz/remember-el.git
 [submodule ".emacs.d/auto-complete"]
-	path = .emacs.d/auto-complete
-	url = git://github.com/m2ym/auto-complete.git
+        path = .emacs.d/auto-complete
+        url = git://github.com/m2ym/auto-complete.git
 [submodule ".emacs.d/undo-tree"]
-	path = .emacs.d/undo-tree
-	url = http://www.dr-qubit.org/git/undo-tree.git
+        path = .emacs.d/undo-tree
+        url = http://www.dr-qubit.org/git/undo-tree.git
 [submodule ".emacs.d/js2-mode"]
-	path = .emacs.d/js2-mode
-	url = git://github.com/mooz/js2-mode.git
+        path = .emacs.d/js2-mode
+        url = git://github.com/mooz/js2-mode.git
 [submodule ".emacs.d/yaml-mode"]
-	path = .emacs.d/yaml-mode
-	url = git://github.com/yoshiki/yaml-mode.git
+        path = .emacs.d/yaml-mode
+        url = git://github.com/yoshiki/yaml-mode.git
+[submodule ".emacs.d/coffee-mode"]
+	path = .emacs.d/coffee-mode
+	url = https://github.com/defunkt/coffee-mode.git
+[submodule ".emacs.d/rvm.el"]
+	path = .emacs.d/rvm.el
+	url = https://github.com/senny/rvm.el.git

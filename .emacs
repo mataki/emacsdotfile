@@ -272,6 +272,18 @@
 (autoload 'javascript-mode "javascript" nil t)
 (setq js-indent-level 2)
 
+;; coffee-mode
+(add-to-list 'load-path "~/.emacs.d/coffee-mode")
+(require 'coffee-mode)
+(add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+(add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
+
+(defun coffee-custom ()
+  "coffee-mode-hook"
+  (set (make-local-variable 'tab-width) 2))
+(add-hook 'coffee-mode-hook
+          '(lambda() (coffee-custom)))
+
 ;; css-mode
 ;; http://www.garshol.priv.no/download/software/css-mode/doco.html
 (autoload 'css-mode "css-mode")
@@ -399,6 +411,11 @@
 (require 'ruby-block)
 (ruby-block-mode t)
 
+;; rvm.el
+(add-to-load-path-recompile "~/.emacs.d/rvm.el")
+(require 'rvm)
+(rvm-use-default)
+
 ;; rcodetools
 (require 'rcodetools)
 ;; (setq ac-omni-completion-sources
@@ -406,6 +423,12 @@
 ;; (add-hook 'ruby-mode-hook
 ;;           (lambda ()
 ;;             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
+
+(require 'ruby-electric)
+(add-hook 'ruby-mode-hook
+          (lambda()
+            (ruby-electric-mode t)))
+
 
 ;; ------------------------------
 ;; rails
@@ -415,6 +438,7 @@
 ;; http://d.hatena.ne.jp/higepon/20061222/1166774270
 (add-to-load-path-recompile "~/.emacs.d/emacs-rails")
 ;; (require 'rails)
+(add-to-list 'auto-mode-alist '("\\.rjs$" . ruby-mode))
 
 ;; rinari
 ;; http://d.hatena.ne.jp/willnet/20090110/1231595231
