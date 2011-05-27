@@ -111,7 +111,7 @@
  '(flymake-errline ((((class color)) (:background "red"))))
  '(mmm-code-submode-face ((t (:background "DarkGray"))))
  '(mmm-declaration-submode-face ((t (:background "Aquamarine" :foreground "black"))))
- '(mmm-default-submode-face ((t (:background "black"))))
+ '(mmm-default-submode-face ((t (:background "Black"))))
  '(mmm-output-submode-face ((t (:background "DarkGreen"))))
  '(rst-level-1-face ((t (:background "grey10"))) t)
  '(rst-level-2-face ((t (:background "grey20"))) t)
@@ -274,6 +274,7 @@
 
 ;; coffee-mode
 (add-to-list 'load-path "~/.emacs.d/coffee-mode")
+(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
 (require 'coffee-mode)
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
@@ -455,6 +456,11 @@
 
 (require 'ruby-compilation-rspec)
 (require 'cucumber-mode-compilation)
+
+;; ----
+;; Pow
+;; ----
+(add-to-list 'auto-mode-alist '(".powenv" . sh-mode))
 
 ;; ------------------------------
 ;; yaml-mode
