@@ -97,7 +97,7 @@
  '(python-continuation-offset 2)
  '(python-guess-indent t)
  '(python-indent 2)
- '(ruby-insert-encoding-magic-comment nil)
+ '(ruby-insert-encoding-magic-comment t)
  '(ruby-use-encoding-map t)
  '(twit-follow-idle-interval 300)
  '(twit-mode t)
@@ -356,7 +356,7 @@
 
 ;; howm
 (add-to-list 'load-path "~/.emacs.d/howm")
-(require 'howm-mode)
+(require 'howm)
 (setq howm-menu-lang 'ja)
 (global-set-key "\C-c,," 'howm-menu)
 ;; (autoload 'howm-menu "howm-mode" "Hitori Otegaru Wiki Modoki" t)
@@ -399,6 +399,7 @@
 (require 'inf-ruby)
 (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
 
 ;; ri-emacs
 (setq ri-ruby-script "~/.emacs.d/ri-emacs/ri-emacs.rb")
@@ -601,3 +602,11 @@
 (global-set-key "\M-/" 'anything-dabbrev-expand)
 (define-key anything-dabbrev-map "\M-/" 'anything-dabbrev-find-all-buffers)
 
+;; ---------------
+;; Simplenote
+;; ---------------
+
+(add-to-load-path-recompile "~/.emacs.d/simplenote.el")
+(require 'simplenote)
+(setq simplenote-email "matsumura.aki@gmail.com")
+(simplenote-setup)

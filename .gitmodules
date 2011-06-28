@@ -37,3 +37,6 @@
 [submodule ".emacs.d/rvm.el"]
 	path = .emacs.d/rvm.el
 	url = https://github.com/senny/rvm.el.git
+[submodule ".emacs.d/simplenote.el"]
+	path = .emacs.d/simplenote.el
+	url = https://github.com/cefstat/simplenote.el.git
