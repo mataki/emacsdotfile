@@ -5,8 +5,8 @@
   )
 
 ;; setenv PATH
-(setenv "PATH" (concat "/opt/local/bin:" (getenv "PATH")))
-(dolist (dir (mapcar 'expand-file-name '("/opt/local/bin")))
+(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+(dolist (dir (mapcar 'expand-file-name '("/usr/local/bin")))
   (setenv "PATH" (concat dir ":" (getenv "PATH")))
   (setq exec-path (append (list dir) exec-path)))
 
@@ -91,6 +91,7 @@
  '(ac-dwim t)
  '(display-time-mode t)
  '(js2-basic-offset 2)
+ '(js2-highlight-external-variables t)
  '(magit-log-cutoff-length 300)
  '(magit-process-popup-time 0)
  '(org-capture-templates nil t)
@@ -267,6 +268,18 @@
 (autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|jsn\\)\\'" 'js2-mode))
 
+;; After js2 has parsed a js file, we look for jslint globals decl comment ("/* global Fred, _, Harry */") and
+;; add any symbols to a buffer-local var of acceptable global vars
+(add-hook 'js2-post-parse-callbacks
+          (lambda ()
+            ;; strip newlines etc so the regexp below will match a multiline comment
+            (let ((btext (replace-regexp-in-string "[\n\t ]+" " " (buffer-substring-no-properties 1 (buffer-size)) t t)))
+              (setq js2-additional-externs
+                    (split-string
+                     (if (string-match "/\\* *global \\(.*?\\)\\*/" btext) (match-string-no-properties 1 btext) "")
+                     "[ ,]+" t))
+              )))
+
 ;; javascript-mode
 (add-to-list 'auto-mode-alist (cons  "\\.\\(json\\)\\'" 'javascript-mode))
 (autoload 'javascript-mode "javascript" nil t)
@@ -290,6 +303,7 @@
 (autoload 'css-mode "css-mode")
 (setq auto-mode-alist
      (cons '("\\.css\\'" . css-mode) auto-mode-alist))
+(setq cssm-indent-function #'cssm-c-style-indenter)
 
 ;; rst-mode
 (autoload 'rst-mode "rst-mode" "mode for editing reStructuredText documents" t)
