@@ -177,6 +177,11 @@ strings. Note that you must have Font Lock enabled."
                    (newline))
                (insert "}")))
             ((ruby-electric-string-at-point-p)
+             (if (eq last-command-event ?{)
+                 (save-excursion
+                   (when (not (char-equal ?\# (preceding-char)))
+                       (delete-backward-char)
+                       (insert "#"))))
              (save-excursion
                (backward-char 1)
                (when (char-equal ?\# (preceding-char))

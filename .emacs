@@ -412,6 +412,7 @@
 (require 'ruby-electric)
 (require 'inf-ruby)
 (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
 
@@ -471,6 +472,33 @@
 
 (require 'ruby-compilation-rspec)
 (require 'cucumber-mode-compilation)
+
+
+;; ------------------------------
+;; Ruby font-lock
+;; ------------------------------
+(defconst ruby-font-lock-syntactic-keywords
+  `(
+    ;; #{ }, #$hoge, #@foo are not comments
+    ("\\(#\\)[{$@]" 1 (1 . nil))
+    ;; the last $', $", $` in the respective string is not variable
+    ;; the last ?', ?", ?` in the respective string is not ascii code
+    ("\\(^\\|[\[ \t\n<+\(,=:]\\)\\(['\"`]\\)\\(\\\\.\\|\\2\\|[^'\"`\n\\\\]\\)*?\\\\?[?$]\\(\\2\\)"
+     (2 (7 . nil))
+     (4 (7 . nil)))
+    ;; $' $" $` .... are variables
+    ;; ?' ?" ?` are ascii codes
+    ;; ("\\(^\\|[^\\\\]\\)\\(\\\\\\\\\\)*[?$]\\([#\"'`]\\)" 3 (1 . nil))
+    ;; regexps
+    ("\\(^\\|[[=(,~?:;<>]\\|\\(^\\|\\s \\)\\(if\\|elsif\\|unless\\|while\\|until\\|when\\|and\\|or\\|&&\\|||\\)\\|g?sub!?\\|scan\\|split!?\\)\\s *\\(/\\)[^/\n\\\\]*\\(\\\\.[^/\n\\\\]*\\)*\\(/\\)"
+     (4 (7 . ?/))
+     (6 (7 . ?/)))
+    ("^\\(=\\)begin\\(\\s \\|$\\)" 1 (7 . nil))
+    ("^\\(=\\)end\\(\\s \\|$\\)" 1 (7 . nil))
+    (,(concat ruby-here-doc-beg-re ".*\\(\n\\)")
+     ,(+ 1 (regexp-opt-depth ruby-here-doc-beg-re))
+     (ruby-here-doc-beg-syntax))
+    (,ruby-here-doc-end-re 3 (ruby-here-doc-end-syntax))))
 
 ;; ----
 ;; Pow
