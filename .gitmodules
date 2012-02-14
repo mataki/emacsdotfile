@@ -2,8 +2,8 @@
         path = .emacs.d/cucumber.el
         url = git://github.com/michaelklishin/cucumber.el.git
 [submodule ".emacs.d/magit"]
-        path = .emacs.d/magit
-        url = git://gitorious.org/magit/mainline.git
+	path = .emacs.d/magit
+	url = https://github.com/magit/magit.git
 [submodule ".emacs.d/rinari"]
         path = .emacs.d/rinari
         url = git://github.com/eschulte/rinari.git
