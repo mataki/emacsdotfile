@@ -339,6 +339,7 @@
 
 ;; haml-mode/sass-mode
 (require 'sass-mode)
+(add-to-list 'load-path "~/.emacs.d/haml-mode")
 (require 'haml-mode)
 
 ;; cucumber.el
