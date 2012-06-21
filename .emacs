@@ -107,10 +107,10 @@
 
 ;; -----------------------------
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ac-dwim t)
  '(display-time-mode t)
  '(js2-basic-offset 2)
@@ -123,15 +123,16 @@
  '(python-indent 2)
  '(ruby-insert-encoding-magic-comment t)
  '(ruby-use-encoding-map t)
+ '(tool-bar-mode nil)
  '(twit-follow-idle-interval 300)
  '(twit-mode t)
  '(twit-show-user-images t)
  '(untabify-exclude-list (quote (makefile-mode makefile-bsdmake-mode change-log-mode "Makefile$" Emacs-Lisp))))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(flymake-errline ((((class color)) (:background "red"))))
  '(mmm-code-submode-face ((t (:background "DarkGray"))))
  '(mmm-declaration-submode-face ((t (:background "Aquamarine" :foreground "black"))))
@@ -239,15 +240,15 @@
 (yas/initialize)
 
 ;; WidenWindow http://d.hatena.ne.jp/rubikitch/20081113/1226575019
-(require 'widen-window)
-(setq ww-ratio 0.65)
-(global-widen-window-mode 1)
+;; (require 'widen-window)
+;; (setq ww-ratio 0.65)
+;; (global-widen-window-mode 1)
 ;; (diminish 'widen-window-mode " WW")
-(defadvice anything (around disable-ww-mode activate)
-  (ad-deactivate-regexp "widen-window")
-  (unwind-protect
-      ad-do-it
-    (ad-activate-regexp "widen-window")))
+;; (defadvice anything (around disable-ww-mode activate)
+;;   (ad-deactivate-regexp "widen-window")
+;;   (unwind-protect
+;;       ad-do-it
+;;     (ad-activate-regexp "widen-window")))
 
 ;; wdiredhttp://www.bookshelf.jp/soft/meadow_25.html#SEC296
 ;; diredでファイル名を一括リネーム
@@ -458,7 +459,7 @@
 (rvm-use-default)
 
 ;; rcodetools
-(require 'rcodetools)
+;; (require 'rcodetools)
 ;; (setq ac-omni-completion-sources
 ;;   '((ruby-mode . (("\\.\\=" . (ac-source-rcodetools))))))
 ;; (add-hook 'ruby-mode-hook
@@ -500,28 +501,28 @@
 ;; ------------------------------
 ;; Ruby font-lock
 ;; ------------------------------
-(defconst ruby-font-lock-syntactic-keywords
-  `(
-    ;; #{ }, #$hoge, #@foo are not comments
-    ("\\(#\\)[{$@]" 1 (1 . nil))
-    ;; the last $', $", $` in the respective string is not variable
-    ;; the last ?', ?", ?` in the respective string is not ascii code
-    ("\\(^\\|[\[ \t\n<+\(,=:]\\)\\(['\"`]\\)\\(\\\\.\\|\\2\\|[^'\"`\n\\\\]\\)*?\\\\?[?$]\\(\\2\\)"
-     (2 (7 . nil))
-     (4 (7 . nil)))
-    ;; $' $" $` .... are variables
-    ;; ?' ?" ?` are ascii codes
-    ;; ("\\(^\\|[^\\\\]\\)\\(\\\\\\\\\\)*[?$]\\([#\"'`]\\)" 3 (1 . nil))
-    ;; regexps
-    ("\\(^\\|[[=(,~?:;<>]\\|\\(^\\|\\s \\)\\(if\\|elsif\\|unless\\|while\\|until\\|when\\|and\\|or\\|&&\\|||\\)\\|g?sub!?\\|scan\\|split!?\\)\\s *\\(/\\)[^/\n\\\\]*\\(\\\\.[^/\n\\\\]*\\)*\\(/\\)"
-     (4 (7 . ?/))
-     (6 (7 . ?/)))
-    ("^\\(=\\)begin\\(\\s \\|$\\)" 1 (7 . nil))
-    ("^\\(=\\)end\\(\\s \\|$\\)" 1 (7 . nil))
-    (,(concat ruby-here-doc-beg-re ".*\\(\n\\)")
-     ,(+ 1 (regexp-opt-depth ruby-here-doc-beg-re))
-     (ruby-here-doc-beg-syntax))
-    (,ruby-here-doc-end-re 3 (ruby-here-doc-end-syntax))))
+;; (defconst ruby-font-lock-syntactic-keywords
+;;   `(
+;;     ;; #{ }, #$hoge, #@foo are not comments
+;;     ("\\(#\\)[{$@]" 1 (1 . nil))
+;;     ;; the last $', $", $` in the respective string is not variable
+;;     ;; the last ?', ?", ?` in the respective string is not ascii code
+;;     ("\\(^\\|[\[ \t\n<+\(,=:]\\)\\(['\"`]\\)\\(\\\\.\\|\\2\\|[^'\"`\n\\\\]\\)*?\\\\?[?$]\\(\\2\\)"
+;;      (2 (7 . nil))
+;;      (4 (7 . nil)))
+;;     ;; $' $" $` .... are variables
+;;     ;; ?' ?" ?` are ascii codes
+;;     ;; ("\\(^\\|[^\\\\]\\)\\(\\\\\\\\\\)*[?$]\\([#\"'`]\\)" 3 (1 . nil))
+;;     ;; regexps
+;;     ("\\(^\\|[[=(,~?:;<>]\\|\\(^\\|\\s \\)\\(if\\|elsif\\|unless\\|while\\|until\\|when\\|and\\|or\\|&&\\|||\\)\\|g?sub!?\\|scan\\|split!?\\)\\s *\\(/\\)[^/\n\\\\]*\\(\\\\.[^/\n\\\\]*\\)*\\(/\\)"
+;;      (4 (7 . ?/))
+;;      (6 (7 . ?/)))
+;;     ("^\\(=\\)begin\\(\\s \\|$\\)" 1 (7 . nil))
+;;     ("^\\(=\\)end\\(\\s \\|$\\)" 1 (7 . nil))
+;;     (,(concat ruby-here-doc-beg-re ".*\\(\n\\)")
+;;      ,(+ 1 (regexp-opt-depth ruby-here-doc-beg-re))
+;;      (ruby-here-doc-beg-syntax))
+;;     (,ruby-here-doc-end-re 3 (ruby-here-doc-end-syntax))))
 
 ;; ----
 ;; Pow
