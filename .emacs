@@ -134,6 +134,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(flymake-errline ((((class color)) (:background "red"))))
+ '(font-lock-keyword-face ((t (:foreground "Blue"))))
+ '(magit-item-highlight ((t (:foreground "#ccccee"))))
  '(mmm-code-submode-face ((t (:background "DarkGray"))))
  '(mmm-declaration-submode-face ((t (:background "Aquamarine" :foreground "black"))))
  '(mmm-default-submode-face ((t (:background "Black"))))
@@ -150,7 +152,7 @@
 (add-to-load-path-recompile "~/.emacs.d/color-theme")
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-robin-hood)
+(color-theme-calm-forest)
 
 ;; ------------------------------
 ;; grep
