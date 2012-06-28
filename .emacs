@@ -123,6 +123,7 @@
  '(python-indent 2)
  '(ruby-insert-encoding-magic-comment t)
  '(ruby-use-encoding-map t)
+ '(safe-local-variable-values (quote ((encoding . utf-8) (ruby-compilation-executable . "ruby") (ruby-compilation-executable . "ruby1.8") (ruby-compilation-executable . "ruby1.9") (ruby-compilation-executable . "rbx") (ruby-compilation-executable . "jruby"))))
  '(tool-bar-mode nil)
  '(twit-follow-idle-interval 300)
  '(twit-mode t)
@@ -281,13 +282,13 @@
 ;; mode / 編集モード
 ;; ------------------------------
 ;; mmm-mode
-(add-to-load-path-recompile "~/.emacs.d/mmm-mode")
-(require 'mmm-mode)
-(require 'mmm-auto)
-(setq mmm-global-mode 'maybe)
-;; 色設定．これは，好みで．色をつけたくないなら nil にします．
-(set-face-background 'mmm-default-submode-face "honeydew")
-(load "mmm-mode-setting")
+;; (add-to-load-path-recompile "~/.emacs.d/mmm-mode")
+;; (require 'mmm-mode)
+;; (require 'mmm-auto)
+;; (setq mmm-global-mode 'maybe)
+;; ;; 色設定．これは，好みで．色をつけたくないなら nil にします．
+;; (set-face-background 'mmm-default-submode-face "honeydew")
+;; (load "mmm-mode-setting")
 
 ;; javascript-mode js2-mode
 (add-to-load-path-recompile "~/.emacs.d/js2-mode")
