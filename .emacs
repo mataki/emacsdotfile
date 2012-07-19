@@ -175,6 +175,9 @@
 (setq grep-find-command "find . -type f ! -path '*/.svn/*' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/coverage/*' ! -path '*/log/*' ! -name '#*#' ! -name '*~' -print0 | xargs -0 grep -nH -e ")
 (global-set-key "\C-xgf" 'grep-find)
 
+;; grep-a-lot
+(require 'grep-a-lot)
+
 ;; moccur
 (require 'color-moccur)
 (eval-after-load "color-moccur"
@@ -339,8 +342,8 @@
                 ("\\.rest$" . rst-mode)) auto-mode-alist))
 
 ;; haml-mode/sass-mode
-(require 'sass-mode)
 (add-to-list 'load-path "~/.emacs.d/haml-mode")
+(require 'sass-mode)
 (require 'haml-mode)
 
 ;; cucumber.el
