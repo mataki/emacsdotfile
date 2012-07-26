@@ -446,6 +446,7 @@
 (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
 
 ;; ri-emacs
 (setq ri-ruby-script "~/.emacs.d/ri-emacs/ri-emacs.rb")
