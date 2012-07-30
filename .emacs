@@ -684,3 +684,18 @@
 (require 'simplenote)
 (setq simplenote-email "matsumura.aki@gmail.com")
 (simplenote-setup)
+
+
+;; ---------------
+;; textmate.el
+;; ---------------
+
+;; (add-to-load-path-recompile "~/.emacs.d/textmate.el")
+;; (require 'textmate)
+;; (textmate-mode)
+
+;; ---------------
+;; tail.el
+;; ---------------
+
+(require 'tail)
