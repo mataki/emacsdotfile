@@ -294,9 +294,9 @@
 ;; (load "mmm-mode-setting")
 
 ;; javascript-mode js2-mode
-(add-to-load-path-recompile "~/.emacs.d/js2-mode")
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|jsn\\)\\'" 'js2-mode))
+;; (add-to-load-path-recompile "~/.emacs.d/js2-mode")
+;; (autoload 'js2-mode "js2-mode" nil t)
+;; (add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|jsn\\)\\'" 'js2-mode))
 
 ;; After js2 has parsed a js file, we look for jslint globals decl comment ("/* global Fred, _, Harry */") and
 ;; add any symbols to a buffer-local var of acceptable global vars
@@ -312,6 +312,7 @@
 
 ;; javascript-mode
 (add-to-list 'auto-mode-alist (cons  "\\.\\(json\\)\\'" 'javascript-mode))
+(add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|jsn\\)\\'" 'javascript-mode))
 (autoload 'javascript-mode "javascript" nil t)
 (setq js-indent-level 2)
 
