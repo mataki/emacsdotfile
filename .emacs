@@ -205,16 +205,20 @@
 (require 'imenu)
 
 (add-to-load-path-recompile "~/.emacs.d/auto-complete")
+(add-to-load-path-recompile "~/.emacs.d/auto-complete/lib/popup")
 (require 'auto-complete)
 (require 'auto-complete-config)
 (global-auto-complete-mode t)
-(setq ac-auto-start 4)
+(setq ac-auto-start 3)
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 (setq-default ac-sources '(ac-source-filename ac-source-words-in-same-mode-buffers ac-source-files-in-current-dir))
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/auto-complete/dict")
-(require 'auto-complete-config)
 (ac-config-default)
+(require 'ac-dabbrev)
+(setq ac-sources
+     (list ac-source-dabbrev
+           ))
 
 ;; auto-complete anything
 (require 'ac-anything)
@@ -347,6 +351,18 @@
 (require 'sass-mode)
 (require 'haml-mode)
 
+(add-to-list 'load-path "~/.emacs.d/Highlight-Indentation-for-Emacs.git")
+(require 'highlight-indentation)
+(highlight-indentation-current-column-mode t)
+(setq highlight-indentation-offset 2)
+(set-face-background 'highlight-indentation-face "#333333")
+(set-face-background 'highlight-indentation-current-column-face "#111111")
+(add-hook 'highlight-indentation-mode-hook 'highlight-indentation-current-column-mode)
+(add-hook 'coffee-mode-hook 'highlight-indentation-mode)
+(add-hook 'yaml-mode-hook 'highlight-indentation-mode)
+(add-hook 'haml-mode-hook 'highlight-indentation-mode)
+(add-hook 'sass-mode-hook 'highlight-indentation-mode)
+
 ;; cucumber.el
 (add-to-load-path-recompile "~/.emacs.d/cucumber.el")
 (autoload 'feature-mode "feature-mode" "Mode for editing cucumber files" t)
@@ -389,6 +405,7 @@
 ;; magit http://gitorious.org/projects/magit/repos/mainline
 (add-to-load-path-recompile "~/.emacs.d/magit")
 (require 'magit)
+(load "dired-x")
 (autoload 'magit-status "magit" nil t)
 
 ;; egg git http://github.com/bogolisk/egg/tree/master

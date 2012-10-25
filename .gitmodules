@@ -40,3 +40,9 @@
 [submodule ".emacs.d/haml-mode"]
         path = .emacs.d/haml-mode
         url = https://github.com/nex3/haml-mode.git
+[submodule ".emacs.d/auto-complete"]
+	path = .emacs.d/auto-complete
+	url = git://github.com/auto-complete/auto-complete.git
+[submodule ".emacs.d/Highlight-Indentation-for-Emacs.git"]
+	path = .emacs.d/Highlight-Indentation-for-Emacs.git
+	url = https://github.com/antonj/Highlight-Indentation-for-Emacs.git
