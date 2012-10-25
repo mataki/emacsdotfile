@@ -314,18 +314,7 @@ It uses ruby because elisp is too slow."
           (insert-buffer-substring buf wstart pt) (insert "\0")
           (insert-buffer-substring buf pt wend) (insert "\0")
           (insert-buffer-substring buf pmin wstart) (insert "\0")
-          (insert-buffer-substring buf wend pmax)
-          (call-process-region
-           (point-min) (point-max) "ruby" nil (anything-candidate-buffer) nil
-           "-e"
-           (format
-            "def g(s) (s||'').scan(%%r%s%s*%s%s*%s); end
-             a=ARGF.read.split(/\\0/);
-             (g(a[0]).reverse.concat(g(a[1])).concat(g(a[2]).reverse).
-                concat(g(a[3])).uniq - %%w%s%s%s).each{|x| puts(x)}"
-            "\001" anything--dabbrev-char-regexp pattern anything--dabbrev-char-regexp "\001"
-            ;; remove pattern itself
-            "\001" pattern "\001")))))))
+          (insert-buffer-substring buf wend pmax))))))
 
 (defun anything-dabbrev-expand-main (abbrev)
   "Execute `anything' for dabbrev candidates in current buffer."
