@@ -121,9 +121,9 @@
  '(python-continuation-offset 2)
  '(python-guess-indent t)
  '(python-indent 2)
- '(ruby-insert-encoding-magic-comment t)
+ '(ruby-insert-encoding-magic-comment nil)
  '(ruby-use-encoding-map t)
- '(safe-local-variable-values (quote ((encoding . utf-8) (ruby-compilation-executable . "ruby") (ruby-compilation-executable . "ruby1.8") (ruby-compilation-executable . "ruby1.9") (ruby-compilation-executable . "rbx") (ruby-compilation-executable . "jruby"))))
+ '(safe-local-variable-values (quote ((Coding . iso-2022-7bit) (encoding . utf-8) (ruby-compilation-executable . "ruby") (ruby-compilation-executable . "ruby1.8") (ruby-compilation-executable . "ruby1.9") (ruby-compilation-executable . "rbx") (ruby-compilation-executable . "jruby"))))
  '(tool-bar-mode nil)
  '(twit-follow-idle-interval 300)
  '(twit-mode t)
@@ -351,6 +351,9 @@
 (require 'sass-mode)
 (require 'haml-mode)
 
+;; apply css-mode to scss
+(add-to-list 'auto-mode-alist '("\\.scss$" . css-mode))
+
 (add-to-list 'load-path "~/.emacs.d/Highlight-Indentation-for-Emacs.git")
 (require 'highlight-indentation)
 (highlight-indentation-current-column-mode t)
@@ -461,6 +464,7 @@
 (require 'ruby-electric)
 (require 'inf-ruby)
 (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Guardfile" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
@@ -480,9 +484,9 @@
 (ruby-block-mode t)
 
 ;; rvm.el
-(add-to-load-path-recompile "~/.emacs.d/rvm.el")
-(require 'rvm)
-(rvm-use-default)
+;; (add-to-load-path-recompile "~/.emacs.d/rvm.el")
+;; (require 'rvm)
+;; (rvm-use-default)
 
 ;; rcodetools
 ;; (require 'rcodetools)
@@ -492,7 +496,6 @@
 ;;           (lambda ()
 ;;             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 
-(require 'ruby-electric)
 (add-hook 'ruby-mode-hook
           (lambda()
             (ruby-electric-mode t)))
@@ -594,6 +597,18 @@
 (setq auto-install-directory "~/.emacs.d/")
 ;; (auto-install-update-emacswiki-package-name t)
 ;; (auto-install-compatibility-setup)
+
+(require 'package)
+
+; Add package-archives
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+
+; Initialize
+(package-initialize)
+
+; melpa.el
+(require 'melpa)
 
 ;; one-key
 ;; (require 'one-key)
@@ -717,3 +732,7 @@
 ;; ---------------
 
 (require 'tail)
+
+(require 'expand-region)
+(global-set-key (kbd "C-@") 'er/expand-region)
+(global-set-key (kbd "C-M-@") 'er/contract-region)
