@@ -406,7 +406,8 @@
 ;; (require 'git-emacs)
 
 ;; magit http://gitorious.org/projects/magit/repos/mainline
-(add-to-load-path-recompile "~/.emacs.d/magit")
+(add-to-load-path-recompile "~/.emacs.d/dash.el")
+(add-to-load-path-recompile "~/.emacs.d/magit/lisp")
 (require 'magit)
 (load "dired-x")
 (autoload 'magit-status "magit" nil t)

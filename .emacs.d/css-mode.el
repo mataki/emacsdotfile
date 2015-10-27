@@ -168,13 +168,13 @@ C-style indentation, use cssm-c-style-indenter.")
 
 ;;; Cross-version compatibility layer
 
-(when (not (or (apropos-macrop 'kbd)
-	     (fboundp 'kbd)))
-    (defmacro kbd (keys)
-      "Convert KEYS to the internal Emacs key representation.
-KEYS should be a string constant in the format used for
-saving keyboard macros (see `insert-kbd-macro')."
-      (read-kbd-macro keys)))
+;; (when (not (or (apropos-macrop 'kbd)
+;; 	     (fboundp 'kbd)))
+;;     (defmacro kbd (keys)
+;;       "Convert KEYS to the internal Emacs key representation.
+;; KEYS should be a string constant in the format used for
+;; saving keyboard macros (see `insert-kbd-macro')."
+;;       (read-kbd-macro keys)))
 
 ;;; Auto-indentation support
 

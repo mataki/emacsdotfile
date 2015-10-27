@@ -46,3 +46,6 @@
 [submodule ".emacs.d/Highlight-Indentation-for-Emacs.git"]
 	path = .emacs.d/Highlight-Indentation-for-Emacs.git
 	url = https://github.com/antonj/Highlight-Indentation-for-Emacs.git
+[submodule ".emacs.d/dash.el"]
+	path = .emacs.d/dash.el
+	url = https://github.com/magnars/dash.el.git
